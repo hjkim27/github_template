@@ -7,7 +7,8 @@ import java.util.Date;
 
 /**
  * <pre>
- *     admin_info dto
+ *     admin_info
+ *     - select (결과)
  * </pre>
  *
  * @author hjkim27
@@ -15,9 +16,8 @@ import java.util.Date;
  */
 @Getter
 @Setter
-public class AdminInfoDTO {
+public class AdminResponseDTO {
 
-    private Integer sid;
     private String loginId;
     private String loginPw;
     private String name;

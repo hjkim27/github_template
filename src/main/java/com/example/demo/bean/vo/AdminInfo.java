@@ -1,6 +1,7 @@
 package com.example.demo.bean.vo;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,7 +10,7 @@ import java.util.Objects;
 
 /**
  * <pre>
- *     관리자 정보
+ *     admin_info table
  * </pre>
  *
  * @author hjkim27
@@ -17,8 +18,9 @@ import java.util.Objects;
  */
 @Getter
 @Setter
+@Builder
 @AllArgsConstructor
-public final class AdminInfoVO {
+public final class AdminInfo {
 
     private final Integer sid;
     private final String loginId;
@@ -33,7 +35,7 @@ public final class AdminInfoVO {
         if (this == obj) return true;
         if (obj == null || getClass() != obj.getClass()) return false;
 
-        AdminInfoVO vo = (AdminInfoVO) obj;
+        AdminInfo vo = (AdminInfo) obj;
 
         return Objects.equals(sid, vo.sid)
                 && Objects.equals(loginId, vo.loginId)
