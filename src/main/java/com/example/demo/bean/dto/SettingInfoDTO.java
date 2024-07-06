@@ -1,12 +1,11 @@
-package com.example.demo.bean;
+package com.example.demo.bean.dto;
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
 /**
  * <pre>
- *     설정정보 저장
+ *     setting_info dto
  * </pre>
  *
  * @author hjkim27
@@ -15,8 +14,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@Builder
-public class SettingInfo {
+public class SettingInfoDTO {
     private int sid;
     private String key;
     private String value;

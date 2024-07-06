@@ -1,6 +1,5 @@
-package com.example.demo.bean;
+package com.example.demo.bean.dto;
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,7 +7,7 @@ import java.util.Date;
 
 /**
  * <pre>
- *     관리자 정보
+ *     admin_info dto
  * </pre>
  *
  * @author hjkim27
@@ -16,8 +15,7 @@ import java.util.Date;
  */
 @Getter
 @Setter
-@Builder
-public class AdminInfo {
+public class AdminInfoDTO {
 
     private Integer sid;
     private String loginId;
@@ -26,9 +24,4 @@ public class AdminInfo {
     private Date createdAt;
     private Date updatedAt;
     private Date lastLoginAt;
-
-    public AdminInfo(String loginId, String loginPw) {
-        this.loginId = loginId;
-        this.loginPw = loginPw;
-    }
 }

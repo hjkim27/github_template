@@ -1,6 +1,5 @@
-package com.example.demo.bean;
+package com.example.demo.bean.dto;
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,7 +7,7 @@ import java.util.Date;
 
 /**
  * <pre>
- *     로그: 상세
+ *     classify_log dto
  * </pre>
  *
  * @author hjkim27
@@ -17,8 +16,7 @@ import java.util.Date;
 
 @Getter
 @Setter
-@Builder
-public class ClassifyLog {
+public class ClassifyLogDTO {
 
     private int sid;
     private String appType;
