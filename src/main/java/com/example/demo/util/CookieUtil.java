@@ -30,10 +30,12 @@ public class CookieUtil {
      */
     public static String getCookie(HttpServletRequest request, String cookieName) throws UnsupportedEncodingException {
         Cookie[] cookies = request.getCookies();
-        for (Cookie cookie : cookies) {
-            if (cookie.getName().equals(cookieName)) {
-                String cookieValue = cookie.getValue();
-                return (cookieValue == null) ? cookieValue : URLDecoder.decode(cookieValue, ENCODE_CHARSET);
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals(cookieName)) {
+                    String cookieValue = cookie.getValue();
+                    return (cookieValue == null) ? null : URLDecoder.decode(cookieValue, ENCODE_CHARSET);
+                }
             }
         }
         return null;

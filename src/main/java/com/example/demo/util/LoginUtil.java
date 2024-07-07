@@ -50,10 +50,9 @@ public class LoginUtil {
      * </pre>
      *
      * @param request
-     * @param response
      * @return
      */
-    public static boolean isLogin(HttpServletRequest request, HttpServletResponse response) {
+    public static boolean isLogin(HttpServletRequest request) {
         boolean isLogin = false;
         try {
             String adminSidStr = CookieUtil.getCookie(request, COOKIE_NAME);
@@ -61,7 +60,7 @@ public class LoginUtil {
                 isLogin = true;
             }
         } catch (Exception e) {
-            log.error("{} | {}", e, e.getMessage());
+            log.error("{} | {}", e.getMessage(), e);
             log.error("로그인 정보를 확인 하는 도중에 오류가 발생하였습니다.");
         }
         return isLogin;
