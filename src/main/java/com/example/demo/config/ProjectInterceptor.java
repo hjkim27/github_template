@@ -16,7 +16,7 @@ public class ProjectInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        if (LoginUtil.isLogin(request, response)) {
+        if (LoginUtil.isLogin(request)) {
             return true;
         } else {
             response.sendRedirect(request.getContextPath() + "/login");

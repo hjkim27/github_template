@@ -28,7 +28,6 @@ public class InterceptorConfiguration implements WebMvcConfigurer {
     };
 
     public static final String[] URL_PATTERNS = {
-            "/",
             "/**",
     };
 
@@ -42,6 +41,7 @@ public class InterceptorConfiguration implements WebMvcConfigurer {
         try {
             registry.addInterceptor(new ProjectInterceptor())
                     .addPathPatterns(URL_PATTERNS)
+                    .addPathPatterns("/")
                     .excludePathPatterns(RESOURCE_PATTERNS)
                     .excludePathPatterns(EXCLUDE_URL_PATTERNS);
 
