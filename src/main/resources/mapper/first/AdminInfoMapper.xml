@@ -7,25 +7,25 @@
         select sid, login_id, login_pw, name, created_at, updated_at, last_login_at
         from admin_info
     </sql>
-    <select id="getAdminInfoBySid" parameterType="int" resultType="com.example.demo.bean.dto.AdminResponseDTO">
+    <select id="getAdminInfoBySid" parameterType="int" resultType="com.example.demo.bean.vo.AdminInfo">
         <include refid="getAdminInfo"/>
-        where sid = #{sid}
+        where sid = #{sid} and deleted_at isnull;
     </select>
-    <select id="getAdminInfoByLoginId" parameterType="string" resultType="com.example.demo.bean.dto.AdminResponseDTO">
+    <select id="getAdminInfoByLoginId" parameterType="string" resultType="com.example.demo.bean.vo.AdminInfo">
         <include refid="getAdminInfo"/>
         where login_id = #{loginId}
     </select>
 
-    <select id="isExistAdmin" parameterType="com.example.demo.bean.dto.AdminRequestDTO" resultType="int">
-        select count(*)
+    <select id="getAdminSid" parameterType="com.example.demo.bean.vo.AdminInfo" resultType="int">
+        select sid
         from admin_info
         where login_id = #{loginId}
         <if test="loginPw != null">
-          and login_pw = #{loginPw}
+            and login_pw = #{loginPw}
         </if>
     </select>
 
-    <update id="updateAdminInfo" parameterType="com.example.demo.bean.dto.AdminRequestDTO">
+    <update id="updateAdminInfoBySid" parameterType="com.example.demo.bean.vo.AdminInfo">
         update admin_info
         <trim prefix="set" prefixOverrides=",">
             <if test="loginId != null">, login_id = #{loginId}</if>
@@ -36,7 +36,14 @@
         where sid = #{sid}
     </update>
 
-    <insert id="insertAdminInfo" parameterType="com.example.demo.bean.dto.AdminRequestDTO"
+    <update id="updateAdminLoginAt" parameterType="com.example.demo.bean.vo.AdminInfo">
+        update admin_info
+        set last_login_at = now()
+        where login_id = #{loginId}
+          and login_pw = #{loginPw}
+    </update>
+
+    <insert id="insertAdminInfo" parameterType="com.example.demo.bean.vo.AdminInfo"
             useGeneratedKeys="true" keyColumn="sid" keyProperty="sid">
         insert into admin_info(login_id, login_pw, name)
         values (#{loginid}, #{loginPw}, #{name})

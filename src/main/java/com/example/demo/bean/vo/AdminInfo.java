@@ -1,9 +1,6 @@
 package com.example.demo.bean.vo;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.Date;
 import java.util.Objects;
@@ -20,6 +17,7 @@ import java.util.Objects;
 @Setter
 @Builder
 @AllArgsConstructor
+@ToString
 public final class AdminInfo {
 
     private final Integer sid;
@@ -29,6 +27,7 @@ public final class AdminInfo {
     private final Date createdAt;
     private final Date updatedAt;
     private final Date lastLoginAt;
+    private final Date deletedAt;
 
     @Override
     public boolean equals(Object obj) {
@@ -43,11 +42,12 @@ public final class AdminInfo {
                 && Objects.equals(name, vo.name)
                 && Objects.equals(createdAt, vo.createdAt)
                 && Objects.equals(updatedAt, vo.updatedAt)
-                && Objects.equals(lastLoginAt, vo.lastLoginAt);
+                && Objects.equals(lastLoginAt, vo.lastLoginAt)
+                && Objects.equals(deletedAt, vo.deletedAt);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(sid, loginId, loginPw, name, createdAt, updatedAt, lastLoginAt);
+        return Objects.hash(sid, loginId, loginPw, name, createdAt, updatedAt, lastLoginAt, deletedAt);
     }
 }

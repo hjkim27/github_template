@@ -1,7 +1,6 @@
 package com.example.demo.mapper.first;
 
-import com.example.demo.bean.dto.AdminRequestDTO;
-import com.example.demo.bean.dto.AdminResponseDTO;
+import com.example.demo.bean.vo.AdminInfo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -16,7 +15,7 @@ public interface AdminInfoMapper {
      * @param sid
      * @return
      */
-    public AdminResponseDTO getAdminInfoBySid(int sid);
+    public AdminInfo getAdminInfoBySid(int sid);
 
     /**
      * 관리자 정보 조회 by loginId
@@ -24,7 +23,7 @@ public interface AdminInfoMapper {
      * @param loginId
      * @return
      */
-    public AdminResponseDTO getAdminInfoByLoginId(String loginId);
+    public AdminInfo getAdminInfoByLoginId(String loginId);
 
     /**
      * <pre>
@@ -33,28 +32,37 @@ public interface AdminInfoMapper {
      *     - loginId, loginPw : 관리자 로그인 허용 확인
      * </pre>
      *
-     * @param adminInfoDTO
+     * @param adminInfo
      * @return
      */
-    public int isExistAdmin(AdminRequestDTO adminInfoDTO);
+    public Integer getAdminSid(AdminInfo adminInfo);
 
     /**
      * <pre>
      *     관리자 정보 업데이트
      * </pre>
      *
-     * @param adminInfoDTO
+     * @param adminInfo
      */
-    public void updateAdminInfo(AdminRequestDTO adminInfoDTO);
+    public void updateAdminInfoBySid(AdminInfo adminInfo);
+
+    /**
+     * <pre>
+     *     관리자 접속 시간 업데이트
+     * </pre>
+     *
+     * @param adminInfo
+     */
+    public void updateAdminLoginAt(AdminInfo adminInfo);
 
     /**
      * <pre>
      *     관리자 추가
      * </pre>
      *
-     * @param adminInfoDTO
+     * @param adminInfo
      */
-    public void insertAdminInfo(AdminRequestDTO adminInfoDTO);
+    public void insertAdminInfo(AdminInfo adminInfo);
 
     /**
      * <pre>
