@@ -1,4 +1,4 @@
-<%--
+<%@ page import="com.example.demo.config.GeneralConfig" %><%--
   Created by IntelliJ IDEA.
   User: aa827
   Date: 2024-07-07
@@ -10,12 +10,12 @@
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 <html>
 <head>
-    <title>Title</title>
-    <link rel="stylesheet" type="text/css" href="${contextPath}/static/css/common.css">
+    <title>hjkim27.Daily</title>
+    <link rel="stylesheet" type="text/css" href="${contextPath}/static/css/login.css">
     <script type="text/javascript" src="${contextPath}/static/js/jquery-3.7.1.min.js"></script>
 </head>
 <body>
-<div id="container">
+<div class="container login">
     <div id="loginForm" class="input-form">
         <div id="logo">
             <img src="${contextPath}/static/img/logo/logo.png">
@@ -30,14 +30,13 @@
             <button class="bg-blue" onclick="login()">로그인</button>
         </div>
     </div>
-    <div class="align-center">
-        아이디찾기 | 비밀번호찾기 | 계정등록
+    <div class="align-right text-link">
+        <a href="${contextPath}/sign/register">계정등록</a>
     </div>
 </div>
 <script>
-
-    if('${message}' !== ''){
-        alert('${message}');
+    if('${loginSession}' !== ''){
+        alert('로그인이 필요합니다');
     }
     function login(){
         var valid = validate();
@@ -46,7 +45,7 @@
         }
 
         $.ajax({
-            url: "${contextPath}/login",
+            url: "${contextPath}<%=GeneralConfig.LOGIN_URL%>",
             type: "post",
             async: false,
             data: {
@@ -54,7 +53,6 @@
                 loginPw: $('#loginPw').val()
             },
             success: function (data){
-                console.log(JSON.stringify(data))
                 if(data.login){
                     location.href = data.url;
                 } else {
@@ -68,7 +66,6 @@
     }
 
     function validate(){
-        console.log('validate')
         var check = true;
         $('#loginForm input').each(function(){
             if($(this).val().trim().length === 0 && check){

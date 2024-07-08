@@ -1,0 +1,48 @@
+/*login*/
+@import "common.css";
+/* tag ================================================== */
+input, button {
+    height: 60px;
+    font-size: 15px;
+    border: 1px solid var(--sub-color);
+}
+
+input {
+    outline: none;
+}
+
+input:focus {
+    border: 2px solid var(--point-color);
+}
+
+input::placeholder {
+    color: var(--point-color);
+}
+
+a:hover {
+    color: var(--point-color-light);
+    text-decoration: underline;
+}
+
+/* class ================================================ */
+.container.login {
+    justify-content: center;
+    align-content: center;
+}
+
+.input-form {
+    min-width: 400px;
+    display: grid;
+    grid-template-rows: auto 1fr 1fr 1fr;
+    grid-gap: 10px;
+}
+
+/* id =================================================== */
+#logo {
+    text-align: center;
+    padding: 10px;
+}
+
+#logo img {
+    width: 300px;
+}

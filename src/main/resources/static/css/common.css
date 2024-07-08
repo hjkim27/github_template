@@ -1,18 +1,30 @@
 :root {
     --point-color: #47536d;
+    --point-color-light: #435b88;
     --sub-color: #838383;
+    --sub-color-light: #f5f5f5;
     --base-color: #f1f1f1;
 }
 
+/* tag ================================================== */
 html, body {
     margin: 0;
     padding: 0;
 }
 
-#container {
+input, button {
+    width: 100%;
+    padding: 0 10px;
+    border-radius: 5px;
+}
+
+a, a:visited, a:link, a:active {
+    text-decoration: none;
+    color: var(--sub-color);
+}
+/* class ================================================ */
+.container {
     display: grid;
-    justify-content: center;
-    align-items: center;
     height: 100vh;
     width: 100vw;
 }
@@ -23,7 +35,7 @@ html, body {
 }
 
 .bg-blue:hover {
-    background-color: #435b88;
+    background-color: var(--point-color-light);
 }
 
 .bg-white {
@@ -31,7 +43,7 @@ html, body {
 }
 
 .bg-white:hover {
-    background-color: #f5f5f5;
+    background-color: var(--sub-color-light);
 }
 
 .grid-column2 {
@@ -43,42 +55,14 @@ html, body {
 .align-center {
     text-align: center;
 }
-
-/*=================================*/
-/*login*/
-#loginForm {
-    min-width: 400px;
-    display: grid;
-    grid-template-rows: auto 1fr 1fr 1fr;
-    grid-gap: 10px;
+.align-right {
+    text-align: right;
 }
-
-.input-form input, button {
-    width: 100%;
-    height: 60px;
-    font-size: 15px;
-    padding: 0 10px;
-    border: 1px solid var(--sub-color);
-    border-radius: 5px;
-}
-
-.input-form input {
-    outline: none;
-}
-
-.input-form input:focus {
-    border: 2px solid var(--point-color);
-}
-
-.input-form input::placeholder {
-    color: #47536d;
-}
-
-#logo {
-    text-align: center;
+.text-link {
     padding: 10px;
+    font-size: 12px;
 }
 
-#logo img {
-    width: 300px;
-}
+/* id =================================================== */
+
+

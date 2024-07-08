@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import com.example.demo.LoginMessageEnum;
 import com.example.demo.bean.AjaxResponse;
 import com.example.demo.bean.dto.AdminRequestDTO;
+import com.example.demo.config.GeneralConfig;
 import com.example.demo.service.AdminInfoService;
 import com.example.demo.util.LoginUtil;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +17,6 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.UnsupportedEncodingException;
 
 /**
  * <pre>
@@ -29,7 +29,7 @@ import java.io.UnsupportedEncodingException;
 @Slf4j
 @Controller
 @RequiredArgsConstructor
-public class LoginController {
+public class SignController {
 
     private final AdminInfoService adminInfoService;
 
@@ -42,13 +42,13 @@ public class LoginController {
      * @param response
      * @return
      */
-    @RequestMapping("/login")
-    public ModelAndView login(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
-        ModelAndView mav = new ModelAndView("/login/login");
+    @RequestMapping("/sign/sign-in")
+    public ModelAndView signIn(HttpServletRequest request, HttpServletResponse response) {
+        log.info(GeneralConfig.START);
+        ModelAndView mav = new ModelAndView("/sign/signIn");
         if (LoginUtil.isLogin(request)) {
-            return new ModelAndView(new RedirectView(request.getContextPath() + "/test"));
+            return new ModelAndView(new RedirectView(request.getContextPath() + GeneralConfig.MAIN_URL));
         } else {
-            mav.addObject("message", "로그인이 필요합니다.");
         }
         return mav;
     }
@@ -64,12 +64,13 @@ public class LoginController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "login", method = RequestMethod.POST)
-    public AjaxResponse login(
+    @RequestMapping(value = "/sign/sign-in", method = RequestMethod.POST)
+    public AjaxResponse signIn(
             AdminRequestDTO dto
             , HttpServletRequest request
             , HttpServletResponse response
     ) {
+        log.info(GeneralConfig.START);
         AjaxResponse responseDTO = new AjaxResponse();
 
         AdminRequestDTO dto2 = new AdminRequestDTO();
@@ -82,7 +83,7 @@ public class LoginController {
             if (adminSid > 0) {
                 LoginUtil.setLogin(request, response, adminSid);
                 responseDTO.setStatus(0);
-                responseDTO.setUrl(request.getContextPath() + "/test");
+                responseDTO.setUrl(request.getContextPath() + GeneralConfig.MAIN_URL);
                 login = true;
             } else {
                 responseDTO.setErrorMessage(LoginMessageEnum.notMatch);
@@ -94,4 +95,11 @@ public class LoginController {
         return responseDTO;
     }
 
+
+    @RequestMapping("/sign/register")
+    public ModelAndView register(HttpServletRequest request, HttpServletResponse response) {
+        log.info(GeneralConfig.START);
+        ModelAndView mav = new ModelAndView("sign/register");
+        return mav;
+    }
 }
