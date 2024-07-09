@@ -1,9 +1,30 @@
 :root {
-    --point-color: #47536d;
+    --clean-color: #ffffff00;
+
+    --gray-scale-0: #000000;
+    --gray-scale-1: #191919;
+    --gray-scale-2: #323232;
+    --gray-scale-3: #4b4b4b;
+    --gray-scale-4: #646464;
+    --gray-scale-5: #7d7d7d;
+    --gray-scale-6: #969696;
+    --gray-scale-7: #afafaf;
+    --gray-scale-8: #c8c8c8;
+    --gray-scale-9: #ffffff;
+
+    --blue-scale-0: #010d27;
+    --blue-scale-1: #0b1731;
+    --blue-scale-2: #15213b;
+    --blue-scale-3: #1f2b45;
+    --blue-scale-4: #29354f;
+    --blue-scale-5: #333F59;
+    --blue-scale-6: #3d4963;
+    --blue-scale-7: #47536d;
+    --blue-scale-8: #515d6d;
+    --blue-scale-9: #5b676d;
+
+
     --point-color-light: #435b88;
-    --sub-color: #838383;
-    --sub-color-light: #f5f5f5;
-    --base-color: #f1f1f1;
 }
 
 /* tag ================================================== */
@@ -16,22 +37,37 @@ input, button {
     width: 100%;
     padding: 0 10px;
     border-radius: 5px;
+    outline: none;
+}
+
+input:focus {
+    border: 2px solid var(--blue-scale-7);
+}
+
+input::placeholder {
+    color: var(--blue-scale-7);
 }
 
 a, a:visited, a:link, a:active {
     text-decoration: none;
-    color: var(--sub-color);
+    color: var(--gray-scale-5);
 }
+
 /* class ================================================ */
 .container {
     display: grid;
     height: 100vh;
     width: 100vw;
+    grid-template-rows: 60px auto 60px;
+}
+
+.bg-dark-blue {
+    background-color: var(--blue-scale-2);
 }
 
 .bg-blue {
-    background-color: var(--point-color);
-    color: var(--base-color);
+    background-color: var(--blue-scale-7);
+    color: var(--gray-scale-8);
 }
 
 .bg-blue:hover {
@@ -39,11 +75,11 @@ a, a:visited, a:link, a:active {
 }
 
 .bg-white {
-    background-color: var(--base-color);
+    background-color: var(--gray-scale-8);
 }
 
 .bg-white:hover {
-    background-color: var(--sub-color-light);
+    background-color: var(--gray-scale-6);
 }
 
 .grid-column2 {
@@ -55,9 +91,11 @@ a, a:visited, a:link, a:active {
 .align-center {
     text-align: center;
 }
+
 .align-right {
     text-align: right;
 }
+
 .text-link {
     padding: 10px;
     font-size: 12px;

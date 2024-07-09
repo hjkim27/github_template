@@ -38,17 +38,14 @@ public class SignController {
      *     login page
      * </pre>
      *
-     * @param request
-     * @param response
-     * @return
+     * @param request {@link HttpServletRequest}
      */
     @RequestMapping("/sign/sign-in")
-    public ModelAndView signIn(HttpServletRequest request, HttpServletResponse response) {
+    public ModelAndView signIn(HttpServletRequest request) {
         log.info(GeneralConfig.START);
         ModelAndView mav = new ModelAndView("/sign/signIn");
         if (LoginUtil.isLogin(request)) {
             return new ModelAndView(new RedirectView(request.getContextPath() + GeneralConfig.MAIN_URL));
-        } else {
         }
         return mav;
     }
@@ -58,17 +55,16 @@ public class SignController {
      *     login submit
      * </pre>
      *
+     * @param request  {@link HttpServletRequest}
+     * @param response {@link HttpServletResponse}
      * @param dto      {@link AdminRequestDTO}
-     * @param request
-     * @param response
-     * @return
+     * @return {@link AjaxResponse}
      */
     @ResponseBody
     @RequestMapping(value = "/sign/sign-in", method = RequestMethod.POST)
     public AjaxResponse signIn(
+            HttpServletRequest request, HttpServletResponse response,
             AdminRequestDTO dto
-            , HttpServletRequest request
-            , HttpServletResponse response
     ) {
         log.info(GeneralConfig.START);
         AjaxResponse responseDTO = new AjaxResponse();
@@ -96,10 +92,14 @@ public class SignController {
     }
 
 
-    @RequestMapping("/sign/register")
-    public ModelAndView register(HttpServletRequest request, HttpServletResponse response) {
+    /**
+     * <pre>
+     *     가입페이지
+     * </pre>
+     */
+    @RequestMapping("/sign/sign-up")
+    public ModelAndView signUp() {
         log.info(GeneralConfig.START);
-        ModelAndView mav = new ModelAndView("sign/register");
-        return mav;
+        return new ModelAndView("sign/signUp");
     }
 }

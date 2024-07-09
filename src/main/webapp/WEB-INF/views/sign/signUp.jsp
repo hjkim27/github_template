@@ -14,11 +14,11 @@
   <link rel="stylesheet" type="text/css" href="${contextPath}/static/css/login.css">
   <script type="text/javascript" src="${contextPath}/static/js/jquery-3.7.1.min.js"></script>
 </head>
-<body>
+<body class="bg-dark-blue">
 <div class="container login">
   <div id="findForm" class="input-form">
     <div id="logo">
-      <img src="${contextPath}/static/img/logo/logo.png">
+      <img src="${contextPath}/static/img/logo/logo-clean.png" style="filter: invert()">
     </div>
     <div>
       <input id="loginId" type="text" data-name="아이디" placeholder="아이디"/>
@@ -28,7 +28,7 @@
     </div>
     <div class="grid-column2">
       <button class="bg-blue" onclick="login()">등록</button>
-      <button class="bg-white" onclick="location.href='${contextPath}<%=GeneralConfig.LOGIN_URL%>'">등록취소</button>
+      <button class="bg-white" onclick="location.href='${contextPath}<%=GeneralConfig.SIGN_IN_URL%>'">등록취소</button>
     </div>
   </div>
 </div>

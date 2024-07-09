@@ -1,0 +1,44 @@
+@import "common.css";
+/*login*/
+/* tag ================================================== */
+input.default, button.default {
+    height: 40px;
+    width: auto;
+    font-size: 15px;
+}
+
+
+a:hover {
+    color: var(--point-color-light);
+    text-decoration: underline;
+}
+
+/* class ================================================ */
+.container #header {
+    padding: 10px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    justify-items: stretch;
+}
+
+.container {
+    align-items: start;
+}
+
+button.sign {
+    color: var(--gray-scale-9);
+    background-color: var(--clean-color);
+}
+
+.border-none {
+    border: none;
+}
+
+.border-bright {
+    border: 1px solid var(--gray-scale-9)
+}
+
+/* id =================================================== */
+#logo img {
+    max-height: 20px;
+}

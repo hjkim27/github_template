@@ -19,7 +19,7 @@ public class ProjectInterceptor implements HandlerInterceptor {
         if (LoginUtil.isLogin(request)) {
             return true;
         } else {
-            response.sendRedirect(request.getContextPath() + "/login");
+            response.sendRedirect(request.getContextPath() + GeneralConfig.MAIN_URL);
             return false;
         }
     }

@@ -35,40 +35,41 @@
     </div>
 </div>
 <script>
-    if('${loginSession}' !== ''){
+    if ('${loginSession}' !== '') {
         alert('로그인이 필요합니다');
     }
-    function login(){
+
+    function login() {
         var valid = validate();
-        if(!valid){
+        if (!valid) {
             return;
         }
 
         $.ajax({
-            url: "${contextPath}<%=GeneralConfig.LOGIN_URL%>",
+            url: "${contextPath}<%=GeneralConfig.SIGN_IN_URL%>",
             type: "post",
             async: false,
             data: {
                 loginId: $('#loginId').val(),
                 loginPw: $('#loginPw').val()
             },
-            success: function (data){
-                if(data.login){
+            success: function (data) {
+                if (data.login) {
                     location.href = data.url;
                 } else {
                     alert(JSON.stringify(data.message));
                 }
             },
-            error: function (e){
+            error: function (e) {
                 console.log(e)
             }
         })
     }
 
-    function validate(){
+    function validate() {
         var check = true;
-        $('#loginForm input').each(function(){
-            if($(this).val().trim().length === 0 && check){
+        $('#loginForm input').each(function () {
+            if ($(this).val().trim().length === 0 && check) {
                 alert('\'' + $(this).data('name') + '\' 입력이 필요합니다.')
                 check = false;
                 return;

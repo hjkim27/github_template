@@ -33,6 +33,7 @@ public class InterceptorConfiguration implements WebMvcConfigurer {
 
     public static final String[] EXCLUDE_URL_PATTERNS = {
             "/sign/**",
+            "/main/**",
             "/sse/**"
     };
 
@@ -76,7 +77,6 @@ public class InterceptorConfiguration implements WebMvcConfigurer {
      */
     @Override
     public void addCorsMappings(final CorsRegistry registry) {
-        registry.addMapping("/**")
-                .allowedMethods(ALLOWED_METHOD_NAMES.split(","));
+        registry.addMapping("/**").allowedMethods(ALLOWED_METHOD_NAMES.split(","));
     }
 }
