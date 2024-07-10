@@ -18,7 +18,23 @@ import lombok.ToString;
 @ToString
 public class AdminRequestDTO {
 
+    /**
+     * 로그인 ID
+     */
     private String loginId;
+
+    /**
+     * 로그인 PW
+     */
     private String loginPw;
+
+    /**
+     * 로그인 PW 확인
+     */
+    private String loginPwCheck;
+
+    /**
+     * 이름
+     */
     private String name;
 }

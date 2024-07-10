@@ -62,7 +62,7 @@ public interface AdminInfoMapper {
      *
      * @param adminInfo
      */
-    public void insertAdminInfo(AdminInfo adminInfo);
+    public int insertAdminInfo(AdminInfo adminInfo);
 
     /**
      * <pre>

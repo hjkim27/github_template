@@ -1,8 +1,8 @@
 package com.example.demo.controller;
 
-import com.example.demo.LoginMessageEnum;
-import com.example.demo.bean.AjaxResponse;
+import com.example.demo.bean.SignMessageEnum;
 import com.example.demo.bean.dto.AdminRequestDTO;
+import com.example.demo.bean.dto.AjaxResponse;
 import com.example.demo.config.GeneralConfig;
 import com.example.demo.service.AdminInfoService;
 import com.example.demo.util.LoginUtil;
@@ -57,7 +57,7 @@ public class SignController {
      *
      * @param request  {@link HttpServletRequest}
      * @param response {@link HttpServletResponse}
-     * @param dto      {@link AdminRequestDTO}
+     * @param dto      loginId, loginPw 를 담은 {@link AdminRequestDTO} 객체
      * @return {@link AjaxResponse}
      */
     @ResponseBody
@@ -67,34 +67,33 @@ public class SignController {
             AdminRequestDTO dto
     ) {
         log.info(GeneralConfig.START);
+        log.debug("parameter : {}", dto);
         AjaxResponse responseDTO = new AjaxResponse();
 
-        AdminRequestDTO dto2 = new AdminRequestDTO();
-        dto2.setLoginId(dto.getLoginId());
+        AdminRequestDTO adminRequestIDCheck = new AdminRequestDTO();
+        adminRequestIDCheck.setLoginId(dto.getLoginId());
 
-        boolean existLoginId = adminInfoService.isExistAdmin(dto2);
-        boolean login = false;
+        boolean existLoginId = adminInfoService.isExistAdmin(adminRequestIDCheck);
         if (existLoginId) {
             int adminSid = adminInfoService.getAdminSid(dto);
             if (adminSid > 0) {
                 LoginUtil.setLogin(request, response, adminSid);
-                responseDTO.setStatus(0);
                 responseDTO.setUrl(request.getContextPath() + GeneralConfig.MAIN_URL);
-                login = true;
+                responseDTO.setSignMessage(SignMessageEnum.SUCCESS);
             } else {
-                responseDTO.setErrorMessage(LoginMessageEnum.notMatch);
+                responseDTO.setSignMessage(SignMessageEnum.NOT_MATCH_PASSWORD);
             }
         } else {
-            responseDTO.setErrorMessage(LoginMessageEnum.notExist);
+            responseDTO.setSignMessage(SignMessageEnum.NOT_EXIST_USER);
         }
-        responseDTO.setLogin(login);
+        log.debug("return : {}", responseDTO);
         return responseDTO;
     }
 
 
     /**
      * <pre>
-     *     가입페이지
+     *     register page
      * </pre>
      */
     @RequestMapping("/sign/sign-up")
@@ -102,4 +101,48 @@ public class SignController {
         log.info(GeneralConfig.START);
         return new ModelAndView("sign/signUp");
     }
+
+    /**
+     * <pre>
+     *     register submit
+     * </pre>
+     *
+     * @param request  {@link HttpServletRequest}
+     * @param response {@link HttpServletResponse}
+     * @param dto      loginId, name, loginPw, loginPwCheck 를 담은 {@link AdminRequestDTO} 객체
+     * @return {@link AjaxResponse}
+     */
+    @ResponseBody
+    @RequestMapping(value = "/sign/sign-up", method = RequestMethod.POST)
+    public AjaxResponse signUp(
+            HttpServletRequest request, HttpServletResponse response,
+            AdminRequestDTO dto
+    ) {
+        log.info(GeneralConfig.START);
+        log.debug("parameter : {}", dto);
+
+        AjaxResponse responseDTO = new AjaxResponse();
+
+        // 비밀번호 일치
+        if (dto.getLoginPw().equals(dto.getLoginPwCheck())) {
+            AdminRequestDTO adminRequestIDCheck = new AdminRequestDTO();
+            adminRequestIDCheck.setLoginId(dto.getLoginId());
+
+            // 계정 추가
+            int insertLoginId = adminInfoService.insertAdmin(dto);
+            if (insertLoginId > 0) {
+                LoginUtil.setLogin(request, response, insertLoginId);
+                responseDTO.setSignMessage(SignMessageEnum.SUCCESS);
+            } else {
+                responseDTO.setSignMessage(SignMessageEnum.NOT_USED_ID);
+            }
+        }
+        // 비밀번호 불일치
+        else {
+            responseDTO.setSignMessage(SignMessageEnum.NOT_MATCH_PASSWORD);
+        }
+        log.debug("return : {}", responseDTO);
+        return responseDTO;
+    }
+
 }

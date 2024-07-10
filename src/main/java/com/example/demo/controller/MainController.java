@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -31,5 +32,10 @@ public class MainController {
             mav.setViewName("/main");
         }
         return mav;
+    }
+
+    @RequestMapping("/")
+    public ModelAndView main(HttpServletRequest request) {
+        return new ModelAndView(new RedirectView(request.getContextPath() + GeneralConfig.MAIN_URL));
     }
 }

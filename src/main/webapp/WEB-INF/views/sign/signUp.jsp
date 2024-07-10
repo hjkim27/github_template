@@ -24,13 +24,60 @@
       <input id="loginId" type="text" data-name="아이디" placeholder="아이디"/>
     </div>
     <div>
+      <input id="name" type="text" data-name="이름" placeholder="이름"/>
+    </div>
+    <div>
       <input id="loginPw" type="password" data-name="비밀번호" placeholder="비밀번호"/>
     </div>
+    <div>
+      <input id="loginPwCheck" type="password" data-name="비밀번호확인" placeholder="비밀번호확인"/>
+    </div>
     <div class="grid-column2">
-      <button class="bg-blue" onclick="login()">등록</button>
-      <button class="bg-white" onclick="location.href='${contextPath}<%=GeneralConfig.SIGN_IN_URL%>'">등록취소</button>
+      <button class="bg-blue" onclick="signUp()">등록</button>
+      <button class="bg-white" onclick="location.href='${contextPath}<%=GeneralConfig.MAIN_URL%>'">등록취소</button>
     </div>
   </div>
 </div>
+<script>
+  function signUp() {
+    var valid = validate();
+    if (!valid) {
+      return;
+    }
+
+    $.ajax({
+      url: "${contextPath}<%=GeneralConfig.SIGN_UP_URL%>",
+      type: "post",
+      async: false,
+      data: {
+        loginId: $('#loginId').val(),
+        loginPw: $('#loginPw').val(),
+        loginPwCheck: $('#loginPwCheck').val()
+      },
+      success: function (data) {
+        if (data.login) {
+          location.href = data.url;
+        } else {
+          alert(JSON.stringify(data.message));
+        }
+      },
+      error: function (e) {
+        console.log(e)
+      }
+    })
+  }
+
+  function validate() {
+    var check = true;
+    $('#loginForm input').each(function () {
+      if ($(this).val().trim().length === 0 && check) {
+        alert('\'' + $(this).data('name') + '\' 입력이 필요합니다.')
+        check = false;
+        return;
+      }
+    })
+    return check;
+  }
+</script>
 </body>
 </html>

@@ -48,27 +48,35 @@ public class AdminInfoService {
         return toDTO(info);
     }
 
-    public int getAdminSid(AdminRequestDTO dto) {
-        AdminInfo vo = toVO(dto);
+    /**
+     * <pre>
+     * 관리자 정보 조회 확인
+     *     - loginId : 관리자 추가 시 중복확인
+     *     - loginId, loginPw : 관리자 로그인 허용 확인
+     * </pre>
+     *
+     * @param adminRequestDTO
+     * @return
+     */
+    public int getAdminSid(AdminRequestDTO adminRequestDTO) {
+        AdminInfo vo = toVO(adminRequestDTO);
         Integer sid = adminInfoMapper.getAdminSid(vo);
-        log.info("vo: {}", vo);
-        log.info("sid: {}", sid);
         return (sid != null) ? sid : -1;
     }
 
-    private void updateAdminInfoBySid(AdminRequestDTO dto) {
-        AdminInfo vo = toVO(dto);
+    private void updateAdminInfoBySid(AdminRequestDTO adminRequestDTO) {
+        AdminInfo vo = toVO(adminRequestDTO);
         adminInfoMapper.updateAdminInfoBySid(vo);
     }
 
-    private void updateAdminLoginAt(AdminRequestDTO dto) {
-        AdminInfo vo = toVO(dto);
+    private void updateAdminLoginAt(AdminRequestDTO adminRequestDTO) {
+        AdminInfo vo = toVO(adminRequestDTO);
         adminInfoMapper.updateAdminLoginAt(vo);
     }
 
-    private void insertAdminInfo(AdminRequestDTO dto) {
-        AdminInfo vo = toVO(dto);
-        adminInfoMapper.insertAdminInfo(vo);
+    private int insertAdminInfo(AdminRequestDTO adminRequestDTO) {
+        AdminInfo vo = toVO(adminRequestDTO);
+        return adminInfoMapper.insertAdminInfo(vo);
     }
 
     private void deleteAdminInfo(List<Integer> sids) {
@@ -77,23 +85,39 @@ public class AdminInfoService {
 
     /*--------------------------------------------------*/
 
-    public boolean isExistAdmin(AdminRequestDTO dto) {
-        return (getAdminSid(dto) > 0);
+    /**
+     * <pre>
+     *     존재하는 계정인지 확인
+     * </pre>
+     *
+     * @param adminRequestDTO loginId 혹은 loginId, loginPw 가 설정된 {@link AdminRequestDTO}
+     * @return 계정 존재여부
+     */
+    public boolean isExistAdmin(AdminRequestDTO adminRequestDTO) {
+        return (getAdminSid(adminRequestDTO) > 0);
     }
 
-    public void updateAdmin(AdminRequestDTO dto) {
-        updateAdminInfoBySid(dto);
+    public void updateAdmin(AdminRequestDTO adminRequestDTO) {
+        updateAdminInfoBySid(adminRequestDTO);
     }
 
-    public boolean insertAdmin(AdminRequestDTO dto) {
-        boolean isExist = isExistAdmin(dto);
+    /**
+     * <pre>
+     * 계정 추가
+     * </pre>
+     *
+     * @param adminRequestDTO {@link AdminRequestDTO} 계정 추가를 위한 정보
+     * @return 계정 추가 성공여부 (실패: -1 / 성공: admin_info.sid)
+     */
+    public int insertAdmin(AdminRequestDTO adminRequestDTO) {
+        boolean isExist = isExistAdmin(adminRequestDTO);
         if (isExist) {
             log.info("Unable to register account. (Account definition exists)");
-            return false;
+            return -1;
         } else {
-            insertAdminInfo(dto);
-            updateAdminLoginAt(dto);
-            return true;
+            int result = insertAdminInfo(adminRequestDTO);
+            updateAdminLoginAt(adminRequestDTO);
+            return result;
         }
     }
 }

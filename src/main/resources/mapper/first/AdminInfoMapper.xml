@@ -46,7 +46,7 @@
     <insert id="insertAdminInfo" parameterType="com.example.demo.bean.vo.AdminInfo"
             useGeneratedKeys="true" keyColumn="sid" keyProperty="sid">
         insert into admin_info(login_id, login_pw, name)
-        values (#{loginid}, #{loginPw}, #{name})
+        values (#{loginId}, #{loginPw}, #{name})
     </insert>
 
     <delete id="deleteAdminInfo" parameterType="int">
