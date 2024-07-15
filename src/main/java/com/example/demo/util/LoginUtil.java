@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
  * </pre>
  *
  * @author hjkim27
- * @date 2024 .07. 07
+ * @since 0.0.1-SNAPSHOT
  */
 @Slf4j
 public class LoginUtil {

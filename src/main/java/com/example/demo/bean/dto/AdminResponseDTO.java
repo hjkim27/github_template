@@ -14,7 +14,7 @@ import java.util.Date;
  * </pre>
  *
  * @author hjkim27
- * @date 2024. 07. 06
+ * @since 0.0.1-SNAPSHOT
  */
 @Getter
 @Setter

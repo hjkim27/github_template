@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * @author hjkim27
- * @date 2024. 07. 07
+ * @since 0.0.1-SNAPSHOT
  */
 @Slf4j
 @Configuration
@@ -71,9 +71,6 @@ public class InterceptorConfiguration implements WebMvcConfigurer {
      * <pre>
      *     cros origin disable 처리
      * </pre>
-     *
-     * @param registry
-     * @since 2024.01.23
      */
     @Override
     public void addCorsMappings(final CorsRegistry registry) {

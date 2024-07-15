@@ -11,7 +11,7 @@ import lombok.ToString;
  * </pre>
  *
  * @author hjkim27
- * @date 2024. 07. 07
+ * @since 0.0.1-SNAPSHOT
  */
 @Getter
 @Setter
