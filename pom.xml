@@ -82,6 +82,11 @@
             <scope>provided</scope>
         </dependency>
 
+        <dependency>
+            <groupId>com.github.hjkim27</groupId>
+            <artifactId>java-utils</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
 
     </dependencies>
 
@@ -109,6 +114,10 @@
             <releases>
                 <enabled>false</enabled>
             </releases>
+        </repository>
+        <repository>
+            <id>localrepository</id>
+            <url>file://${project.basedir}/repo</url>
         </repository>
     </repositories>
     <pluginRepositories>
