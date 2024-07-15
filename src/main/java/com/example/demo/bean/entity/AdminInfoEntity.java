@@ -1,6 +1,10 @@
-package com.example.demo.bean.vo;
+package com.example.demo.bean.entity;
 
-import lombok.*;
+import com.example.demo.bean.dto.AdminRequestDTO;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.ToString;
 
 import java.util.Date;
 import java.util.Objects;
@@ -14,11 +18,10 @@ import java.util.Objects;
  * @date 2024. 07. 06
  */
 @Getter
-@Setter
 @Builder
 @AllArgsConstructor
 @ToString
-public final class AdminInfo {
+public final class AdminInfoEntity {
 
     private final Integer sid;
     private final String loginId;
@@ -34,7 +37,7 @@ public final class AdminInfo {
         if (this == obj) return true;
         if (obj == null || getClass() != obj.getClass()) return false;
 
-        AdminInfo vo = (AdminInfo) obj;
+        AdminInfoEntity vo = (AdminInfoEntity) obj;
 
         return Objects.equals(sid, vo.sid)
                 && Objects.equals(loginId, vo.loginId)
@@ -49,5 +52,13 @@ public final class AdminInfo {
     @Override
     public int hashCode() {
         return Objects.hash(sid, loginId, loginPw, name, createdAt, updatedAt, lastLoginAt, deletedAt);
+    }
+
+    public static AdminInfoEntity toEntity(AdminRequestDTO dto) {
+        return AdminInfoEntity.builder()
+                .loginId(dto.getLoginId())
+                .loginPw(dto.getLoginPw())
+                .name(dto.getName())
+                .build();
     }
 }

@@ -3,20 +3,22 @@
 
 <mapper namespace="com.example.demo.mapper.first.AdminInfoMapper">
 
-    <sql id="getAdminInfo">
+    <!-- 관리자 검색 -->
+    <select id="getAdminInfoSearch" parameterType="com.example.demo.bean.entity.AdminInfoEntity"
+            resultType="com.example.demo.bean.entity.AdminInfoEntity">
         select sid, login_id, login_pw, name, created_at, updated_at, last_login_at
         from admin_info
-    </sql>
-    <select id="getAdminInfoBySid" parameterType="int" resultType="com.example.demo.bean.vo.AdminInfo">
-        <include refid="getAdminInfo"/>
-        where sid = #{sid} and deleted_at isnull;
-    </select>
-    <select id="getAdminInfoByLoginId" parameterType="string" resultType="com.example.demo.bean.vo.AdminInfo">
-        <include refid="getAdminInfo"/>
-        where login_id = #{loginId}
+        <trim prefix="where" prefixOverrides="and">
+            <if test="sid != null and sid != ''">and sid = #{sid}</if>
+            <if test="loginId != null and loginId != ''">and login_id = #{loginId}</if>
+            <if test="loginPw != null and loginPw != ''">and login_pw = #{loginPw}</if>
+            <if test="name != null and name != ''">and name like '%'||#{name}||'%'</if>
+            and deleted_at is null
+        </trim>
     </select>
 
-    <select id="getAdminSid" parameterType="com.example.demo.bean.vo.AdminInfo" resultType="int">
+    <!-- loginid, loginpw 를 조건으로 sid 조회 -->
+    <select id="getAdminSid" parameterType="com.example.demo.bean.entity.AdminInfoEntity" resultType="int">
         select sid
         from admin_info
         where login_id = #{loginId}
@@ -25,7 +27,8 @@
         </if>
     </select>
 
-    <update id="updateAdminInfoBySid" parameterType="com.example.demo.bean.vo.AdminInfo">
+    <!-- Sid 를 조건으로 update -->
+    <update id="updateAdminInfoBySid" parameterType="com.example.demo.bean.entity.AdminInfoEntity">
         update admin_info
         <trim prefix="set" prefixOverrides=",">
             <if test="loginId != null">, login_id = #{loginId}</if>
@@ -36,19 +39,22 @@
         where sid = #{sid}
     </update>
 
-    <update id="updateAdminLoginAt" parameterType="com.example.demo.bean.vo.AdminInfo">
+    <!-- login 성공 : loginId, lpginPw 를 조건으로 update -->
+    <update id="updateAdminLoginAt" parameterType="com.example.demo.bean.entity.AdminInfoEntity">
         update admin_info
         set last_login_at = now()
         where login_id = #{loginId}
           and login_pw = #{loginPw}
     </update>
 
-    <insert id="insertAdminInfo" parameterType="com.example.demo.bean.vo.AdminInfo"
+    <!-- 계정 추가 -->
+    <insert id="insertAdminInfo" parameterType="com.example.demo.bean.entity.AdminInfoEntity"
             useGeneratedKeys="true" keyColumn="sid" keyProperty="sid">
         insert into admin_info(login_id, login_pw, name)
         values (#{loginId}, #{loginPw}, #{name})
     </insert>
 
+    <!-- 계정 삭제 -->
     <delete id="deleteAdminInfo" parameterType="int">
         delete from admin_info
         where sid in

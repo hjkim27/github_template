@@ -1,11 +1,11 @@
 package com.example.demo.service;
 
 import com.example.demo.bean.dto.AdminRequestDTO;
-import com.example.demo.bean.dto.AdminResponseDTO;
-import com.example.demo.bean.vo.AdminInfo;
+import com.example.demo.bean.entity.AdminInfoEntity;
 import com.example.demo.mapper.first.AdminInfoMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,37 +15,47 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AdminInfoService {
 
+    private final ModelMapper modelMapper;
+
     private final AdminInfoMapper adminInfoMapper;
 
-    public AdminInfo toVO(AdminRequestDTO adminRequestDTO) {
-        return AdminInfo.builder()
-                .loginId(adminRequestDTO.getLoginId())
-                .loginPw(adminRequestDTO.getLoginPw())
-                .name(adminRequestDTO.getName())
-                .build();
+    /**
+     * <pre>
+     *     sid로 관리자정보 조회
+     * </pre>
+     *
+     * @param sid
+     * @return
+     */
+    public AdminInfoEntity getAdminInfoBySid(int sid) {
+        AdminInfoEntity entity = AdminInfoEntity.builder().sid(sid).build();
+        return adminInfoMapper.getAdminInfoSearch(entity);
     }
 
-    public AdminResponseDTO toDTO(AdminInfo adminInfo) {
-        AdminResponseDTO dto = new AdminResponseDTO();
-        dto.setLoginId(adminInfo.getLoginId());
-        dto.setLoginPw(adminInfo.getLoginPw());
-        dto.setName(adminInfo.getName());
-        dto.setCreatedAt(adminInfo.getCreatedAt());
-        dto.setUpdatedAt(adminInfo.getUpdatedAt());
-        dto.setLastLoginAt(adminInfo.getLastLoginAt());
-        return dto;
+    /**
+     * <pre>
+     *     loginId로 관리자정보 조회
+     * </pre>
+     *
+     * @param loginId
+     * @return
+     */
+    public AdminInfoEntity getAdminInfoByLoginId(String loginId) {
+        AdminInfoEntity entity = AdminInfoEntity.builder().loginId(loginId).build();
+        return adminInfoMapper.getAdminInfoSearch(entity);
     }
 
-    /*======================================================*/
-
-    private AdminResponseDTO getAdminInfoBySid(int sid) {
-        AdminInfo info = adminInfoMapper.getAdminInfoBySid(sid);
-        return toDTO(info);
-    }
-
-    private AdminResponseDTO getAdminInfoByLoginId(String loginId) {
-        AdminInfo info = adminInfoMapper.getAdminInfoByLoginId(loginId);
-        return toDTO(info);
+    /**
+     * <pre>
+     *     name 으로 관리자정보 조회
+     * </pre>
+     *
+     * @param name
+     * @return
+     */
+    public AdminInfoEntity getAdminInfoByName(String name) {
+        AdminInfoEntity entity = AdminInfoEntity.builder().name(name).build();
+        return adminInfoMapper.getAdminInfoSearch(entity);
     }
 
     /**
@@ -59,24 +69,24 @@ public class AdminInfoService {
      * @return
      */
     public int getAdminSid(AdminRequestDTO adminRequestDTO) {
-        AdminInfo vo = toVO(adminRequestDTO);
-        Integer sid = adminInfoMapper.getAdminSid(vo);
+        AdminInfoEntity entity = AdminInfoEntity.toEntity(adminRequestDTO);
+        Integer sid = adminInfoMapper.getAdminSid(entity);
         return (sid != null) ? sid : -1;
     }
 
     private void updateAdminInfoBySid(AdminRequestDTO adminRequestDTO) {
-        AdminInfo vo = toVO(adminRequestDTO);
-        adminInfoMapper.updateAdminInfoBySid(vo);
+        AdminInfoEntity entity = AdminInfoEntity.toEntity(adminRequestDTO);
+        adminInfoMapper.updateAdminInfoBySid(entity);
     }
 
     private void updateAdminLoginAt(AdminRequestDTO adminRequestDTO) {
-        AdminInfo vo = toVO(adminRequestDTO);
-        adminInfoMapper.updateAdminLoginAt(vo);
+        AdminInfoEntity entity = AdminInfoEntity.toEntity(adminRequestDTO);
+        adminInfoMapper.updateAdminLoginAt(entity);
     }
 
     private int insertAdminInfo(AdminRequestDTO adminRequestDTO) {
-        AdminInfo vo = toVO(adminRequestDTO);
-        return adminInfoMapper.insertAdminInfo(vo);
+        AdminInfoEntity entity = AdminInfoEntity.toEntity(adminRequestDTO);
+        return adminInfoMapper.insertAdminInfo(entity);
     }
 
     private void deleteAdminInfo(List<Integer> sids) {
@@ -84,18 +94,6 @@ public class AdminInfoService {
     }
 
     /*--------------------------------------------------*/
-
-    /**
-     * <pre>
-     *     존재하는 계정인지 확인
-     * </pre>
-     *
-     * @param adminRequestDTO loginId 혹은 loginId, loginPw 가 설정된 {@link AdminRequestDTO}
-     * @return 계정 존재여부
-     */
-    public boolean isExistAdmin(AdminRequestDTO adminRequestDTO) {
-        return (getAdminSid(adminRequestDTO) > 0);
-    }
 
     public void updateAdmin(AdminRequestDTO adminRequestDTO) {
         updateAdminInfoBySid(adminRequestDTO);
@@ -110,8 +108,8 @@ public class AdminInfoService {
      * @return 계정 추가 성공여부 (실패: -1 / 성공: admin_info.sid)
      */
     public int insertAdmin(AdminRequestDTO adminRequestDTO) {
-        boolean isExist = isExistAdmin(adminRequestDTO);
-        if (isExist) {
+        int adminSid = getAdminSid(adminRequestDTO);
+        if (adminSid > 0) {
             log.info("Unable to register account. (Account definition exists)");
             return -1;
         } else {

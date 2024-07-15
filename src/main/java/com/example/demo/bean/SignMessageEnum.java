@@ -19,7 +19,9 @@ public enum SignMessageEnum {
     // 존재하지 않는 사용자
     NOT_EXIST_USER(-1, "does not exist user", false),
     // 사용 불가능한 ID
-    NOT_USED_ID(-10, "does not available entered loginId", false),
+    UNABLE_USER_ID(-10, "does not available entered loginId", false),
+    // 사용자 등록 실패
+    FAILED_REGISTER_USER(-11, "Unable to register account. (Account definition exists)", false),
     // 성공
     SUCCESS(0, "success", true);
 

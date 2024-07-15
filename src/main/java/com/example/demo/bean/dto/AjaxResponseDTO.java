@@ -16,7 +16,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class AjaxResponse {
+public class AjaxResponseDTO {
 
     /**
      * 로그인상태

@@ -2,7 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.bean.SignMessageEnum;
 import com.example.demo.bean.dto.AdminRequestDTO;
-import com.example.demo.bean.dto.AjaxResponse;
+import com.example.demo.bean.dto.AjaxResponseDTO;
 import com.example.demo.config.GeneralConfig;
 import com.example.demo.service.AdminInfoService;
 import com.example.demo.util.LoginUtil;
@@ -58,35 +58,38 @@ public class SignController {
      * @param request  {@link HttpServletRequest}
      * @param response {@link HttpServletResponse}
      * @param dto      loginId, loginPw 를 담은 {@link AdminRequestDTO} 객체
-     * @return {@link AjaxResponse}
+     * @return {@link AjaxResponseDTO}
      */
     @ResponseBody
     @RequestMapping(value = "/sign/sign-in", method = RequestMethod.POST)
-    public AjaxResponse signIn(
+    public AjaxResponseDTO signIn(
             HttpServletRequest request, HttpServletResponse response,
             AdminRequestDTO dto
     ) {
         log.info(GeneralConfig.START);
         log.debug("parameter : {}", dto);
-        AjaxResponse responseDTO = new AjaxResponse();
+        AjaxResponseDTO responseDTO = new AjaxResponseDTO();
+        SignMessageEnum signMessageEnum = null;
 
         AdminRequestDTO adminRequestIDCheck = new AdminRequestDTO();
         adminRequestIDCheck.setLoginId(dto.getLoginId());
 
-        boolean existLoginId = adminInfoService.isExistAdmin(adminRequestIDCheck);
-        if (existLoginId) {
-            int adminSid = adminInfoService.getAdminSid(dto);
+        int adminSid = adminInfoService.getAdminSid(adminRequestIDCheck);
+        if (adminSid > 0) {
+            adminSid = adminInfoService.getAdminSid(dto);
             if (adminSid > 0) {
                 LoginUtil.setLogin(request, response, adminSid);
                 responseDTO.setUrl(request.getContextPath() + GeneralConfig.MAIN_URL);
-                responseDTO.setSignMessage(SignMessageEnum.SUCCESS);
+                signMessageEnum = SignMessageEnum.SUCCESS;
             } else {
-                responseDTO.setSignMessage(SignMessageEnum.NOT_MATCH_PASSWORD);
+                signMessageEnum = SignMessageEnum.NOT_MATCH_PASSWORD;
             }
         } else {
-            responseDTO.setSignMessage(SignMessageEnum.NOT_EXIST_USER);
+            signMessageEnum = SignMessageEnum.NOT_EXIST_USER;
         }
+        responseDTO.setSignMessage(signMessageEnum);
         log.debug("return : {}", responseDTO);
+
         return responseDTO;
     }
 
@@ -110,38 +113,52 @@ public class SignController {
      * @param request  {@link HttpServletRequest}
      * @param response {@link HttpServletResponse}
      * @param dto      loginId, name, loginPw, loginPwCheck 를 담은 {@link AdminRequestDTO} 객체
-     * @return {@link AjaxResponse}
+     * @return {@link AjaxResponseDTO}
      */
     @ResponseBody
     @RequestMapping(value = "/sign/sign-up", method = RequestMethod.POST)
-    public AjaxResponse signUp(
+    public AjaxResponseDTO signUp(
             HttpServletRequest request, HttpServletResponse response,
             AdminRequestDTO dto
     ) {
         log.info(GeneralConfig.START);
         log.debug("parameter : {}", dto);
 
-        AjaxResponse responseDTO = new AjaxResponse();
+        AjaxResponseDTO responseDTO = new AjaxResponseDTO();
+        SignMessageEnum signMessageEnum = null;
+
 
         // 비밀번호 일치
         if (dto.getLoginPw().equals(dto.getLoginPwCheck())) {
             AdminRequestDTO adminRequestIDCheck = new AdminRequestDTO();
             adminRequestIDCheck.setLoginId(dto.getLoginId());
 
-            // 계정 추가
-            int insertLoginId = adminInfoService.insertAdmin(dto);
-            if (insertLoginId > 0) {
-                LoginUtil.setLogin(request, response, insertLoginId);
-                responseDTO.setSignMessage(SignMessageEnum.SUCCESS);
-            } else {
-                responseDTO.setSignMessage(SignMessageEnum.NOT_USED_ID);
+            int adminSid = adminInfoService.getAdminSid(adminRequestIDCheck);
+            // 아이디 사용 불가
+            if (adminSid > 0) {
+                signMessageEnum = SignMessageEnum.UNABLE_USER_ID;
+            }
+            // 아이디 사용 가능
+            else {
+                int insertLoginId = adminInfoService.insertAdmin(dto);
+                // 계정 추가 성공
+                if (insertLoginId > 0) {
+                    LoginUtil.setLogin(request, response, insertLoginId);
+                    signMessageEnum = SignMessageEnum.SUCCESS;
+                }
+                // 계정 추가 실패
+                else {
+                    signMessageEnum = SignMessageEnum.FAILED_REGISTER_USER;
+                }
             }
         }
         // 비밀번호 불일치
         else {
-            responseDTO.setSignMessage(SignMessageEnum.NOT_MATCH_PASSWORD);
+            signMessageEnum = SignMessageEnum.NOT_MATCH_PASSWORD;
         }
+        responseDTO.setSignMessage(signMessageEnum);
         log.debug("return : {}", responseDTO);
+
         return responseDTO;
     }
 
