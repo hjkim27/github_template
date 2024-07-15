@@ -11,34 +11,9 @@ create table admin_info(
     name character varying,
     created_at Timestamp without time zone default now(),
     updated_at Timestamp without time zone default now(),
-    last_login_at timestamp without time zone
+    last_login_at timestamp without time zone,
+    deleted_at timestamp without time zone
+
 );
 
--- 실시간 로그 기록
-create table classify_log (
-    sid serial,
-    app_type character varying,
-    status integer,
-    result boolean,
-    score integer,
-    threshold integer,
-    created_at timestamp without time zone default now(),
-    token character varying
-);
-
--- 지난 로그 통계용 기록
-create table classify_log_cache (
-    sid serial,
-    app_type character varying,
-    status integer,
-    result boolean,
-    created_at timestamp without time zone default now()
-);
-
--- 설정
-create table setting_info (
-    sid serial,
-    key character varying unique not null,
-    value character varying,
-    description character varying
-);
+insert into admin_info (login_id, login_pw, name) values ('admin', 'privacy', '관리자');
