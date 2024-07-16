@@ -1,7 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.bean.dto.AdminRequestDTO;
-import com.example.demo.bean.entity.AdminInfoEntity;
+import com.example.demo.bean.vo.AdminInfoVO;
 import com.example.demo.mapper.first.AdminInfoMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,9 +27,9 @@ public class AdminInfoService {
      * @param sid
      * @return
      */
-    public AdminInfoEntity getAdminInfoBySid(int sid) {
-        AdminInfoEntity entity = AdminInfoEntity.builder().sid(sid).build();
-        return adminInfoMapper.getAdminInfoSearch(entity);
+    public AdminInfoVO getAdminInfoBySid(int sid) {
+        AdminInfoVO adminInfoVO = new AdminInfoVO(sid);
+        return adminInfoMapper.getAdminInfoSearch(adminInfoVO);
     }
 
     /**
@@ -40,23 +40,11 @@ public class AdminInfoService {
      * @param loginId
      * @return
      */
-    public AdminInfoEntity getAdminInfoByLoginId(String loginId) {
-        AdminInfoEntity entity = AdminInfoEntity.builder().loginId(loginId).build();
-        return adminInfoMapper.getAdminInfoSearch(entity);
+    public AdminInfoVO getAdminInfoByLoginId(String loginId) {
+        AdminInfoVO adminInfoVO = new AdminInfoVO(loginId);
+        return adminInfoMapper.getAdminInfoSearch(adminInfoVO);
     }
 
-    /**
-     * <pre>
-     *     name 으로 관리자정보 조회
-     * </pre>
-     *
-     * @param name
-     * @return
-     */
-    public AdminInfoEntity getAdminInfoByName(String name) {
-        AdminInfoEntity entity = AdminInfoEntity.builder().name(name).build();
-        return adminInfoMapper.getAdminInfoSearch(entity);
-    }
 
     /**
      * <pre>
@@ -69,24 +57,24 @@ public class AdminInfoService {
      * @return
      */
     public int getAdminSid(AdminRequestDTO adminRequestDTO) {
-        AdminInfoEntity entity = AdminInfoEntity.toEntity(adminRequestDTO);
-        Integer sid = adminInfoMapper.getAdminSid(entity);
+        AdminInfoVO adminInfoVO = new AdminInfoVO(adminRequestDTO);
+        Integer sid = adminInfoMapper.getAdminSid(adminInfoVO);
         return (sid != null) ? sid : -1;
     }
 
     private void updateAdminInfoBySid(AdminRequestDTO adminRequestDTO) {
-        AdminInfoEntity entity = AdminInfoEntity.toEntity(adminRequestDTO);
-        adminInfoMapper.updateAdminInfoBySid(entity);
+        AdminInfoVO adminInfoVO = new AdminInfoVO(adminRequestDTO);
+        adminInfoMapper.updateAdminInfoBySid(adminInfoVO);
     }
 
     private void updateAdminLoginAt(AdminRequestDTO adminRequestDTO) {
-        AdminInfoEntity entity = AdminInfoEntity.toEntity(adminRequestDTO);
-        adminInfoMapper.updateAdminLoginAt(entity);
+        AdminInfoVO adminInfoVO = new AdminInfoVO(adminRequestDTO);
+        adminInfoMapper.updateAdminLoginAt(adminInfoVO);
     }
 
     private int insertAdminInfo(AdminRequestDTO adminRequestDTO) {
-        AdminInfoEntity entity = AdminInfoEntity.toEntity(adminRequestDTO);
-        return adminInfoMapper.insertAdminInfo(entity);
+        AdminInfoVO adminInfoVO = new AdminInfoVO(adminRequestDTO);
+        return adminInfoMapper.insertAdminInfo(adminInfoVO);
     }
 
     private void deleteAdminInfo(List<Integer> sids) {
@@ -105,7 +93,7 @@ public class AdminInfoService {
      * </pre>
      *
      * @param adminRequestDTO {@link AdminRequestDTO} 계정 추가를 위한 정보
-     * @return 계정 추가 성공여부 (실패: -1 / 성공: admin_info.sid)
+     * @return 계정 추가 성공여부 (실패: -1 / 성공: tb_admin_info.sid)
      */
     public int insertAdmin(AdminRequestDTO adminRequestDTO) {
         int adminSid = getAdminSid(adminRequestDTO);

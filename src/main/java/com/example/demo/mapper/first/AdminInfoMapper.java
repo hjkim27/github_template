@@ -1,6 +1,6 @@
 package com.example.demo.mapper.first;
 
-import com.example.demo.bean.entity.AdminInfoEntity;
+import com.example.demo.bean.vo.AdminInfoVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -9,7 +9,7 @@ import java.util.List;
 @Mapper
 public interface AdminInfoMapper {
 
-    public AdminInfoEntity getAdminInfoSearch(AdminInfoEntity entity);
+    public AdminInfoVO getAdminInfoSearch(AdminInfoVO adminInfoVO);
 
     /**
      * <pre>
@@ -18,37 +18,37 @@ public interface AdminInfoMapper {
      *     - loginId, loginPw : 관리자 로그인 허용 확인
      * </pre>
      *
-     * @param entity
+     * @param adminInfoVO
      * @return
      */
-    public Integer getAdminSid(AdminInfoEntity entity);
+    public Integer getAdminSid(AdminInfoVO adminInfoVO);
 
     /**
      * <pre>
      *     관리자 정보 업데이트
      * </pre>
      *
-     * @param entity
+     * @param adminInfoVO
      */
-    public void updateAdminInfoBySid(AdminInfoEntity entity);
+    public void updateAdminInfoBySid(AdminInfoVO adminInfoVO);
 
     /**
      * <pre>
      *     관리자 접속 시간 업데이트
      * </pre>
      *
-     * @param entity
+     * @param adminInfoVO
      */
-    public void updateAdminLoginAt(AdminInfoEntity entity);
+    public void updateAdminLoginAt(AdminInfoVO adminInfoVO);
 
     /**
      * <pre>
      *     관리자 추가
      * </pre>
      *
-     * @param entity
+     * @param adminInfoVO
      */
-    public int insertAdminInfo(AdminInfoEntity entity);
+    public int insertAdminInfo(AdminInfoVO adminInfoVO);
 
     /**
      * <pre>
