@@ -6,7 +6,7 @@ import lombok.ToString;
 
 /**
  * <pre>
- *     admin_info
+ *     tb_admin_info
  *     - insert / update / select(요청)
  * </pre>
  *
