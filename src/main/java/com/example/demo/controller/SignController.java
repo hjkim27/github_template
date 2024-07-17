@@ -6,6 +6,7 @@ import com.example.demo.bean.dto.AjaxResponseDTO;
 import com.example.demo.config.GeneralConfig;
 import com.example.demo.service.AdminInfoService;
 import com.example.demo.util.LoginUtil;
+import com.hjkim27.util.enc.SHAUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -17,6 +18,7 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.security.NoSuchAlgorithmException;
 
 /**
  * <pre>
@@ -65,7 +67,7 @@ public class SignController {
     public AjaxResponseDTO signIn(
             HttpServletRequest request, HttpServletResponse response,
             AdminRequestDTO dto
-    ) {
+    ) throws NoSuchAlgorithmException {
         log.info(GeneralConfig.START);
         log.debug("parameter : {}", dto);
         AjaxResponseDTO responseDTO = new AjaxResponseDTO();
@@ -76,6 +78,11 @@ public class SignController {
 
         int adminSid = adminInfoService.getAdminSid(adminRequestIDCheck);
         if (adminSid > 0) {
+            // 비밀번호 암호화
+            String passwd = dto.getLoginPw();
+            String encPasswd = SHAUtils.get256EncryptWithSalt(passwd);
+            dto.setLoginPw(encPasswd);
+
             adminSid = adminInfoService.getAdminSid(dto);
             if (adminSid > 0) {
                 LoginUtil.setLogin(request, response, adminSid);
@@ -120,7 +127,7 @@ public class SignController {
     public AjaxResponseDTO signUp(
             HttpServletRequest request, HttpServletResponse response,
             AdminRequestDTO dto
-    ) {
+    ) throws NoSuchAlgorithmException {
         log.info(GeneralConfig.START);
         log.debug("parameter : {}", dto);
 
@@ -140,6 +147,11 @@ public class SignController {
             }
             // 아이디 사용 가능
             else {
+                // 비밀번호 암호화
+                String passwd = dto.getLoginPw();
+                String encPasswd = SHAUtils.get256EncryptWithSalt(passwd);
+                dto.setLoginPw(encPasswd);
+
                 int insertLoginId = adminInfoService.insertAdmin(dto);
                 // 계정 추가 성공
                 if (insertLoginId > 0) {
