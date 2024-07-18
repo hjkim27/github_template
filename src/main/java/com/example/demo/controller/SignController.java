@@ -6,6 +6,7 @@ import com.example.demo.bean.dto.AjaxResponseDTO;
 import com.example.demo.config.GeneralConfig;
 import com.example.demo.service.AdminInfoService;
 import com.example.demo.util.LoginUtil;
+import com.hjkim27.exception.EncodingException;
 import com.hjkim27.util.enc.SHAUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -67,7 +68,7 @@ public class SignController {
     public AjaxResponseDTO signIn(
             HttpServletRequest request, HttpServletResponse response,
             AdminRequestDTO dto
-    ) throws NoSuchAlgorithmException {
+    ) {
         log.info(GeneralConfig.START);
         log.debug("parameter : {}", dto);
         AjaxResponseDTO responseDTO = new AjaxResponseDTO();
@@ -76,24 +77,31 @@ public class SignController {
         AdminRequestDTO adminRequestIDCheck = new AdminRequestDTO();
         adminRequestIDCheck.setLoginId(dto.getLoginId());
 
-        int adminSid = adminInfoService.getAdminSid(adminRequestIDCheck);
-        if (adminSid > 0) {
-            // 비밀번호 암호화
-            String passwd = dto.getLoginPw();
-            String encPasswd = SHAUtils.get256EncryptWithSalt(passwd);
-            dto.setLoginPw(encPasswd);
-
-            adminSid = adminInfoService.getAdminSid(dto);
+        try {
+            int adminSid = adminInfoService.getAdminSid(adminRequestIDCheck);
             if (adminSid > 0) {
-                LoginUtil.setLogin(request, response, adminSid);
-                responseDTO.setUrl(request.getContextPath() + GeneralConfig.MAIN_URL);
-                signMessageEnum = SignMessageEnum.SUCCESS;
+                // 비밀번호 암호화
+                String passwd = dto.getLoginPw();
+
+                String encPasswd = SHAUtils.get256EncryptWithSalt(passwd, GeneralConfig.ENC_SALT);
+                dto.setLoginPw(encPasswd);
+
+                adminSid = adminInfoService.getAdminSid(dto);
+                if (adminSid > 0) {
+                    LoginUtil.setLogin(request, response, adminSid);
+                    responseDTO.setUrl(request.getContextPath() + GeneralConfig.MAIN_URL);
+                    signMessageEnum = SignMessageEnum.SUCCESS;
+                } else {
+                    signMessageEnum = SignMessageEnum.NOT_MATCH_PASSWORD;
+                }
             } else {
-                signMessageEnum = SignMessageEnum.NOT_MATCH_PASSWORD;
+                signMessageEnum = SignMessageEnum.NOT_EXIST_USER;
             }
-        } else {
-            signMessageEnum = SignMessageEnum.NOT_EXIST_USER;
+        } catch (EncodingException e) {
+            log.error("failed password encrypt!!!");
+            signMessageEnum = SignMessageEnum.FAIL;
         }
+
         responseDTO.setSignMessage(signMessageEnum);
         log.debug("return : {}", responseDTO);
 
@@ -140,28 +148,34 @@ public class SignController {
             AdminRequestDTO adminRequestIDCheck = new AdminRequestDTO();
             adminRequestIDCheck.setLoginId(dto.getLoginId());
 
-            int adminSid = adminInfoService.getAdminSid(adminRequestIDCheck);
-            // 아이디 사용 불가
-            if (adminSid > 0) {
-                signMessageEnum = SignMessageEnum.UNABLE_USER_ID;
-            }
-            // 아이디 사용 가능
-            else {
-                // 비밀번호 암호화
-                String passwd = dto.getLoginPw();
-                String encPasswd = SHAUtils.get256EncryptWithSalt(passwd);
-                dto.setLoginPw(encPasswd);
-
-                int insertLoginId = adminInfoService.insertAdmin(dto);
-                // 계정 추가 성공
-                if (insertLoginId > 0) {
-                    LoginUtil.setLogin(request, response, insertLoginId);
-                    signMessageEnum = SignMessageEnum.SUCCESS;
+            try {
+                int adminSid = adminInfoService.getAdminSid(adminRequestIDCheck);
+                // 아이디 사용 불가
+                if (adminSid > 0) {
+                    signMessageEnum = SignMessageEnum.UNABLE_USER_ID;
                 }
-                // 계정 추가 실패
+                // 아이디 사용 가능
                 else {
-                    signMessageEnum = SignMessageEnum.FAILED_REGISTER_USER;
+                    // 비밀번호 암호화
+                    String passwd = dto.getLoginPw();
+
+                    String encPasswd = SHAUtils.get256EncryptWithSalt(passwd, GeneralConfig.ENC_SALT);
+                    dto.setLoginPw(encPasswd);
+
+                    int insertLoginId = adminInfoService.insertAdmin(dto);
+                    // 계정 추가 성공
+                    if (insertLoginId > 0) {
+                        LoginUtil.setLogin(request, response, insertLoginId);
+                        signMessageEnum = SignMessageEnum.SUCCESS;
+                    }
+                    // 계정 추가 실패
+                    else {
+                        signMessageEnum = SignMessageEnum.FAILED_REGISTER_USER;
+                    }
                 }
+            } catch (EncodingException e) {
+                log.error("failed password encrypt!!!");
+                signMessageEnum = SignMessageEnum.FAIL;
             }
         }
         // 비밀번호 불일치

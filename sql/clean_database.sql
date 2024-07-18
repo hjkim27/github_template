@@ -18,7 +18,7 @@ create table tb_admin_info
 
 -- admin / privacy
 insert into tb_admin_info (login_id, login_pw, name)
-values ('admin', 'a4cc6bc01a927e2a78fd3bec51e865ac0d85e4daab6f988d5d33d056e125b1c3', '관리자');
+values ('admin', 'ca56ea33be18cc9ad3701ba63a11e676866e7deefd42a27d579f4284b6e064f0', '관리자');
 
 -- 설정정보
 create table tb_setting_info

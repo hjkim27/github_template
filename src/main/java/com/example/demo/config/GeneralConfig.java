@@ -12,6 +12,9 @@ public class GeneralConfig {
         return new ModelMapper();
     }
 
+    // SHA 암호화 salt 문자열
+    public static final String ENC_SALT = "hjkim27projectSalt!@##";
+
     public static final String START = "START";
 
     /**
