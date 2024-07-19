@@ -48,7 +48,7 @@ public class SignController {
         log.info(GeneralConfig.START);
         ModelAndView mav = new ModelAndView("/sign/signIn");
         if (LoginUtil.isLogin(request)) {
-            return new ModelAndView(new RedirectView(request.getContextPath() + GeneralConfig.MAIN_URL));
+            return new ModelAndView(new RedirectView(request.getContextPath() + GeneralConfig.HOME_URL));
         }
         return mav;
     }
@@ -89,7 +89,7 @@ public class SignController {
                 adminSid = adminInfoService.getAdminSid(dto);
                 if (adminSid > 0) {
                     LoginUtil.setLogin(request, response, adminSid);
-                    responseDTO.setUrl(request.getContextPath() + GeneralConfig.MAIN_URL);
+                    responseDTO.setUrl(request.getContextPath() + GeneralConfig.HOME_URL);
                     signMessageEnum = SignMessageEnum.SUCCESS;
                 } else {
                     signMessageEnum = SignMessageEnum.NOT_MATCH_PASSWORD;

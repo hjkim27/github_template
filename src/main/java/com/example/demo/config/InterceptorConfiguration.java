@@ -33,7 +33,7 @@ public class InterceptorConfiguration implements WebMvcConfigurer {
 
     public static final String[] EXCLUDE_URL_PATTERNS = {
             "/sign/**",
-            "/main/**",
+            "/home/**",
             "/sse/**"
     };
 

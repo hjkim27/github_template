@@ -15,15 +15,17 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum SignMessageEnum {
     // 비밀번호 불일치
-    NOT_MATCH_PASSWORD(-2, "password does not matched", false),
+    NOT_MATCH_PASSWORD(-1, "password does not matched", false),
     // 존재하지 않는 사용자
-    NOT_EXIST_USER(-1, "does not exist user", false),
+    NOT_EXIST_USER(-2, "does not exist user", false),
     // 사용 불가능한 ID
-    UNABLE_USER_ID(-10, "does not available entered loginId", false),
+    UNABLE_USER_ID(-3, "does not available entered loginId", false),
     // 사용자 등록 실패
-    FAILED_REGISTER_USER(-11, "Unable to register account. (Account definition exists)", false),
+    FAILED_REGISTER_USER(-4, "Unable to register account. (Account definition exists)", false),
     // 성공
-    SUCCESS(0, "success", true);
+    SUCCESS(0, "success", true),
+    // 성공
+    FAIL(0, "occurs Encoding exception!!", true);
 
     // 에러코드
     final int status;

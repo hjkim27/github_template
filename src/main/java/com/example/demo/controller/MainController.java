@@ -24,10 +24,10 @@ public class MainController {
      * @param request {@link HttpServletRequest}
      * @return {@link ModelAndView}
      */
-    @RequestMapping("/main")
-    public ModelAndView boardMain(HttpServletRequest request) {
+    @RequestMapping("/home")
+    public ModelAndView home(HttpServletRequest request) {
         log.info(GeneralConfig.START);
-        ModelAndView mav = new ModelAndView("/board/main");
+        ModelAndView mav = new ModelAndView("/projectRepository/main");
         if (!LoginUtil.isLogin(request)) {
             mav.setViewName("/main");
         }
@@ -36,6 +36,6 @@ public class MainController {
 
     @RequestMapping("/")
     public ModelAndView main(HttpServletRequest request) {
-        return new ModelAndView(new RedirectView(request.getContextPath() + GeneralConfig.MAIN_URL));
+        return new ModelAndView(new RedirectView(request.getContextPath() + GeneralConfig.HOME_URL));
     }
 }

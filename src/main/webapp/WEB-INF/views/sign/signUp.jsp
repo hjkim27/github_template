@@ -34,7 +34,7 @@
     </div>
     <div class="grid-column2">
       <button class="bg-blue" onclick="signUp()">등록</button>
-      <button class="bg-white" onclick="location.href='${contextPath}<%=GeneralConfig.MAIN_URL%>'">등록취소</button>
+      <button class="bg-white" onclick="location.href='${contextPath}<%=GeneralConfig.HOME_URL%>'">등록취소</button>
     </div>
   </div>
 </div>

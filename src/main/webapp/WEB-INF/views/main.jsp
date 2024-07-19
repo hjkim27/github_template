@@ -10,7 +10,7 @@
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 <html>
 <head>
-    <title>hjkim27.Daily</title>
+    <title>hjkim27.github</title>
     <script type="text/javascript" src="${contextPath}/static/js/jquery-3.7.1.min.js"></script>
     <link rel="stylesheet" type="text/css" href="${contextPath}/static/css/main.css">
 </head>
