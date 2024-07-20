@@ -32,7 +32,7 @@
     <div>
       <input id="loginPwCheck" type="password" data-name="비밀번호확인" placeholder="비밀번호확인"/>
     </div>
-    <div class="grid-column2">
+    <div class="grid-gap-10 grid-column-1-1">
       <button class="bg-blue" onclick="signUp()">등록</button>
       <button class="bg-white" onclick="location.href='${contextPath}<%=GeneralConfig.HOME_URL%>'">등록취소</button>
     </div>

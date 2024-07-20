@@ -11,7 +11,7 @@
 <html>
 <head>
     <title>hjkim27.Daily</title>
-    <link rel="stylesheet" type="text/css" href="${contextPath}/static/css/login.css">
+    <link rel="stylesheet" type="text/css" href="${contextPath}/static/css/sign.css">
     <script type="text/javascript" src="${contextPath}/static/js/jquery-3.7.1.min.js"></script>
 </head>
 <body>

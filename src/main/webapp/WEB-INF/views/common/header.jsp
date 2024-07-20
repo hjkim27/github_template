@@ -11,10 +11,23 @@
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 
 <link rel="stylesheet" type="text/css" href="${contextPath}/static/css/main.css">
-
+<style>
+    .menu-button {
+        width: 100px;
+        height: 40px;
+        margin-top: 20px;
+        border-radius: 5px 5px 0 0;
+    }
+</style>
 <div class="">
     <img style="max-height: 40px;" src="${contextPath}/static/img/logo/logo2.png">
 </div>
 <div class="align-right">
     <button class="default br-dark-blue bg-white" onclick="location.href='${contextPath}<%=GeneralConfig.SIGN_UP_URL%>'">Profile</button>
+</div>
+<div style="grid-column: 1/3; display: flex">
+    <button class="bg-white-hover-blue border-none menu-button">menu1</button>
+    <button class="bg-white-hover-blue border-none menu-button">menu2</button>
+    <button class="bg-white-hover-blue border-none menu-button">menu3</button>
+    <button class="bg-white-hover-blue border-none menu-button">menu4</button>
 </div>

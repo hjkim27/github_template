@@ -12,11 +12,11 @@ input {
 }
 
 input:focus {
-    border: 2px solid var(--blue-scale-7);
+    border: 2px solid var(--blue-scale-2);
 }
 
 input::placeholder {
-    color: var(--blue-scale-7);
+    color: var(--blue-scale-2);
 }
 
 a:hover {

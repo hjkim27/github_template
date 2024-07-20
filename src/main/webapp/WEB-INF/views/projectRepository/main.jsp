@@ -12,12 +12,17 @@
 </head>
 <body>
 <div class="container">
-    <div class="header">
-        <jsp:include page="../common/header.jsp"/>
+<div class="header">
+    <jsp:include page="../common/header.jsp"/>
+</div>
+<div class="wrapper grid-gap-10 grid-column-1-2">
+    <div class="" style="border: 1px solid #5b676d; height: 100vh;">
+        <jsp:include page="../common/profile.jsp"/>
     </div>
-    <div>
+    <div class="" style="border: 1px solid #5b676d;  height: 100%;">
 
     </div>
+</div>
 </div>
 </body>
 </html>
