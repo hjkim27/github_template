@@ -65,6 +65,10 @@ a, a:visited, a:link, a:active {
     background-color: var(--blue-scale-2);
 }
 
+.br-dark-blue {
+    border: 1px solid var(--blue-scale-2);
+}
+
 .bg-blue {
     background-color: var(--blue-scale-7);
     color: var(--gray-scale-8);
@@ -75,11 +79,11 @@ a, a:visited, a:link, a:active {
 }
 
 .bg-white {
-    background-color: var(--gray-scale-8);
+    background-color: var(--gray-scale-9);
 }
 
 .bg-white:hover {
-    background-color: var(--gray-scale-6);
+    background-color: var(--gray-scale-8);
 }
 
 .grid-column2 {

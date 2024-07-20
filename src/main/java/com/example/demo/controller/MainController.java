@@ -27,7 +27,7 @@ public class MainController {
     @RequestMapping("/home")
     public ModelAndView home(HttpServletRequest request) {
         log.info(GeneralConfig.START);
-        ModelAndView mav = new ModelAndView("/projectRepository/main");
+        ModelAndView mav = new ModelAndView(new RedirectView(request.getContextPath() + "/projectRepository/main"));
         if (!LoginUtil.isLogin(request)) {
             mav.setViewName("/main");
         }
