@@ -11,7 +11,6 @@
 <html>
 <head>
     <title>hjkim27.github</title>
-    <script type="text/javascript" src="${contextPath}/static/js/jquery-3.7.1.min.js"></script>
 </head>
 <body class="bg-dark-blue">
 <div class="container">

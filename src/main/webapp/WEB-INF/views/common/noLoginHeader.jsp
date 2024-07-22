@@ -11,9 +11,10 @@
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 
 <link rel="stylesheet" type="text/css" href="${contextPath}/static/css/main.css">
+<script type="text/javascript" src="${contextPath}/static/js/jquery-3.7.1.min.js"></script>
 
 <div class="">
-    <img style="max-height: 40px;" src="${contextPath}/static/img/logo/logo2.png">
+    <img style="max-height: 40px; filter: invert()" src="${contextPath}/static/img/logo/logo2-clean.png">
 </div>
 <div class="align-right">
     <button class="default sign border-none" onclick="location.href='${contextPath}<%=GeneralConfig.SIGN_IN_URL%>'">Sign in</button>

@@ -38,6 +38,32 @@ button.sign {
     border: 1px solid var(--gray-scale-9)
 }
 
+.profile-img-div {
+    height: var(--size-300);
+    width: var(--size-300);
+    border-radius: 50%;
+    border: 1px solid #3d4963;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+}
+
+.profile-img {
+    max-height: var(--size-300);
+}
+
+.profile {
+    margin: 50px;
+    display: grid;
+    justify-content: center
+}
+
+.profile > button {
+    height: 50px;
+    font-size: 20px;
+    margin-top: 20px;
+}
+
 /* id =================================================== */
 #logo img {
     max-height: 20px;
