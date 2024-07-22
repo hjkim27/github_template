@@ -79,7 +79,6 @@
 
     <logger name="com.example.demo" level="${LOG_LEVEL}" additive="false">
         <appender-ref ref="ETC_FILE"/>
-        <appender-ref ref="STDOUT"/>
     </logger>
     <logger name="WEB_LOGGER" level="${LOG_LEVEL}" additive="false">
         <appender-ref ref="WEB_FILE"/>
