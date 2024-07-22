@@ -18,9 +18,14 @@ public class GeneralConfig {
     public static final String START = "START";
 
     /**
+     * HOME
+     */
+    public static final String HOME_URL = "/home";
+
+    /**
      * 메인페이지
      */
-    public static final String HOME_URL = "/projectRepository/main";
+    public static final String REPO_URL = "/projectRepository/main";
 
     /**
      * 로그인페이지
