@@ -20,7 +20,7 @@ public class GeneralConfig {
     /**
      * 메인페이지
      */
-    public static final String HOME_URL = "/home";
+    public static final String HOME_URL = "/projectRepository/main";
 
     /**
      * 로그인페이지

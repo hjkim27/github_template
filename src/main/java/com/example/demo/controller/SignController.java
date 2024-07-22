@@ -108,6 +108,7 @@ public class SignController {
         return responseDTO;
     }
 
+    /*==================================================================*/
 
     /**
      * <pre>
@@ -188,4 +189,12 @@ public class SignController {
         return responseDTO;
     }
 
+    /*==================================================================*/
+
+    @RequestMapping(value = "sign/logout")
+    public ModelAndView logout(HttpServletRequest request, HttpServletResponse response) {
+        log.info(GeneralConfig.START);
+        LoginUtil.setLogout(request, response);
+        return new ModelAndView(new RedirectView(request.getContextPath() + GeneralConfig.HOME_URL));
+    }
 }

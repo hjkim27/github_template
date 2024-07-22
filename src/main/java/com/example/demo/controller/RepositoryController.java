@@ -1,7 +1,9 @@
 package com.example.demo.controller;
 
+import com.example.demo.config.GeneralConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -12,9 +14,23 @@ import javax.servlet.http.HttpServletResponse;
 @Controller
 public class RepositoryController {
 
-    @RequestMapping(value = "/projectRepository/main")
-    public ModelAndView projectRepository(HttpServletRequest request, HttpServletResponse response) {
-        return new ModelAndView("projectRepository/main");
-    }
+    /**
+     * <pre>
+     *     메인헤더에서 클릭한 메뉴페이지 url
+     * </pre>
+     *
+     * @param request
+     * @param response
+     * @param path
+     * @return
+     */
+    @RequestMapping(value = "/projectRepository/{path}")
+    public ModelAndView projectSelectMenu(HttpServletRequest request, HttpServletResponse response
+            , @PathVariable(required = false) String path) {
+        log.info(GeneralConfig.START);
+        ModelAndView mav = new ModelAndView("projectRepository/" + path);
+        mav.addObject("path", path);
 
+        return mav;
+    }
 }

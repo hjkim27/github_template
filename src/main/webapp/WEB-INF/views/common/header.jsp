@@ -11,6 +11,8 @@
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 
 <link rel="stylesheet" type="text/css" href="${contextPath}/static/css/main.css">
+<script type="text/javascript" src="${contextPath}/static/js/jquery-3.7.1.min.js"></script>
+
 <style>
     .menu-button {
         width: 100px;
@@ -20,14 +22,30 @@
     }
 </style>
 <div class="">
-    <img style="max-height: 40px;" src="${contextPath}/static/img/logo/logo2.png">
+    <img style="max-height: 40px;" src="${contextPath}/static/img/logo/logo2-clean.png">
 </div>
 <div class="align-right">
-    <button class="default br-dark-blue bg-white" onclick="location.href='${contextPath}<%=GeneralConfig.SIGN_UP_URL%>'">Profile</button>
+    <button class="default br-dark-blue bg-white" onclick="location.href='${contextPath}/sign/logout'">Profile</button>
 </div>
 <div style="grid-column: 1/3; display: flex">
-    <button class="bg-white-hover-blue border-none menu-button">menu1</button>
-    <button class="bg-white-hover-blue border-none menu-button">menu2</button>
-    <button class="bg-white-hover-blue border-none menu-button">menu3</button>
-    <button class="bg-white-hover-blue border-none menu-button">menu4</button>
+    <button class="bg-white-hover-blue border-none menu-button" onclick="showMenu('home')">home</button>
+    <button class="bg-white-hover-blue border-none menu-button" onclick="showMenu('repositories')">Repositories</button>
+    <button class="bg-white-hover-blue border-none menu-button" onclick="showMenu('labels')">Labels</button>
+    <button class="bg-white-hover-blue border-none menu-button" onclick="showMenu('settings')">Settings</button>
 </div>
+
+<script>
+    function showMenu(url){
+        console.log('${contextPath}/projectRepository/'+url);
+        $.ajax({
+            url: '${contextPath}/projectRepository/'+url,
+            type: 'get',
+            success: function (data){
+                $('#menuArea').html(data);
+            },
+            error: function (e){
+                console.log(e);
+            }
+        })
+    }
+</script>
