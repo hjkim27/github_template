@@ -22,6 +22,5 @@ public class SettingInfoVO {
     private String value;
     private String type;
     private String description;
-    private Integer adminSid;
 
 }

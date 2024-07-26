@@ -4,7 +4,7 @@ import lombok.*;
 
 /**
  * <pre>
- *     tb_repository_label table
+ *     tb_project_label table
  * </pre>
  *
  * @author hjkim27
@@ -15,12 +15,13 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class RepositoryLabelVO {
+public class ProjectLabelVO {
 
     private Integer sid;
-    private String labelName;
+    private String labelId;
+    private String name;
     private String description;
-    private String labelColor;
-    private String labelBgColor;
+    private String color;
+    private Boolean active;
 
 }

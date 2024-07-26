@@ -4,22 +4,21 @@ import lombok.*;
 
 /**
  * <pre>
- *     tb_repository_branch table
+ *     tb_project_owner_info table
  * </pre>
  *
  * @author hjkim27
- * @since 0.0.1-SNAPSHOT
+ * @since 0.0.1-SHAPSHOT
  */
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class RepositoryBranchVO {
+public class ProjectOwnerInfoVO {
 
     private Integer sid;
-    private String branchName;
-    private String description;
-    private Integer repositorySid;
-
+    private String login;
+    private String name;
+    private String htmlUrl;
 }

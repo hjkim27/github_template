@@ -5,7 +5,7 @@ import lombok.*;
 
 /**
  * <pre>
- *     tb_repository_issue table
+ *     tb_project_issue table
  * </pre>
  *
  * @author hjkim27
@@ -16,12 +16,15 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class RepositoryIssueVO {
+public class ProjectIssueVO {
 
     private Integer sid;
-    private String labels;
-    private String subject;
-    private String content;
     private Integer repositorySid;
+    private String labelSids;
+    private String state;
+    private Integer number;
+    private String title;
+    private String body;
+    private Boolean active;
 
 }
