@@ -57,23 +57,23 @@ public class AdminInfoService {
      * @return
      */
     public int getAdminSid(AdminRequestDTO adminRequestDTO) {
-        AdminInfoVO adminInfoVO = new AdminInfoVO(adminRequestDTO);
+        AdminInfoVO adminInfoVO = modelMapper.map(adminRequestDTO, AdminInfoVO.class);
         Integer sid = adminInfoMapper.getAdminSid(adminInfoVO);
         return (sid != null) ? sid : -1;
     }
 
     private void updateAdminInfoBySid(AdminRequestDTO adminRequestDTO) {
-        AdminInfoVO adminInfoVO = new AdminInfoVO(adminRequestDTO);
+        AdminInfoVO adminInfoVO = modelMapper.map(adminRequestDTO, AdminInfoVO.class);
         adminInfoMapper.updateAdminInfoBySid(adminInfoVO);
     }
 
     private void updateAdminLoginAt(AdminRequestDTO adminRequestDTO) {
-        AdminInfoVO adminInfoVO = new AdminInfoVO(adminRequestDTO);
+        AdminInfoVO adminInfoVO = modelMapper.map(adminRequestDTO, AdminInfoVO.class);
         adminInfoMapper.updateAdminLoginAt(adminInfoVO);
     }
 
     private int insertAdminInfo(AdminRequestDTO adminRequestDTO) {
-        AdminInfoVO adminInfoVO = new AdminInfoVO(adminRequestDTO);
+        AdminInfoVO adminInfoVO = modelMapper.map(adminRequestDTO, AdminInfoVO.class);
         return adminInfoMapper.insertAdminInfo(adminInfoVO);
     }
 

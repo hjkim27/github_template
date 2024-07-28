@@ -42,9 +42,4 @@ public final class AdminInfoVO {
         this.sid = sid;
     }
 
-    public AdminInfoVO(AdminRequestDTO dto){
-        this.loginId = dto.getLoginId();
-        this.loginPw = dto.getLoginPw();
-        this.name = dto.getName();
-    }
 }
