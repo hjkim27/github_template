@@ -1,15 +1,13 @@
 package com.example.demo.util;
 
+import com.example.demo.bean.dto.project.ProjectLabelDTO;
 import com.example.demo.config.GeneralConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.kohsuke.github.*;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 
 @Slf4j
 public class GitUtil {
@@ -50,6 +48,55 @@ public class GitUtil {
         }
 
         return commits._iterator(1);
+    }
+
+    /**
+     * <pre>
+     *     labels 연동
+     *     FIXME 수정 필요.
+     * </pre>
+     *
+     * @return
+     * @throws IOException
+     */
+    public static List<ProjectLabelDTO> getLabels() throws IOException {
+        log.info(GeneralConfig.START);
+        try {
+            connectToGithub(token);
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+        }
+
+        GHSearchBuilder builder = gitHub.searchCommits()
+                .authorEmail(userId)
+                .sort(GHCommitSearchBuilder.Sort.AUTHOR_DATE);
+
+        PagedSearchIterable<GHCommit> commits = builder.list();
+
+        Iterator<GHCommit> it = commits.iterator();
+        int i = 0;
+        List<ProjectLabelDTO> list = new ArrayList<>();
+        while (it.hasNext()) {
+            GHCommit commit = it.next();
+
+            PagedIterable<GHLabel> labels = commit.getOwner().listLabels();
+            Iterator it2 = labels.iterator();
+
+            log.info("labels ==========");
+            while (it2.hasNext()) {
+                GHLabel label = (GHLabel) it2.next();
+                ProjectLabelDTO dto = new ProjectLabelDTO();
+                dto.setLabelId(label.getId());
+                dto.setName(label.getName());
+                dto.setDescription(label.getDescription());
+                dto.setColor(label.getColor());
+                list.add(dto);
+                log.debug(dto.toString());
+            }
+            log.info("labelCount : {}", list.size());
+            break;
+        }
+        return list;
     }
 
     public static void getCommits2() throws IOException {

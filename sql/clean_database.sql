@@ -71,11 +71,11 @@ create table tb_project_commit
 create table tb_project_label
 (
     sid         serial,
-    label_id    character varying(15) unique not null, -- commit.owner.listLabels(n).id
-    name        character varying(15) unique not null, -- commit.owner.listLabels(n).name
-    description character varying(15) unique not null, -- commit.owner.listLabels(n).description
-    color       character varying(15) unique not null, -- commit.owner.listLabels(n).color
-    active      boolean                      not null default true
+    label_id    bigint unique                 not null, -- commit.owner.listLabels(n).id
+    name        character varying(100) unique not null, -- commit.owner.listLabels(n).name
+    description character varying(100) unique not null, -- commit.owner.listLabels(n).description
+    color       character varying(15) unique  not null, -- commit.owner.listLabels(n).color
+    active      boolean                       not null default true
 );
 
 -- issue
