@@ -1,4 +1,4 @@
-package com.example.demo.bean.vo;
+package com.example.demo.bean.vo.project;
 
 import com.example.demo.bean.dto.project.ProjectLabelDTO;
 import lombok.*;

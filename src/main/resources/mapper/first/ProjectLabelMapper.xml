@@ -4,14 +4,14 @@
 <mapper namespace="com.example.demo.mapper.first.ProjectLabelMapper">
 
     <!-- label 정보 추가 -->
-    <insert id="insertLabel" parameterType="com.example.demo.bean.vo.ProjectLabelVO"
+    <insert id="insertLabel" parameterType="com.example.demo.bean.vo.project.ProjectLabelVO"
             keyProperty="labelId" keyColumn="label_id">
         insert into tb_project_label (label_id, name, description, color)
         values (#{labelId}, #{name}, #{description}, #{color});
     </insert>
 
     <!-- label 정보 수정 -->
-    <update id="updateLabel" parameterType="com.example.demo.bean.vo.ProjectLabelVO">
+    <update id="updateLabel" parameterType="com.example.demo.bean.vo.project.ProjectLabelVO">
         update tb_project_label
         set name        = #{name},
             description = #{description},

@@ -1,6 +1,6 @@
 package com.example.demo.mapper.first;
 
-import com.example.demo.bean.vo.ProjectLabelVO;
+import com.example.demo.bean.vo.project.ProjectLabelVO;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
