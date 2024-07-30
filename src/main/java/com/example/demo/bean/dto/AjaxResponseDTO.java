@@ -1,6 +1,6 @@
 package com.example.demo.bean.dto;
 
-import com.example.demo.bean.SignMessageEnum;
+import com.example.demo.bean.type.SignMessageEnum;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;

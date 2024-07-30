@@ -4,6 +4,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.text.SimpleDateFormat;
+
 @Configuration
 public class GeneralConfig {
 
@@ -36,4 +38,12 @@ public class GeneralConfig {
      * 가입페이지
      */
     public static final String SIGN_UP_URL = "/sign/sign-up";
+
+
+    /**
+     * <pre>
+     *     format : yyyy-MM-dd
+     * </pre>
+     */
+    public static SimpleDateFormat yyyyMMddFormat = new SimpleDateFormat("yyyy-MM-dd");
 }

@@ -1,6 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.bean.SignMessageEnum;
+import com.example.demo.bean.type.SignMessageEnum;
 import com.example.demo.bean.dto.AdminRequestDTO;
 import com.example.demo.bean.dto.AjaxResponseDTO;
 import com.example.demo.config.GeneralConfig;
