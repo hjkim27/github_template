@@ -14,7 +14,7 @@ public interface ProjectLabelMapper {
      * @param projectLabelVO
      * @return
      */
-    public Long insertLabel(ProjectLabelVO projectLabelVO);
+    public Long insertRow(ProjectLabelVO projectLabelVO);
 
     /**
      * <pre>
@@ -26,7 +26,7 @@ public interface ProjectLabelMapper {
      * @param projectLabelVO
      * @return
      */
-    public Integer updateLabel(ProjectLabelVO projectLabelVO);
+    public Integer updateRow(ProjectLabelVO projectLabelVO);
 
     /**
      * <pre>
@@ -35,7 +35,7 @@ public interface ProjectLabelMapper {
      *
      * @return
      */
-    public Integer updateLabelActiveFalse();
+    public Integer updateActiveFalse();
 
     /**
      * <pre>
@@ -46,5 +46,5 @@ public interface ProjectLabelMapper {
      * @param labelId
      * @return
      */
-    public Boolean isExistLabel(Long labelId);
+    public Boolean isExistRow(Long labelId);
 }

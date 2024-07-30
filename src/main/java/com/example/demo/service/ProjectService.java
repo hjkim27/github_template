@@ -28,16 +28,16 @@ public class ProjectService {
      * @param labelDTOList
      */
     public void insertLabels(List<ProjectLabelDTO> labelDTOList) {
-        projectLabelMapper.updateLabelActiveFalse();
+        projectLabelMapper.updateActiveFalse();
         for (ProjectLabelDTO dto : labelDTOList) {
             ProjectLabelVO vo = modelMapper.map(dto, ProjectLabelVO.class);
 
-            boolean isExistLabel = projectLabelMapper.isExistLabel(vo.getLabelId());
+            boolean isExistLabel = projectLabelMapper.isExistRow(vo.getLabelId());
             if (isExistLabel) {
-                projectLabelMapper.updateLabel(vo);
+                projectLabelMapper.updateRow(vo);
                 log.info("update >> labelId : {}", vo.getLabelId());
             } else {
-                projectLabelMapper.insertLabel(vo);
+                projectLabelMapper.insertRow(vo);
                 log.info("insert >> labelId : {}", vo.getLabelId());
             }
         }
