@@ -84,7 +84,7 @@ create table tb_project_issue
 (
     sid            serial,
     repository_sid integer              not null,                -- tb_project_repository.sid
-    label_sids     character varying    not null,                -- tb_project_label.sid.join(',')
+    label_ids      character varying    not null,                -- tb_project_label.label_id.join(',')
     state          character varying(6) not null default 'OPEN', -- issue.state
     number         integer              not null,                -- issue.number
     title          character varying    not null,                -- issue.title

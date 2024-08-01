@@ -1,5 +1,7 @@
 package com.example.demo.util;
 
+import com.example.demo.bean.dto.project.ProjectCommentDTO;
+import com.example.demo.bean.dto.project.ProjectIssueDTO;
 import com.example.demo.bean.dto.project.ProjectLabelDTO;
 import com.example.demo.bean.dto.project.ProjectRepositoryDTO;
 import com.example.demo.bean.type.CompareSignEnum;
@@ -158,6 +160,60 @@ public class GitUtil {
             }
         }
         log.info("projectCount : {}", list.size());
+        return list;
+    }
+
+    /**
+     * <pre>
+     *     프로젝트에 등록된 issue 및 그 issue 의 comment, label 목록 조회
+     * </pre>
+     *
+     * @return
+     * @throws IOException
+     */
+    public List<ProjectIssueDTO> getIssues() throws IOException {
+        PagedSearchIterable<GHCommit> commits = getCommits(TimeUtil.getBeforeNDays(TimeUtil.DateFormat.yyyy_MM_dd, -7));
+        Iterator<GHCommit> it = commits.iterator();
+
+        List<ProjectIssueDTO> list = new ArrayList<>();
+
+        log.info("== tb_project_issue ==========");
+        if (it.hasNext()) {
+            GHCommit commit = it.next();
+            List<GHIssue> issues = commit.getOwner().getIssues(GHIssueState.ALL);
+            for (GHIssue issue : issues) {
+                log.info("issue : {}", issue);
+                ProjectIssueDTO dto = new ProjectIssueDTO();
+                dto.setState(issue.getState().name());
+                dto.setNumber(issue.getNumber());
+                dto.setTitle(issue.getTitle());
+                dto.setBody(issue.getBody());
+
+                List<ProjectCommentDTO> commentDTOList = new ArrayList<>();
+                List<GHIssueComment> comments = issue.getComments();
+                for (GHIssueComment comment : comments) {
+                    log.info("comment : {]", comment);
+                    ProjectCommentDTO commentDTO = new ProjectCommentDTO();
+                    commentDTO.setCommentId(comment.getId());
+                    commentDTO.setBody(comment.getBody());
+                    commentDTO.setParentCommentId(comment.getParent().getId());
+                    commentDTO.setCreatedAt(comment.getCreatedAt());
+                    commentDTO.setUpdatedAt(comment.getUpdatedAt());
+                    commentDTOList.add(commentDTO);
+                }
+                dto.setCommentList(commentDTOList);
+
+                log.info("-----------");
+                List<Long> labelIds = new ArrayList<>();
+                Collection<GHLabel> labels = issue.getLabels();
+                for (GHLabel label : labels) {
+                    log.info("label : {}", label);
+                    labelIds.add(label.getId());
+                }
+                dto.setLabelIds(labelIds);
+                list.add(dto);
+            }
+        }
         return list;
     }
 
