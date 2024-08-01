@@ -99,7 +99,7 @@ public class GitUtil {
 
         List<ProjectLabelDTO> list = new ArrayList<>();
         log.info("labels ==========");
-        while (it.hasNext()) {
+        if (it.hasNext()) {
             GHCommit commit = it.next();
 
             PagedIterable<GHLabel> labels = commit.getOwner().listLabels();
@@ -116,7 +116,6 @@ public class GitUtil {
                 log.debug("label : {]", dto.toString());
             }
             log.info("labelCount : {}", list.size());
-            break;
         }
         return list;
     }
