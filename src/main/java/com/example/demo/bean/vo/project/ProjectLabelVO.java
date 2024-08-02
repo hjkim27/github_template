@@ -9,7 +9,7 @@ import lombok.*;
  * </pre>
  *
  * @author hjkim27
- * @since 0.0.1-SNAPSHOT
+ * @since 24.07.16
  */
 @Getter
 @Setter

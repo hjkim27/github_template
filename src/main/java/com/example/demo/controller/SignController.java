@@ -1,11 +1,11 @@
 package com.example.demo.controller;
 
-import com.example.demo.bean.type.SignMessageEnum;
 import com.example.demo.bean.dto.AdminRequestDTO;
 import com.example.demo.bean.dto.AjaxResponseDTO;
+import com.example.demo.bean.type.SignMessageEnum;
 import com.example.demo.config.GeneralConfig;
 import com.example.demo.service.AdminInfoService;
-import com.example.demo.util.LoginUtil;
+import com.example.demo.util.login.LoginUtil;
 import com.hjkim27.exception.EncodingException;
 import com.hjkim27.util.enc.SHAUtils;
 import lombok.RequiredArgsConstructor;

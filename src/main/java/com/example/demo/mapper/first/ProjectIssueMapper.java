@@ -3,6 +3,13 @@ package com.example.demo.mapper.first;
 import com.example.demo.bean.vo.project.ProjectIssueVO;
 import org.apache.ibatis.annotations.Mapper;
 
+
+/**
+ * tb_project_issue mapper class
+ *
+ * @author hjkim27
+ * @since 24.08.02
+ */
 @Mapper
 public interface ProjectIssueMapper {
 

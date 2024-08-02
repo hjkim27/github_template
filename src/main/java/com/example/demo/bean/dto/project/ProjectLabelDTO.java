@@ -7,7 +7,8 @@ import lombok.*;
  *     tb_project_label
  * </pre>
  *
- * @since 0.0.1-SNAPSHOT
+ * @author hjkim27
+ * @since 24.07.18
  */
 @Getter
 @Setter

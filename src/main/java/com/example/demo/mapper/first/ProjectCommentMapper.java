@@ -3,6 +3,12 @@ package com.example.demo.mapper.first;
 import com.example.demo.bean.vo.project.ProjectCommentVO;
 import org.apache.ibatis.annotations.Mapper;
 
+/**
+ * tb_project_comment mapper class
+ *
+ * @author hjkim27
+ * @since 24.08.02
+ */
 @Mapper
 public interface ProjectCommentMapper {
 

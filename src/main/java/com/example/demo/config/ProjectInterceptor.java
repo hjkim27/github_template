@@ -1,6 +1,6 @@
 package com.example.demo.config;
 
-import com.example.demo.util.LoginUtil;
+import com.example.demo.util.login.LoginUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.servlet.HandlerInterceptor;
 

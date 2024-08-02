@@ -5,6 +5,12 @@ import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
+/**
+ * tb_project_label mapper class
+ *
+ * @author hjkim27
+ * @since 24.07.28
+ */
 @Mapper
 public interface ProjectLabelMapper {
 
