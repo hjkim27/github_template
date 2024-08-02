@@ -84,12 +84,11 @@ create table tb_project_issue
 (
     sid            serial,
     repository_sid integer              not null,                -- tb_project_repository.sid
-    label_ids      character varying    not null,                -- tb_project_label.label_id.join(',')
+    label_ids      character varying,                            -- tb_project_label.label_id.join(',')
     state          character varying(6) not null default 'OPEN', -- issue.state
-    number         integer              not null,                -- issue.number
+    issue_number   integer              not null,                -- issue.number
     title          character varying    not null,                -- issue.title
-    body           character varying    not null,                -- issue.body
-    active         boolean              not null default true
+    body           character varying                             -- issue.body
 );
 
 -- comment
@@ -97,7 +96,7 @@ create table tb_project_issue
 create table tb_project_comment
 (
     sid               serial,
-    issue_sid         Integer           not null, -- tb_project_issue.sid
+    issue_number      Integer           not null, -- tb_project_issue.number
     comment_id        character varying not null, -- comment.id
     body              text              not null, -- comment.body
     parent_comment_id character varying,          -- comment.parent.id

@@ -19,6 +19,7 @@ import java.util.Date;
 @ToString
 public class ProjectCommentDTO {
 
+    private Integer issueNumber;
     private Long commentId;
     private String body;
     private Long parentCommentId;

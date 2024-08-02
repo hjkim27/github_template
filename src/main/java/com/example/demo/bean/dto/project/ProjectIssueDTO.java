@@ -18,10 +18,15 @@ import java.util.List;
 @AllArgsConstructor
 @ToString
 public class ProjectIssueDTO {
+    private String repositoryFullName;
     private String state;
-    private Integer number;
+    private Integer issueNumber;
     private String title;
     private String body;
-    private List<Long> labelIds;
+
+    // 특정 issue 의 label_id 목록
+    private List<Long> labelLIdList;
+
+    // 특정 issue 의 comment 목록
     private List<ProjectCommentDTO> commentList;
 }

@@ -1,29 +1,30 @@
 package com.example.demo.bean.vo.project;
 
-
 import lombok.*;
+
+import java.util.Date;
 
 /**
  * <pre>
- *     tb_project_issue table
+ *     tb_project_comment table
  * </pre>
  *
  * @author hjkim27
- * @since 0.0.1-SNAPSHOT
+ * @since 24.08.02
  */
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class ProjectIssueVO {
+public class ProjectCommentVO {
 
     private Integer sid;
-    private Integer repositorySid;
-    private String labelIds;
-    private String state;
     private Integer issueNumber;
-    private String title;
+    private Long commentId;
     private String body;
-
+    private Long parentCommentId;
+    private Date createdAt;
+    private Date updatedAt;
+    private Boolean active;
 }
