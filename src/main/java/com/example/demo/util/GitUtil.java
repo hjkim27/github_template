@@ -13,6 +13,15 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.util.*;
 
+/**
+ * <pre>
+ *     git 정보를 연동하기 위한 util 클래스
+ *     project, repository, issue, comment, label, commit 등의 이력을 조회한다.
+ * </pre>
+ *
+ * @author hjkim27
+ * @since 24.07.23
+ */
 @Slf4j
 @Component
 // FIXME properties 로 데이터를 가져오는건 되는데 github 연동 호출에서 문제가 발생함. 추가 확인 필요
@@ -96,7 +105,7 @@ public class GitUtil {
      * @throws IOException
      */
     public List<ProjectLabelDTO> getLabels() throws IOException {
-        PagedSearchIterable<GHCommit> commits = getCommits(TimeUtil.getBeforeNDays(TimeUtil.DateFormat.yyyy_MM_dd, -7));
+        PagedSearchIterable<GHCommit> commits = getCommits(DateFormatUtil.getBeforeNDays(DateFormatUtil.DateFormat.yyyy_MM_dd, -7));
         Iterator<GHCommit> it = commits.iterator();
 
         List<ProjectLabelDTO> list = new ArrayList<>();
@@ -125,15 +134,15 @@ public class GitUtil {
     /**
      * <pre>
      *     commit 을 기준으로 repository 이름을 가져온다.
-     *     >> commit 이 없는 repository 는 조회할 수 없나..?
-     *     FIXME 수정 필요.
+     *     FIXME 수정 필요. >> commit 이 없는 repository 는 조회할 수 없나..?
+     *     - [2024.08.02] issue, comment, label(issue에 등록된) 관련 추가
      * </pre>
      *
      * @return
      * @throws IOException
      */
     public List<ProjectRepositoryDTO> getRepositorys() throws IOException {
-        PagedSearchIterable<GHCommit> commits = getCommits(TimeUtil.getBeforeNDays(TimeUtil.DateFormat.yyyy_MM_dd, -7));
+        PagedSearchIterable<GHCommit> commits = getCommits(DateFormatUtil.getBeforeNDays(DateFormatUtil.DateFormat.yyyy_MM_dd, -7));
         Iterator<GHCommit> it = commits.iterator();
 
         List<ProjectRepositoryDTO> list = new ArrayList<>();
@@ -142,80 +151,68 @@ public class GitUtil {
         String beforeRepoName = "";
         while (it.hasNext()) {
             GHCommit commit = it.next();
-
-            ProjectRepositoryDTO dto = new ProjectRepositoryDTO();
+            // repository ----------
             GHRepository repository = commit.getOwner();
+            String repoName = repository.getName();
+            if (beforeRepoName.equals(repoName)) {
+                break;
+            } else {
+                beforeRepoName = repoName;
+            }
+            ProjectRepositoryDTO dto = new ProjectRepositoryDTO();
             dto.setName(repository.getName());
             dto.setFullName(repository.getFullName());
             dto.setDescription(repository.getDescription());
             dto.setPrivacy(repository.isPrivate());
             dto.setHtmlUrl(repository.getHtmlUrl().toString());
             dto.setSshUrl(repository.getSshUrl());
-            list.add(dto);
-            log.debug("repository : {]", dto.toString());
-            if (beforeRepoName.equals(dto.getName())) {
-                break;
-            } else {
-                beforeRepoName = dto.getName();
-            }
-        }
-        log.info("projectCount : {}", list.size());
-        return list;
-    }
-
-    /**
-     * <pre>
-     *     프로젝트에 등록된 issue 및 그 issue 의 comment, label 목록 조회
-     * </pre>
-     *
-     * @return
-     * @throws IOException
-     */
-    public List<ProjectIssueDTO> getIssues() throws IOException {
-        PagedSearchIterable<GHCommit> commits = getCommits(TimeUtil.getBeforeNDays(TimeUtil.DateFormat.yyyy_MM_dd, -7));
-        Iterator<GHCommit> it = commits.iterator();
-
-        List<ProjectIssueDTO> list = new ArrayList<>();
-
-        log.info("== tb_project_issue ==========");
-        if (it.hasNext()) {
-            GHCommit commit = it.next();
+            log.info("repository : {}", dto.toString());
+            log.info("{} >> issues ----------", dto.getName());
+            // issue -----------
+            List<ProjectIssueDTO> issueDTOList = new ArrayList<>();
             List<GHIssue> issues = commit.getOwner().getIssues(GHIssueState.ALL);
             for (GHIssue issue : issues) {
-                log.info("issue : {}", issue);
-                ProjectIssueDTO dto = new ProjectIssueDTO();
-                dto.setState(issue.getState().name());
-                dto.setNumber(issue.getNumber());
-                dto.setTitle(issue.getTitle());
-                dto.setBody(issue.getBody());
-
+                ProjectIssueDTO issueDTO = new ProjectIssueDTO();
+                issueDTO.setRepositoryFullName(commit.getOwner().getFullName());
+                issueDTO.setState(issue.getState().name());
+                issueDTO.setIssueNumber(issue.getNumber());
+                issueDTO.setTitle(issue.getTitle());
+                issueDTO.setBody(issue.getBody());
+                log.info("issue : {}", issueDTO.toString());
+                log.info("{} | #{} >> comments ----------", dto.getName(), issueDTO.getIssueNumber());
+                // issue.comment ----------
                 List<ProjectCommentDTO> commentDTOList = new ArrayList<>();
                 List<GHIssueComment> comments = issue.getComments();
                 for (GHIssueComment comment : comments) {
-                    log.info("comment : {]", comment);
                     ProjectCommentDTO commentDTO = new ProjectCommentDTO();
                     commentDTO.setCommentId(comment.getId());
                     commentDTO.setBody(comment.getBody());
                     commentDTO.setParentCommentId(comment.getParent().getId());
                     commentDTO.setCreatedAt(comment.getCreatedAt());
                     commentDTO.setUpdatedAt(comment.getUpdatedAt());
+                    log.info("comment : {}", commentDTO.toString());
                     commentDTOList.add(commentDTO);
                 }
-                dto.setCommentList(commentDTOList);
+                issueDTO.setCommentList(commentDTOList);
 
-                log.info("-----------");
+                // issue.label ----------
+                log.info("tb labels >>>>>>>>>>");
                 List<Long> labelIds = new ArrayList<>();
                 Collection<GHLabel> labels = issue.getLabels();
                 for (GHLabel label : labels) {
-                    log.info("label : {}", label);
+                    log.info("label.id : {}", label.getId());
                     labelIds.add(label.getId());
                 }
-                dto.setLabelIds(labelIds);
-                list.add(dto);
+                issueDTO.setLabelLIdList(labelIds);
+                issueDTOList.add(issueDTO);
             }
+            dto.setIssueDTOList(issueDTOList);
+
+            list.add(dto);
         }
         return list;
     }
+
 
     public void getCommits2() throws IOException {
         log.info(GeneralConfig.START);
