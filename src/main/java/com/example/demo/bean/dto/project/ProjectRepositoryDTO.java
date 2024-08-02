@@ -2,6 +2,8 @@ package com.example.demo.bean.dto.project;
 
 import lombok.*;
 
+import java.util.List;
+
 /**
  * <pre>
  *     tb_project_repository
@@ -23,4 +25,6 @@ public class ProjectRepositoryDTO {
     private String htmlUrl;
     private String sshUrl;
 
+    // 프로젝트에 속한 issue 목록
+    private List<ProjectIssueDTO> issueDTOList;
 }
