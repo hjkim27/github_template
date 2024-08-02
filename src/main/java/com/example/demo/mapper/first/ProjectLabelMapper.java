@@ -3,6 +3,8 @@ package com.example.demo.mapper.first;
 import com.example.demo.bean.vo.project.ProjectLabelVO;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 @Mapper
 public interface ProjectLabelMapper {
 
@@ -47,4 +49,14 @@ public interface ProjectLabelMapper {
      * @return
      */
     public Boolean isExistRow(Long labelId);
+
+    /**
+     * <pre>
+     *     issue번호로 issue 에 해당하는 label 목록 조회
+     * </pre>
+     *
+     * @param issueNumber
+     * @return
+     */
+    public List<ProjectLabelVO> getLabelsByIssueNumber(Integer issueNumber);
 }
