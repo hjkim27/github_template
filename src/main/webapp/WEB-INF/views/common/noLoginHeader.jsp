@@ -1,5 +1,5 @@
 <%@ page import="com.example.demo.config.GeneralConfig" %>
-<%@ page import="com.example.demo.util.LoginUtil" %><%--
+<%@ page import="com.example.demo.util.login.LoginUtil" %><%--
   Created by IntelliJ IDEA.
   User: aa827
   Date: 2024-07-20

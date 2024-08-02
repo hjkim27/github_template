@@ -5,13 +5,15 @@
 
     <!-- repository 정보 추가 -->
     <insert id="insertRow" parameterType="com.example.demo.bean.vo.project.ProjectRepositoryVO"
-            keyProperty="labelId" keyColumn="label_id">
+            keyProperty="sid" keyColumn="sid" useGeneratedKeys="true">
         insert into tb_project_repository (name, full_name, description, privacy, html_url, ssh_url)
         values (#{name}, #{fullName}, #{description}, #{privacy}, #{htmlUrl}, #{sshUrl});
     </insert>
 
     <!-- repository 정보 수정 -->
-    <update id="updateRow" parameterType="com.example.demo.bean.vo.project.ProjectRepositoryVO">
+    <update id="updateRow" parameterType="com.example.demo.bean.vo.project.ProjectRepositoryVO"
+            keyProperty="sid" keyColumn="sid" useGeneratedKeys="true"
+    >
         update tb_project_repository
         set name        = #{name},
             full_name   = #{fullName},
