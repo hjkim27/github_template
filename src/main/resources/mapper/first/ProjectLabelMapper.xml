@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?><!--Converted at: Mon May 02 17:59:21 KST 2022-->
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.example.demo.mapper.first.ProjectLabelMapper">
+<mapper namespace="com.github.hjkim27.mapper.first.ProjectLabelMapper">
 
     <!-- label 정보 추가 -->
-    <insert id="insertRow" parameterType="com.example.demo.bean.vo.project.ProjectLabelVO"
+    <insert id="insertRow" parameterType="com.github.hjkim27.bean.vo.project.ProjectLabelVO"
             keyProperty="labelId" keyColumn="label_id">
         insert into tb_project_label (label_id, name, description, color)
         values (#{labelId}, #{name}, #{description}, #{color});
     </insert>
 
     <!-- label 정보 수정 -->
-    <update id="updateRow" parameterType="com.example.demo.bean.vo.project.ProjectLabelVO">
+    <update id="updateRow" parameterType="com.github.hjkim27.bean.vo.project.ProjectLabelVO">
         update tb_project_label
         set name        = #{name},
             description = #{description},
@@ -35,7 +35,7 @@
 
 
     <!-- issue 에서 사용중인 label 목록 조회 -->
-    <select id="getLabelsByIssueNumber" parameterType="Integer" resultType="com.example.demo.bean.vo.project.ProjectLabelVO">
+    <select id="getLabelsByIssueNumber" parameterType="Integer" resultType="com.github.hjkim27.bean.vo.project.ProjectLabelVO">
         select *
         from tb_project_label
         where (select label_ids from tb_project_issue where issue_number = #{issue_number}) like '%' || label_id::varchar||'%';

@@ -1,4 +1,4 @@
-<%@ page import="com.example.demo.config.GeneralConfig" %><%--
+<%@ page import="com.github.hjkim27.config.GeneralConfig" %><%--
   Created by IntelliJ IDEA.
   User: aa827
   Date: 2024-07-08

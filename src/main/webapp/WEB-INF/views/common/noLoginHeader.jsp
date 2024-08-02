@@ -1,5 +1,5 @@
-<%@ page import="com.example.demo.config.GeneralConfig" %>
-<%@ page import="com.example.demo.util.login.LoginUtil" %><%--
+<%@ page import="com.github.hjkim27.config.GeneralConfig" %>
+<%@ page import="com.github.hjkim27.util.login.LoginUtil" %><%--
   Created by IntelliJ IDEA.
   User: aa827
   Date: 2024-07-20

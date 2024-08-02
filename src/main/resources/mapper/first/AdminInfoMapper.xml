@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?><!--Converted at: Mon May 02 17:59:21 KST 2022-->
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.example.demo.mapper.first.AdminInfoMapper">
+<mapper namespace="com.github.hjkim27.mapper.first.AdminInfoMapper">
 
     <!-- 관리자 검색 -->
-    <select id="getAdminInfoSearch" parameterType="com.example.demo.bean.vo.AdminInfoVO"
-            resultType="com.example.demo.bean.vo.AdminInfoVO">
+    <select id="getAdminInfoSearch" parameterType="com.github.hjkim27.bean.vo.AdminInfoVO"
+            resultType="com.github.hjkim27.bean.vo.AdminInfoVO">
         select sid, login_id, login_pw, name, created_at, updated_at, last_login_at
         from tb_admin_info
         <trim prefix="where" prefixOverrides="and">
@@ -18,7 +18,7 @@
     </select>
 
     <!-- loginid, loginpw 를 조건으로 sid 조회 -->
-    <select id="getAdminSid" parameterType="com.example.demo.bean.vo.AdminInfoVO" resultType="int">
+    <select id="getAdminSid" parameterType="com.github.hjkim27.bean.vo.AdminInfoVO" resultType="int">
         select sid
         from tb_admin_info
         where login_id = #{loginId}
@@ -28,7 +28,7 @@
     </select>
 
     <!-- Sid 를 조건으로 update -->
-    <update id="updateAdminInfoBySid" parameterType="com.example.demo.bean.vo.AdminInfoVO">
+    <update id="updateAdminInfoBySid" parameterType="com.github.hjkim27.bean.vo.AdminInfoVO">
         update tb_admin_info
         <trim prefix="set" prefixOverrides=",">
             <if test="loginId != null">, login_id = #{loginId}</if>
@@ -40,7 +40,7 @@
     </update>
 
     <!-- login 성공 : loginId, lpginPw 를 조건으로 update -->
-    <update id="updateAdminLoginAt" parameterType="com.example.demo.bean.vo.AdminInfoVO">
+    <update id="updateAdminLoginAt" parameterType="com.github.hjkim27.bean.vo.AdminInfoVO">
         update tb_admin_info
         set last_login_at = now()
         where login_id = #{loginId}
@@ -48,7 +48,7 @@
     </update>
 
     <!-- 계정 추가 -->
-    <insert id="insertAdminInfo" parameterType="com.example.demo.bean.vo.AdminInfoVO"
+    <insert id="insertAdminInfo" parameterType="com.github.hjkim27.bean.vo.AdminInfoVO"
             useGeneratedKeys="true" keyColumn="sid" keyProperty="sid">
         insert into tb_admin_info(login_id, login_pw, name)
         values (#{loginId}, #{loginPw}, #{name})
