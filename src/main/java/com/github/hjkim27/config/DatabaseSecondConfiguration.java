@@ -26,7 +26,7 @@ import javax.sql.DataSource;
 @PropertySources({
         @PropertySource("classpath:/database.properties")
 })
-@MapperScan(value = "com.example.demo.mapper.second", sqlSessionFactoryRef = "secondSqlSessionFactory")
+@MapperScan(value = "com.github.hjkim27.mapper.second", sqlSessionFactoryRef = "secondSqlSessionFactory")
 public class DatabaseSecondConfiguration {
 
     @Autowired

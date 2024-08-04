@@ -21,7 +21,7 @@ import javax.sql.DataSource;
 @PropertySources({
         @PropertySource("classpath:/database.properties")
 })
-@MapperScan(value = "com.example.demo.mapper.first")
+@MapperScan(value = "com.github.hjkim27.mapper.first")
 public class DatabaseConfiguration {
 
     @Autowired
@@ -50,7 +50,7 @@ public class DatabaseConfiguration {
         sqlSessionFactoryBean.setDataSource(dataSource);
         sqlSessionFactoryBean.setMapperLocations(applicationContext.getResources("classpath:/mapper/first/*Mapper.xml"));
         sqlSessionFactoryBean.setConfigLocation(applicationContext.getResource("classpath:/mapper/mybatis-config.xml"));
-        sqlSessionFactoryBean.setTypeAliasesPackage("com.example.demo");
+        sqlSessionFactoryBean.setTypeAliasesPackage("com.github.hjkim27");
         return sqlSessionFactoryBean.getObject();
     }
 
