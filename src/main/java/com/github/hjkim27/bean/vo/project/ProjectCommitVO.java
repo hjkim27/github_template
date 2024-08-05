@@ -1,4 +1,4 @@
-package com.github.hjkim27.bean.vo;
+package com.github.hjkim27.bean.vo.project;
 
 import lombok.*;
 

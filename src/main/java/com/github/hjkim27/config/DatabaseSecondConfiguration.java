@@ -60,7 +60,7 @@ public class DatabaseSecondConfiguration {
         sqlSessionFactoryBean.setDataSource(dataSource);
         sqlSessionFactoryBean.setMapperLocations(applicationContext.getResources("classpath:/mapper/second/*Mapper.xml"));
         sqlSessionFactoryBean.setConfigLocation(applicationContext.getResource("classpath:/mapper/mybatis-config.xml"));
-        sqlSessionFactoryBean.setTypeAliasesPackage("com.example.demo");
+        sqlSessionFactoryBean.setTypeAliasesPackage("com.github.hjkim27");
         return sqlSessionFactoryBean.getObject();
     }
 
