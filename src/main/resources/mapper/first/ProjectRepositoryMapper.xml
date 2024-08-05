@@ -38,4 +38,8 @@
         where full_name = #{fullName}
     </select>
 
+    <!-- fullName 으로 repoSid 조회 -->
+    <select id="getSidByRepositoryFullName" parameterType="string" resultType="int">
+        select sid from tb_project_repository where full_name = #{fullName}
+    </select>
 </mapper>

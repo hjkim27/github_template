@@ -53,4 +53,15 @@ public interface ProjectRepositoryMapper {
      * @return
      */
     public Boolean isExistRow(ProjectRepositoryVO projectRepositoryVO);
+
+    /**
+     * <pre>
+     *     repository fullName으로  repository 가 존재하는지 확인
+     *     where : full_name
+     * </pre>
+     *
+     * @param fullName
+     * @return
+     */
+    public int getSidByRepositoryFullName(String fullName);
 }
