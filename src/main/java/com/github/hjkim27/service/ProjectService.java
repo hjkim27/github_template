@@ -1,17 +1,11 @@
 package com.github.hjkim27.service;
 
-import com.github.hjkim27.bean.dto.project.ProjectCommentDTO;
-import com.github.hjkim27.bean.dto.project.ProjectIssueDTO;
-import com.github.hjkim27.bean.dto.project.ProjectLabelDTO;
-import com.github.hjkim27.bean.dto.project.ProjectRepositoryDTO;
+import com.github.hjkim27.bean.dto.project.*;
 import com.github.hjkim27.bean.vo.project.ProjectCommentVO;
 import com.github.hjkim27.bean.vo.project.ProjectIssueVO;
 import com.github.hjkim27.bean.vo.project.ProjectLabelVO;
 import com.github.hjkim27.bean.vo.project.ProjectRepositoryVO;
-import com.github.hjkim27.mapper.first.ProjectCommentMapper;
-import com.github.hjkim27.mapper.first.ProjectIssueMapper;
-import com.github.hjkim27.mapper.first.ProjectLabelMapper;
-import com.github.hjkim27.mapper.first.ProjectRepositoryMapper;
+import com.github.hjkim27.mapper.first.*;
 import com.github.hjkim27.util.FormatUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -37,6 +31,8 @@ public class ProjectService {
     private final ProjectRepositoryMapper projectRepositoryMapper;
     private final ProjectIssueMapper projectIssueMapper;
     private final ProjectCommentMapper projectCommentMapper;
+    private final ProjectCommitMapper projectCommitMapper;
+
     private final ModelMapper modelMapper;
 
     /**
@@ -152,4 +148,25 @@ public class ProjectService {
         }
     }
 
+    /**
+     * <pre>
+     *     git commit link
+     *     - commit 의 sha 를 기준으로 존재여부를 확인해 insert/update 를 진행
+     * </pre>
+     *
+     * @param commitDTOList
+     * @since 2024.08.05
+     */
+    public void insertCommit(List<ProjectCommitDTO> commitDTOList) {
+        for (ProjectCommitDTO dto : commitDTOList) {
+            boolean isExistcommit = projectCommitMapper.isExistRow(dto);
+            if (isExistcommit) {
+                projectCommitMapper.updateRow(dto);
+                log.info("update >> sha : {}", dto.getSha());
+            } else {
+                projectCommitMapper.insertRow(dto);
+                log.info("insert >> sha : {}", dto.getSha());
+            }
+        }
+    }
 }
