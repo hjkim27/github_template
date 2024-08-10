@@ -1,9 +1,6 @@
 package com.github.hjkim27.util;
 
-import com.github.hjkim27.bean.dto.project.ProjectCommentDTO;
-import com.github.hjkim27.bean.dto.project.ProjectIssueDTO;
-import com.github.hjkim27.bean.dto.project.ProjectLabelDTO;
-import com.github.hjkim27.bean.dto.project.ProjectRepositoryDTO;
+import com.github.hjkim27.bean.dto.project.*;
 import com.github.hjkim27.bean.type.CompareSignEnum;
 import com.github.hjkim27.config.GeneralConfig;
 import lombok.extern.slf4j.Slf4j;
@@ -213,6 +210,35 @@ public class GitUtil {
         return list;
     }
 
+    public List<ProjectCommitDTO> getCommit() throws IOException {
+        PagedSearchIterable<GHCommit> commits = getCommits();
+        Iterator<GHCommit> it = commits.iterator();
+
+        List<ProjectCommitDTO> list = new ArrayList<>();
+
+        log.info("== tb_project_commit ==========");
+        while (it.hasNext()) {
+            GHCommit commit = it.next();
+            ProjectCommitDTO dto = new ProjectCommitDTO();
+            dto.setRepositoryFullName(commit.getOwner().getFullName());
+            dto.setSha(commit.getTree().getSha());
+            List<String> parent = commit.getParentSHA1s();
+            if (parent != null && !parent.isEmpty()) {
+                dto.setParentSha(parent.get(0));
+            }
+
+            GitUser user = commit.getCommitShortInfo().getCommitter();
+            dto.setCommitterName(user.getName());
+            dto.setCommitterEmail(user.getEmail());
+            dto.setCommitterDate(user.getDate());
+
+            dto.setMessage(commit.getCommitShortInfo().getMessage());
+            dto.setHtmlUrl(commit.getHtmlUrl().toString());
+            log.info("dto : {}", dto.toString());
+            list.add(dto);
+        }
+        return list;
+    }
 
     public void getCommits2() throws IOException {
         log.info(GeneralConfig.START);
