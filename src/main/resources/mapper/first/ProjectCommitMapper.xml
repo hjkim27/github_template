@@ -37,7 +37,7 @@
 
     <!-- commit 존재여부 조회 -->
     <select id="isExistRow" parameterType="com.github.hjkim27.bean.dto.project.ProjectCommitDTO" resultType="Boolean">
-        select sha, parent_sha, committer_name, committer_email, committer_date, message, html_url
+        select count(sha) > 0
         from tb_project_commit
         where sha = #{sha}
     </select>
