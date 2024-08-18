@@ -73,8 +73,8 @@ create table tb_project_label
     sid         serial,
     label_id    bigint unique                 not null, -- commit.owner.listLabels(n).id
     name        character varying(100) unique not null, -- commit.owner.listLabels(n).name
-    description character varying(100) unique not null, -- commit.owner.listLabels(n).description
-    color       character varying(15) unique  not null, -- commit.owner.listLabels(n).color
+    description character varying(100)        not null, -- commit.owner.listLabels(n).description
+    color       character varying(15)         not null, -- commit.owner.listLabels(n).color
     active      boolean                       not null default true
 );
 
