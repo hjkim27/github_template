@@ -38,6 +38,7 @@ public class RepositoryController {
         ModelAndView mav = new ModelAndView("projectRepository/main");
 
         switch (path) {
+            case "main":
             case "home":
                 mav.addAllObjects(home());
                 break;

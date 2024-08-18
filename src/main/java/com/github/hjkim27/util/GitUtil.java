@@ -27,6 +27,9 @@ public class GitUtil {
 
     private GitHub gitHub;
 
+    // commit 목록을 불러오는 시간 단축을 위해 분리
+    private PagedSearchIterable<GHCommit> commits;
+
     private final String token = "ghp_authToken";
     private final String userId = "user_id";
 
@@ -41,6 +44,7 @@ public class GitUtil {
         try {
             gitHub = new GitHubBuilder().withAppInstallationToken(token).build();
             gitHub.checkApiUrlValidity();
+            getCommits();
         } catch (Exception e) {
             log.error(e.getMessage());
         }
@@ -55,7 +59,7 @@ public class GitUtil {
      * @param compareSign   등호 {@link CompareSignEnum} / (default {@link CompareSignEnum#upperAndEquals})
      * @return
      */
-    public PagedSearchIterable<GHCommit> getCommits(String committerDate, CompareSignEnum compareSign) {
+    public void getCommits(String committerDate, CompareSignEnum compareSign) {
         getConnection();
         GHSearchBuilder builder = null;
         if (committerDate != null) {
@@ -73,7 +77,7 @@ public class GitUtil {
         }
         PagedSearchIterable<GHCommit> list = builder.list();
         log.info("commit >> list.getTotalCount() : {}", list.getTotalCount());
-        return list;
+        commits = list;
     }
 
     /**
@@ -84,12 +88,12 @@ public class GitUtil {
      * @param committerDate 비교날짜
      * @return
      */
-    public PagedSearchIterable<GHCommit> getCommits(String committerDate) {
-        return getCommits(committerDate, CompareSignEnum.upperAndEquals);
+    public void getCommits(String committerDate) {
+        getCommits(committerDate, CompareSignEnum.upperAndEquals);
     }
 
-    public PagedSearchIterable<GHCommit> getCommits() {
-        return getCommits(null, null);
+    public void getCommits() {
+        getCommits(null, null);
     }
 
     /**
@@ -102,11 +106,10 @@ public class GitUtil {
      * @throws IOException
      */
     public List<ProjectLabelDTO> getLabels() throws IOException {
-        PagedSearchIterable<GHCommit> commits = getCommits(DateFormatUtil.getBeforeNDays(DateFormatUtil.DateFormat.yyyy_MM_dd, -7));
+//        PagedSearchIterable<GHCommit> commits = getCommits(DateFormatUtil.getBeforeNDays(DateFormatUtil.DateFormat.yyyy_MM_dd, -7));
         Iterator<GHCommit> it = commits.iterator();
 
         List<ProjectLabelDTO> list = new ArrayList<>();
-        log.info("labels ==========");
         if (it.hasNext()) {
             GHCommit commit = it.next();
 
@@ -121,9 +124,8 @@ public class GitUtil {
                 dto.setDescription(label.getDescription());
                 dto.setColor(label.getColor());
                 list.add(dto);
-                log.debug("label : {]", dto.toString());
             }
-            log.info("labelCount : {}", list.size());
+            log.info("##### labelCount : {}", list.size());
         }
         return list;
     }
@@ -139,22 +141,22 @@ public class GitUtil {
      * @throws IOException
      */
     public List<ProjectRepositoryDTO> getRepositorys() throws IOException {
-        PagedSearchIterable<GHCommit> commits = getCommits(DateFormatUtil.getBeforeNDays(DateFormatUtil.DateFormat.yyyy_MM_dd, -7));
+//        PagedSearchIterable<GHCommit> commits = getCommits(DateFormatUtil.getBeforeNDays(DateFormatUtil.DateFormat.yyyy_MM_dd, -7));
         Iterator<GHCommit> it = commits.iterator();
 
         List<ProjectRepositoryDTO> list = new ArrayList<>();
 
         log.info("== tb_project_repository ==========");
-        String beforeRepoName = "";
+        Set<String> repoNames = new HashSet<>();
         while (it.hasNext()) {
             GHCommit commit = it.next();
             // repository ----------
             GHRepository repository = commit.getOwner();
             String repoName = repository.getName();
-            if (beforeRepoName.equals(repoName)) {
-                break;
+            if (repoNames.contains(repoName)) {
+                continue;
             } else {
-                beforeRepoName = repoName;
+                repoNames.add(repoName);
             }
             ProjectRepositoryDTO dto = new ProjectRepositoryDTO();
             dto.setName(repository.getName());
@@ -163,6 +165,7 @@ public class GitUtil {
             dto.setPrivacy(repository.isPrivate());
             dto.setHtmlUrl(repository.getHtmlUrl().toString());
             dto.setSshUrl(repository.getSshUrl());
+            // FIXME repository 소유주 추가 필요. 협업 repository 에 대한 내용도 추가되고 있어 구분이 필요함.
             log.info("repository : {}", dto.toString());
             log.info("{} >> issues ----------", dto.getName());
             // issue -----------
@@ -175,8 +178,8 @@ public class GitUtil {
                 issueDTO.setIssueNumber(issue.getNumber());
                 issueDTO.setTitle(issue.getTitle());
                 issueDTO.setBody(issue.getBody());
-                log.info("issue : {}", issueDTO.toString());
-                log.info("{} | #{} >> comments ----------", dto.getName(), issueDTO.getIssueNumber());
+//                log.info("issue : {}", issueDTO.toString());
+//                log.info("{} | #{} >> comments ----------", dto.getName(), issueDTO.getIssueNumber());
                 // issue.comment ----------
                 List<ProjectCommentDTO> commentDTOList = new ArrayList<>();
                 List<GHIssueComment> comments = issue.getComments();
@@ -187,31 +190,32 @@ public class GitUtil {
                     commentDTO.setParentCommentId(comment.getParent().getId());
                     commentDTO.setCreatedAt(comment.getCreatedAt());
                     commentDTO.setUpdatedAt(comment.getUpdatedAt());
-                    log.info("comment : {}", commentDTO.toString());
+//                    log.info("comment : {}", commentDTO.toString());
                     commentDTOList.add(commentDTO);
                 }
                 issueDTO.setCommentList(commentDTOList);
 
                 // issue.label ----------
-                log.info("tb labels >>>>>>>>>>");
+//                log.info("tb labels >>>>>>>>>>");
                 List<Long> labelIds = new ArrayList<>();
                 Collection<GHLabel> labels = issue.getLabels();
                 for (GHLabel label : labels) {
-                    log.info("label.id : {}", label.getId());
+//                    log.info("label.id : {}", label.getId());
                     labelIds.add(label.getId());
                 }
                 issueDTO.setLabelLIdList(labelIds);
                 issueDTOList.add(issueDTO);
             }
             dto.setIssueDTOList(issueDTOList);
-
             list.add(dto);
         }
+        log.info("##### repoNames : {}", repoNames.toString());
+        log.info("##### repoSize : {}", list.size());
         return list;
     }
 
     public List<ProjectCommitDTO> getCommit() throws IOException {
-        PagedSearchIterable<GHCommit> commits = getCommits();
+//        PagedSearchIterable<GHCommit> commits = getCommits();
         Iterator<GHCommit> it = commits.iterator();
 
         List<ProjectCommitDTO> list = new ArrayList<>();
