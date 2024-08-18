@@ -2,7 +2,8 @@ package com.github.hjkim27.config;
 
 import com.github.hjkim27.bean.dto.project.ProjectLabelDTO;
 import com.github.hjkim27.bean.dto.project.ProjectRepositoryDTO;
-import com.github.hjkim27.service.ProjectService;
+import com.github.hjkim27.service.GitService;
+import com.github.hjkim27.util.DateFormatUtil;
 import com.github.hjkim27.util.GitUtil;
 import com.github.hjkim27.util.DateFormatUtil;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +19,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class FixedCronSetting {
 
-    private final ProjectService projectService;
+    private final GitService projectService;
     private final GitUtil gitUtil;
 
     @Scheduled(cron = "*/1 * * * * *")
