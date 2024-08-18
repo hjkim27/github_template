@@ -35,9 +35,10 @@
 </div>
 
 <script>
-    function showMenu(url){
-        console.log('${contextPath}/projectRepository/'+url);
-        $.ajax({
+    function showMenu(path){
+        console.log('${contextPath}/projectRepository/'+path);
+        location.href = '${contextPath}/projectRepository/' + path;
+        /*$.ajax({
             url: '${contextPath}/projectRepository/'+url,
             type: 'get',
             success: function (data){

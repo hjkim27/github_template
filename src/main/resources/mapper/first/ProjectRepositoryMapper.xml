@@ -42,4 +42,8 @@
     <select id="getSidByRepositoryFullName" parameterType="string" resultType="int">
         select sid from tb_project_repository where full_name = #{fullName}
     </select>
+    
+    <select id="getRepoList" resultType="com.github.hjkim27.bean.dto.project.ProjectRepositoryDTO">
+        select * from tb_project_repository;
+    </select>
 </mapper>

@@ -17,11 +17,11 @@
     --blue-scale-2: #15213b;
     --blue-scale-3: #1f2b45;
     --blue-scale-4: #29354f;
-    --blue-scale-5: rgba(1, 13, 39, 0.5);
-    --blue-scale-6: rgba(11, 23, 49, 0.5);
-    --blue-scale-7: rgba(21, 33, 59, 0.5);
-    --blue-scale-8: rgba(31, 43, 69, 0.5);
-    --blue-scale-9: rgba(41, 53, 79, 0.5);
+    --blue-scale-5: rgba(1, 13, 39, 0.1);
+    --blue-scale-6: rgba(11, 23, 49, 0.1);
+    --blue-scale-7: rgba(21, 33, 59, 0.1);
+    --blue-scale-8: rgba(31, 43, 69, 0.1);
+    --blue-scale-9: rgba(41, 53, 79, 0.1);
 
     --point-color-light: #435b88;
 

@@ -1,7 +1,10 @@
 package com.github.hjkim27.mapper.first;
 
+import com.github.hjkim27.bean.dto.project.ProjectRepositoryDTO;
 import com.github.hjkim27.bean.vo.project.ProjectRepositoryVO;
 import org.apache.ibatis.annotations.Mapper;
+
+import java.util.List;
 
 /**
  * tb_project_repository mapper class
@@ -64,4 +67,14 @@ public interface ProjectRepositoryMapper {
      * @return
      */
     public int getSidByRepositoryFullName(String fullName);
+
+    /**
+     * <pre>
+     *     repository list 조회
+     * </pre>
+     *
+     * @since 2024-08-19
+     * @return
+     */
+    public List<ProjectRepositoryDTO> getRepoList();
 }

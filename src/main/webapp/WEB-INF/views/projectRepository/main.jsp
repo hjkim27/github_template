@@ -23,6 +23,12 @@
     </div>
 
     <div id="menuArea" class="" style="border: 1px solid #5b676d;  height: 100%;">
+        <c:choose>
+            <c:when test="${path eq 'home'}"><jsp:include page="home.jsp"/></c:when>
+            <c:when test="${path eq 'repositories'}"><jsp:include page="repositories.jsp"/></c:when>
+            <c:when test="${path eq 'labels'}"><jsp:include page="labels.jsp"/></c:when>
+            <c:when test="${path eq 'settings'}"><jsp:include page="settings.jsp"/></c:when>
+        </c:choose>
     </div>
 </div>
 </div>
