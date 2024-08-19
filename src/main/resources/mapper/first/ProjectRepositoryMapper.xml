@@ -47,7 +47,29 @@
         where full_name = #{fullName}
     </select>
     
-    <select id="getRepoList" resultType="com.github.hjkim27.bean.dto.project.ProjectRepositoryDTO">
-        select * from tb_project_repository;
+    <select id="getRepoList" parameterType="com.github.hjkim27.bean.search.ProjectRepositorySearch" resultType="com.github.hjkim27.bean.dto.project.ProjectRepositoryDTO">
+        select *
+        from tb_project_repository
+        <trim prefix="where" prefixOverrides="and">
+            <if test="searchValue != null and searchValue != ''">
+                and (name like '%'||#{searchValue}||'%' or description like '%'||#{searchValue}||'%')
+            </if>
+            <if test="privacyType != null and privacyType != ''">
+                <if test="privacyType == 'private'">and privacy = true</if>
+                <if test="privacyType == 'public'">and privacy = false</if>
+            </if>
+        </trim>
+        <if test="sortColumn != null and sortColumn != -1">
+            order by
+            <choose>
+                <when test="sortColumn == 2">name</when>
+                <when test="sortColumn == 8">created_at</when>
+                <when test="sortColumn == 9">updated_at</when>
+            </choose>
+            <if test="desc">desc</if>
+        </if>
+        <if test="limit != null">limit #{limit}</if>
+        <if test="offset != null">offset #{offset}</if>
+        ;
     </select>
 </mapper>
