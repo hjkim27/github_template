@@ -2,6 +2,7 @@ package com.github.hjkim27.bean.dto.project;
 
 import lombok.*;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -25,6 +26,8 @@ public class ProjectRepositoryDTO {
     private Boolean privacy;
     private String htmlUrl;
     private String sshUrl;
+    private Date createdAt;
+    private Date updatedAt;
 
     // 프로젝트에 속한 issue 목록
     private List<ProjectIssueDTO> issueDTOList;

@@ -40,6 +40,8 @@ create table tb_project_repository
     privacy     boolean                         default false, -- commit.owner.private
     html_url    character varying,                             -- commit.owner.htmlUrl
     ssh_url     character varying,                             -- commit.owner.sshUrl
+    created_at  timestamp with time zone,                      -- commit.owner.createdAt
+    updated_at  timestamp with time zone,                      -- commit.owner.updatedAt
     active      boolean                not null default true
 );
 

@@ -2,6 +2,8 @@ package com.github.hjkim27.bean.vo.project;
 
 import lombok.*;
 
+import java.util.Date;
+
 /**
  * <pre>
  *     tb_project_repository table
@@ -24,6 +26,8 @@ public class ProjectRepositoryVO {
     private Boolean privacy;
     private String htmlUrl;
     private String sshUrl;
+    private Date createdAt;
+    private Date updatedAt;
     private Boolean active;
 
     public ProjectRepositoryVO(String name, String fullName, String description, Boolean privacy, String htmlUrl, String sshUrl) {
