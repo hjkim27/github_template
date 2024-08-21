@@ -7,18 +7,60 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="contextPath" value="${pageContext.request.contextPath}"/>
+<div id="loadTarget">
+    <input type="text" id="searchValue" name="searchValue" value="${search.searchValue}">
+    <button onclick="search()">search</button>
+    <%-- ----------- --%>
+    <select id="privacyType" name="privacyType">
+        <option value="-">All</option>
+        <option value="private" <c:if test="${search.privacyType eq 'private'}">select</c:if>>privavte</option>
+        <option value="pubilc" <c:if test="${search.privacyType eq 'public'}">select</c:if>>public</option>
+    </select>
+    <%-- ----------- --%>
+    <select id="sortColumn" name="sortColumn">
+        <option value="-1">Sort</option>
+        <option value="2" <c:if test="${search.sortColumn eq 2}">select</c:if>>name</option>
+        <option value="8" <c:if test="${search.sortColumn eq 8}">select</c:if>>createdAt</option>
+        <option value="9" <c:if test="${search.sortColumn eq 9}">select</c:if>>updatedAt</option>
+    </select>
+</div>
 <div>
-  repositories
-  <c:forEach var="item" items="${list}">
-      <div>
-          <div>
-              <span>${item.name}</span>
-              <span>
+    <c:forEach var="item" items="${list}">
+        <div>
+            <div>
+                <span onclick="window.open(${item.htmlUrl})">${item.name}</span>
+                <span>
                   <c:if test="${item.privacy}">private</c:if>
                   <c:if test="${!item.privacy}">public</c:if>
               </span>
-          </div>
-          <div>${item.description}</div>
-      </div>
-  </c:forEach>
+            </div>
+            <div>${item.description}</div>
+        </div>
+    </c:forEach>
 </div>
+
+<script>
+    $('#searchValue').on('keypress', function () {
+        search();
+    })
+
+    function search() {
+        var search = {
+            searchValue: $('#searchValue').val(),
+            privacyType: $('#privacyType').val(),
+            sortColumn: $('#sortColumn').val() * 1
+        }
+        $.ajax({
+            type: "post",
+            url: '${contextPath}/projectRepository/ajax/repositories',
+            data: {search : search},
+            success: function (result) {
+                $('#menuArea').html(result);
+            },
+            error: function (e) {
+                console.log(e);
+            }
+        })
+    }
+</script>
