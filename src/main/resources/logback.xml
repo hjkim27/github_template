@@ -77,7 +77,7 @@
     </appender>
 
 
-    <logger name="com.example.demo" level="${LOG_LEVEL}" additive="false">
+    <logger name="com.github.hjkim27" level="${LOG_LEVEL}" additive="false">
         <appender-ref ref="ETC_FILE"/>
     </logger>
     <logger name="WEB_LOGGER" level="${LOG_LEVEL}" additive="false">
