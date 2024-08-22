@@ -37,15 +37,24 @@ public class GitService {
 
     /**
      * <pre>
+     *     git 연동 관련 active:false 업데이트 별도 메서드 분리
+     * </pre>
+     */
+    public void updateActiveFalse() {
+        projectLabelMapper.updateActiveFalse();
+        projectRepositoryMapper.updateActiveFalse();
+        projectCommentMapper.updateActiveFalse();
+    }
+
+    /**
+     * <pre>
      *     git label link
-     *     - 삭제여부 확인을 위해 모든 row 를 active:false 업데이트
      *     - label_id 를 기준으로 존재여부를 확인, insert/update 진행
      * </pre>
      *
      * @param labelDTOList
      */
     public void insertLabels(List<ProjectLabelDTO> labelDTOList) {
-        projectLabelMapper.updateActiveFalse();
         for (ProjectLabelDTO dto : labelDTOList) {
             ProjectLabelVO vo = modelMapper.map(dto, ProjectLabelVO.class);
 
@@ -64,7 +73,6 @@ public class GitService {
     /**
      * <pre>
      *     git repository link
-     *     - 삭제여부 확인을 위해 모든 row 를 active:false 업데이트
      *     - full_name 을 기준으로 존재여부 확인, insert/update 진행
      * </pre>
      *
@@ -72,7 +80,6 @@ public class GitService {
      * @since 24.07.30
      */
     public void insertRepos(List<ProjectRepositoryDTO> repositoryDTOList) {
-        projectRepositoryMapper.updateActiveFalse();
         for (ProjectRepositoryDTO dto : repositoryDTOList) {
             ProjectRepositoryVO vo = modelMapper.map(dto, ProjectRepositoryVO.class);
 
@@ -125,7 +132,6 @@ public class GitService {
     /**
      * <pre>
      *     git comment link
-     *     - 삭제여부 확인을 위해 모든 row 를 active:false 업데이트
      *     - comment_id 를 기준으로 존재여부 확인, insert/update 진행
      * </pre>
      *
@@ -133,7 +139,6 @@ public class GitService {
      * @since 24.08.02
      */
     public void insertComment(List<ProjectCommentDTO> commentDTOList) {
-        projectCommentMapper.updateActiveFalse();
         for (ProjectCommentDTO dto : commentDTOList) {
             ProjectCommentVO vo = modelMapper.map(dto, ProjectCommentVO.class);
 
