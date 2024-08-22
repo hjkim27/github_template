@@ -27,6 +27,14 @@ public class FixedCronSetting {
         log.info(DateFormatUtil.getNowDate(DateFormatUtil.DateFormat.yyyy_MM_dd_hhmmss));
     }
 
+    // 매일 0시 5분에
+    @Scheduled(cron = "0 5 0 */1 * *")
+    public void setCommitInterval1Day() {
+        gitUtil.getCommits();
+        projectService.updateActiveFalse();
+    }
+
+    // 매 시간마다
     @Scheduled(cron = "* * */1 * * *")
     public void commits() {
         gitUtil.getCommits(DateFormatUtil.getBeforeNDays(DateFormatUtil.DateFormat.yyyy_MM_dd, -1));
