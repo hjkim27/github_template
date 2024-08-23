@@ -79,6 +79,7 @@
         $('#loginForm input').each(function () {
             if ($(this).val().trim().length === 0 && check) {
                 alert('\'' + $(this).data('name') + '\' 입력이 필요합니다.')
+                $(this).focus();
                 check = false;
                 return;
             }
