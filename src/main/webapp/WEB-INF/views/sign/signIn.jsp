@@ -39,6 +39,14 @@
         alert('로그인이 필요합니다');
     }
 
+    /* [2024-08-23] enter 입력 시 로그인이 동작하도록 수정 */
+    window.addEventListener('keypress', (e) => {
+        /* cf:https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/code */
+        if(e.key === 'Enter'){
+            login();
+        }
+    })
+
     function login() {
         var valid = validate();
         if (!valid) {
