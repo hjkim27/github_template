@@ -1,12 +1,15 @@
 package com.github.hjkim27.controller;
 
+import com.github.hjkim27.bean.search.ProjectRepositorySearch;
 import com.github.hjkim27.config.GeneralConfig;
 import com.github.hjkim27.service.ProjectService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -33,8 +36,10 @@ public class RepositoryController {
      */
     @RequestMapping(value = "/projectRepository/{path}")
     public ModelAndView projectSelectMenu(HttpServletRequest request, HttpServletResponse response
-            , @PathVariable(required = false) String path) throws Exception {
+            , @PathVariable(required = false) String path
+            , @ModelAttribute(name = "search") ProjectRepositorySearch search) throws Exception {
         log.info(GeneralConfig.START);
+        log.debug("search : {}", search);
         ModelAndView mav = new ModelAndView("projectRepository/main");
 
         switch (path) {
@@ -43,7 +48,7 @@ public class RepositoryController {
                 mav.addAllObjects(home());
                 break;
             case "repositories":
-                mav.addAllObjects(repositories());
+                mav.addAllObjects(repositories(search));
                 break;
             case "labels":
                 mav.addAllObjects(labels());
@@ -56,6 +61,51 @@ public class RepositoryController {
         }
 
         mav.addObject("path", path);
+        mav.addObject("search", search);
+        return mav;
+    }
+
+    /**
+     * <pre>
+     *     각 페이지에서 반환될 ajax 결과 페이지
+     * </pre>
+     *
+     * @param request
+     * @param response
+     * @param path
+     * @param search
+     * @return
+     * @throws Exception
+     */
+    @ResponseBody
+    @RequestMapping(value = "/projectRepository/ajax/{path}")
+    public ModelAndView projectAjax(HttpServletRequest request, HttpServletResponse response
+            , @PathVariable(required = false) String path
+            , @ModelAttribute(name = "search") ProjectRepositorySearch search) throws Exception {
+        log.info(GeneralConfig.START);
+        log.debug("search : {}", search);
+        ModelAndView mav = new ModelAndView("projectRepository/ajax/" + path);
+
+        switch (path) {
+            case "main":
+            case "home":
+                mav.addAllObjects(home());
+                break;
+            case "repositories":
+                mav.addAllObjects(repositories(search));
+                break;
+            case "labels":
+                mav.addAllObjects(labels());
+                break;
+            case "settings":
+                mav.addAllObjects(settings());
+                break;
+            default:
+                throw new Exception("does not exist path!!!");
+        }
+
+        mav.addObject("path", path);
+        mav.addObject("search", search);
         return mav;
     }
 
@@ -64,9 +114,17 @@ public class RepositoryController {
         return map;
     }
 
-    public Map<String, Object> repositories() {
+    /**
+     * <pre>
+     *     repositories 검색 결과
+     * </pre>
+     *
+     * @param search
+     * @return
+     */
+    public Map<String, Object> repositories(ProjectRepositorySearch search) {
         Map<String, Object> map = new HashMap<>();
-        map.put("list", projectService.getRepoList());
+        map.put("list", projectService.getRepoList(search));
         return map;
     }
 

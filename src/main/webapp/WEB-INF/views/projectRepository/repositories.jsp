@@ -9,6 +9,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 <div id="loadTarget">
+    <%-- ----------- --%>
     <input type="text" id="searchValue" name="searchValue" value="${search.searchValue}">
     <button onclick="search()">search</button>
     <%-- ----------- --%>
@@ -25,23 +26,13 @@
         <option value="9" <c:if test="${search.sortColumn eq 9}">select</c:if>>updatedAt</option>
     </select>
 </div>
-<div>
-    <c:forEach var="item" items="${list}">
-        <div>
-            <div>
-                <span onclick="window.open(${item.htmlUrl})">${item.name}</span>
-                <span>
-                  <c:if test="${item.privacy}">private</c:if>
-                  <c:if test="${!item.privacy}">public</c:if>
-              </span>
-            </div>
-            <div>${item.description}</div>
-        </div>
-    </c:forEach>
+<%-- ajax 검색 결과 --%>
+<div id="ajax-container">
+    <jsp:include page="ajax/repositories.jsp"/>
 </div>
 
 <script>
-    $('#searchValue').on('keypress', function () {
+    $('#searchValue').on('keyup', (e) => {
         search();
     })
 
@@ -54,9 +45,9 @@
         $.ajax({
             type: "post",
             url: '${contextPath}/projectRepository/ajax/repositories',
-            data: {search : search},
+            data: search,
             success: function (result) {
-                $('#menuArea').html(result);
+                $('#ajax-container').html(result);
             },
             error: function (e) {
                 console.log(e);
