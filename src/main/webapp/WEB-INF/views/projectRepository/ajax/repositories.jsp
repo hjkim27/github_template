@@ -7,17 +7,16 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<div>
-    <c:forEach var="item" items="${list}">
+
+<c:forEach var="item" items="${list}">
+    <div class="repo item">
         <div>
-            <div>
-                <span onclick="window.open('${item.htmlUrl}')">${item.name}</span>
-                <span>
-                  <c:if test="${item.privacy}">private</c:if>
-                  <c:if test="${!item.privacy}">public</c:if>
-              </span>
-            </div>
-            <div>${item.description}</div>
+            <a class="repo name" href="javascript:window.open('${item.htmlUrl}')">${item.name}</a>
+            <span class="repo privacyType">
+              <c:if test="${item.privacy}">private</c:if>
+              <c:if test="${!item.privacy}">public</c:if>
+          </span>
         </div>
-    </c:forEach>
-</div>
+        <div class="repo descript">${item.description}</div>
+    </div>
+</c:forEach>
