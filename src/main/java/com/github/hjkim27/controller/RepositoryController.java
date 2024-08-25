@@ -43,7 +43,6 @@ public class RepositoryController {
         ModelAndView mav = new ModelAndView("projectRepository/main");
 
         switch (path) {
-            case "main":
             case "home":
                 mav.addAllObjects(home());
                 break;
@@ -87,7 +86,6 @@ public class RepositoryController {
         ModelAndView mav = new ModelAndView("projectRepository/ajax/" + path);
 
         switch (path) {
-            case "main":
             case "home":
                 mav.addAllObjects(home());
                 break;

@@ -27,7 +27,7 @@ public class GeneralConfig {
     /**
      * 메인페이지
      */
-    public static final String REPO_URL = "/projectRepository/main";
+    public static final String REPO_URL = "/projectRepository/home";
 
     /**
      * 로그인페이지

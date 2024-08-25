@@ -21,7 +21,7 @@ public class DefaultSearch {
     private String searchValue;
 
     private Integer pageNum = 1;
-    private Integer pageSize = 20;
+    private Integer pageSize = 10;
     private int totalSize = 0;
 
     private String startDate;
