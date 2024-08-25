@@ -32,6 +32,7 @@
 html, body {
     margin: 0;
     padding: 0;
+    font-size: 15px;
 }
 
 input, button {
@@ -42,7 +43,7 @@ input, button {
 }
 
 input:focus {
-    border: 2px solid var(--blue-scale-2);
+    outline: none;
 }
 
 input::placeholder {
@@ -59,7 +60,6 @@ a, a:visited, a:link, a:active {
     display: grid;
     height: 100vh;
     width: 100%;
-    grid-template-rows: auto auto 60px;
 }
 
 .bg-dark-blue {

@@ -4,7 +4,6 @@
 input.default, button.default {
     height: 40px;
     width: auto;
-    font-size: 15px;
 }
 
 
@@ -14,15 +13,20 @@ a:hover {
 }
 
 /* class ================================================ */
-.container .header {
+.header {
     padding: 10px 10px 0 10px;
     display: grid;
     grid-template-columns: 1fr 1fr;
     justify-items: stretch;
 }
 
-.container {
-    align-items: start;
+.profile-area {
+    height: 100vh;
+}
+
+.list-area {
+    height: 100%;
+    padding: 10px;
 }
 
 button.sign {
