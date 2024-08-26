@@ -13,13 +13,13 @@
     <%-- ----------- --%>
     <input type="text" id="searchValue" name="searchValue" value="${search.searchValue}">
     <%-- ----------- --%>
-    <select id="privacyType" name="privacyType">
+    <select id="privacyType" name="privacyType" onchange="search()">
         <option value="-">All</option>
         <option value="private" <c:if test="${search.privacyType eq 'private'}">select</c:if>>privavte</option>
         <option value="pubilc" <c:if test="${search.privacyType eq 'public'}">select</c:if>>public</option>
     </select>
     <%-- ----------- --%>
-    <select id="sortColumn" name="sortColumn">
+    <select id="sortColumn" name="sortColumn" onchange="search()">
         <option value="-1">Sort</option>
         <option value="2" <c:if test="${search.sortColumn eq 2}">select</c:if>>name</option>
         <option value="8" <c:if test="${search.sortColumn eq 8}">select</c:if>>createdAt</option>
