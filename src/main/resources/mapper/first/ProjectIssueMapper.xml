@@ -26,4 +26,11 @@
         where issue_number = #{issueNumber}
     </select>
 
+    <!-- issue 목록 조회 -->
+    <select id="getList" parameterType="com.github.hjkim27.bean.search.ProjectSearch" resultType="com.github.hjkim27.bean.dto.project.ProjectIssueDTO">
+        select
+            (select full_name from tb_project_repository where sid = i.repository_sid) as repository_full_name,
+            state, issue_number, title, body, label_ids
+        from tb_project_issue i
+    </select>
 </mapper>

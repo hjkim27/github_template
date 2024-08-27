@@ -30,6 +30,7 @@
 <div style="grid-column: 1/3; display: flex; border-bottom: 1px solid var(--gray-scale-7);">
     <button id="menu-home" class="bg-white-hover-blue border-none menu-button" onclick="showMenu('home')">home</button>
     <button id="menu-repositories" class="bg-white-hover-blue border-none menu-button" onclick="showMenu('repositories')">Repositories</button>
+    <button id="menu-issues" class="bg-white-hover-blue border-none menu-button" onclick="showMenu('issues')">Issues</button>
     <button id="menu-labels" class="bg-white-hover-blue border-none menu-button" onclick="showMenu('labels')">Labels</button>
     <button id="menu-settings" class="bg-white-hover-blue border-none menu-button" onclick="showMenu('settings')">Settings</button>
 </div>

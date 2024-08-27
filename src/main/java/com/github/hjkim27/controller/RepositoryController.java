@@ -1,6 +1,6 @@
 package com.github.hjkim27.controller;
 
-import com.github.hjkim27.bean.search.ProjectRepositorySearch;
+import com.github.hjkim27.bean.search.ProjectSearch;
 import com.github.hjkim27.config.GeneralConfig;
 import com.github.hjkim27.service.ProjectService;
 import lombok.RequiredArgsConstructor;
@@ -49,6 +49,9 @@ public class RepositoryController {
             case "repositories":
                 mav.addAllObjects(repositories(search));
                 break;
+            case "issues":
+                mav.addAllObjects(issues(search));
+                break;
             case "labels":
                 mav.addAllObjects(labels());
                 break;
@@ -92,6 +95,9 @@ public class RepositoryController {
             case "repositories":
                 mav.addAllObjects(repositories(search));
                 break;
+            case "issuees":
+                mav.addAllObjects(issues(search));
+                break;
             case "labels":
                 mav.addAllObjects(labels());
                 break;
@@ -123,6 +129,19 @@ public class RepositoryController {
     public Map<String, Object> repositories(ProjectSearch search) {
         Map<String, Object> map = new HashMap<>();
         map.put("list", projectService.getRepoList(search));
+        return map;
+    }
+
+    /**
+     * <pre>
+     *     issues 검색 결과
+     * </pre>
+     * @param search
+     * @return
+     */
+    public Map<String, Object> issues(ProjectSearch search) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("list", projectService.getIssueList(search));
         return map;
     }
 

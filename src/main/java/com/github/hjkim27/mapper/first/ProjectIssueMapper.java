@@ -1,7 +1,11 @@
 package com.github.hjkim27.mapper.first;
 
+import com.github.hjkim27.bean.dto.project.ProjectIssueDTO;
+import com.github.hjkim27.bean.search.ProjectSearch;
 import com.github.hjkim27.bean.vo.project.ProjectIssueVO;
 import org.apache.ibatis.annotations.Mapper;
+
+import java.util.List;
 
 
 /**
@@ -45,4 +49,15 @@ public interface ProjectIssueMapper {
      * @return
      */
     public Boolean isExistRow(ProjectIssueVO projectIssueVO);
+
+    /**
+     * <pre>
+     *     issue list 조회
+     * </pre>
+     *
+     * @return
+     * @since 2024-08-27
+     */
+    public List<ProjectIssueDTO> getList(ProjectSearch search);
+
 }
