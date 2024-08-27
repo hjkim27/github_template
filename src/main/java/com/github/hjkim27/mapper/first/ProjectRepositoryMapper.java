@@ -1,7 +1,7 @@
 package com.github.hjkim27.mapper.first;
 
 import com.github.hjkim27.bean.dto.project.ProjectRepositoryDTO;
-import com.github.hjkim27.bean.search.ProjectRepositorySearch;
+import com.github.hjkim27.bean.search.ProjectSearch;
 import com.github.hjkim27.bean.vo.project.ProjectRepositoryVO;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -77,5 +77,5 @@ public interface ProjectRepositoryMapper {
      * @since 2024-08-19
      * @return
      */
-    public List<ProjectRepositoryDTO> getRepoList(ProjectRepositorySearch search);
+    public List<ProjectRepositoryDTO> getList(ProjectSearch search);
 }

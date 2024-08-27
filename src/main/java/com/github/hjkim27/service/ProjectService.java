@@ -1,7 +1,8 @@
 package com.github.hjkim27.service;
 
 import com.github.hjkim27.bean.dto.project.ProjectRepositoryDTO;
-import com.github.hjkim27.bean.search.ProjectRepositorySearch;
+import com.github.hjkim27.bean.search.ProjectSearch;
+import com.github.hjkim27.mapper.first.ProjectIssueMapper;
 import com.github.hjkim27.mapper.first.ProjectRepositoryMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,8 +17,7 @@ public class ProjectService {
 
     private final ProjectRepositoryMapper repositoryMapper;
 
-
-    public List<ProjectRepositoryDTO> getRepoList(ProjectRepositorySearch search){
-        return repositoryMapper.getRepoList(search);
+    public List<ProjectRepositoryDTO> getRepoList(ProjectSearch search) {
+        return repositoryMapper.getList(search);
     }
 }

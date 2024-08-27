@@ -12,7 +12,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString(callSuper = true)
-public class ProjectRepositorySearch extends DefaultSearch {
+public class ProjectSearch extends DefaultSearch {
 
     private String privacyType; // privacy column >> private or public
 

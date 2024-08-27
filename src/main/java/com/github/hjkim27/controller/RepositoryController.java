@@ -37,7 +37,7 @@ public class RepositoryController {
     @RequestMapping(value = "/projectRepository/{path}")
     public ModelAndView projectSelectMenu(HttpServletRequest request, HttpServletResponse response
             , @PathVariable(required = false) String path
-            , @ModelAttribute(name = "search") ProjectRepositorySearch search) throws Exception {
+            , @ModelAttribute(name = "search") ProjectSearch search) throws Exception {
         log.info(GeneralConfig.START);
         log.debug("search : {}", search);
         ModelAndView mav = new ModelAndView("projectRepository/main");
@@ -80,7 +80,7 @@ public class RepositoryController {
     @RequestMapping(value = "/projectRepository/ajax/{path}")
     public ModelAndView projectAjax(HttpServletRequest request, HttpServletResponse response
             , @PathVariable(required = false) String path
-            , @ModelAttribute(name = "search") ProjectRepositorySearch search) throws Exception {
+            , @ModelAttribute(name = "search") ProjectSearch search) throws Exception {
         log.info(GeneralConfig.START);
         log.debug("search : {}", search);
         ModelAndView mav = new ModelAndView("projectRepository/ajax/" + path);
@@ -120,7 +120,7 @@ public class RepositoryController {
      * @param search
      * @return
      */
-    public Map<String, Object> repositories(ProjectRepositorySearch search) {
+    public Map<String, Object> repositories(ProjectSearch search) {
         Map<String, Object> map = new HashMap<>();
         map.put("list", projectService.getRepoList(search));
         return map;

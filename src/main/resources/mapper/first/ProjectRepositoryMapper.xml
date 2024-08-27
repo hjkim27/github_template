@@ -47,7 +47,7 @@
         where full_name = #{fullName}
     </select>
     
-    <select id="getRepoList" parameterType="com.github.hjkim27.bean.search.ProjectRepositorySearch" resultType="com.github.hjkim27.bean.dto.project.ProjectRepositoryDTO">
+    <select id="getList" parameterType="com.github.hjkim27.bean.search.ProjectSearch" resultType="com.github.hjkim27.bean.dto.project.ProjectRepositoryDTO">
         select *
         from tb_project_repository
         <trim prefix="where" prefixOverrides="and">
