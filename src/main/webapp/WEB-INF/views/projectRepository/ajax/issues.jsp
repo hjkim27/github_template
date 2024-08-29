@@ -11,15 +11,14 @@
 
 <c:forEach var="item" items="${list}">
     <div class="repo item grid-column-2-1 grid-gap-10">
-        ${item}
-<%--        <div>--%>
-<%--            <a class="repo name" href="javascript:window.open('${item.htmlUrl}')">${item.name}</a>--%>
-<%--            <span class="repo privacyType">--%>
-<%--              <c:if test="${item.privacy}">private</c:if>--%>
-<%--              <c:if test="${!item.privacy}">public</c:if>--%>
-<%--          </span>--%>
-<%--        </div>--%>
-<%--        <div class="repo at-div"><fmt:formatDate value="${item.createdAt}" pattern="yyyy-MM-dd hh:mm"/></div>--%>
-<%--        <div class="repo descript">${item.description}</div>--%>
+            ${item}
+        <div>
+            <div>${item.title}</div>
+            <div>
+                <c:forEach var="label" items="${item.labelLIdList}">
+                    <span>${label}</span>
+                </c:forEach>
+            </div>
+        </div>
     </div>
 </c:forEach>
