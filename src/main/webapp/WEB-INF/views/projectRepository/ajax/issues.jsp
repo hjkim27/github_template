@@ -11,14 +11,40 @@
 
 <c:forEach var="item" items="${list}">
     <div class="repo item grid-column-2-1 grid-gap-10">
-            ${item}
         <div>
             <div>${item.title}</div>
             <div>
-                <c:forEach var="label" items="${item.labelLIdList}">
-                    <span>${label}</span>
+                <c:forEach var="labelId" items="${item.labelList}">
+                    <c:set var="label" value="${labels[labelId]}"/>
+                    <span name="label" id="label-${labelId}" data-color="${label.color}">${label.name}</span>
                 </c:forEach>
             </div>
         </div>
     </div>
 </c:forEach>
+<script>
+    // hex to rgb
+    function hexToRgb(hex) {
+        var arrBuff = new ArrayBuffer(4);
+        var vw = new DataView(arrBuff);
+        vw.setUint32(0, parseInt(hex, 16), false);
+        var arrByte = new Uint8Array(arrBuff);
+        var count = 0;
+        for (let i = 1; i < 3; i++) {
+            if (arrByte[i] > 125) {
+                count++
+            }
+        }
+        return count;
+    }
+
+    $('span[name="label"]').each(function () {
+        let item = $(this);
+        let dColor = item.data('color');
+        item.css('background-color', dColor);
+        var cc = hexToRgb(dColor);
+        item.css('color', (cc < 2) ? '#ffffff' : '#000000')
+    })
+
+
+</script>

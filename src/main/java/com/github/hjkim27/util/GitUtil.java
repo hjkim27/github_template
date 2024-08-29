@@ -205,7 +205,7 @@ public class GitUtil {
 //                    log.info("label.id : {}", label.getId());
                     labelIds.add(label.getId());
                 }
-                issueDTO.setLabelLIdList(labelIds);
+                issueDTO.setLabelIds(FormatUtil.listToString(labelIds, ","));
                 issueDTOList.add(issueDTO);
             }
             dto.setIssueDTOList(issueDTOList);

@@ -112,7 +112,6 @@ public class GitService {
         for (ProjectIssueDTO dto : issueDTOList) {
             ProjectIssueVO vo = modelMapper.map(dto, ProjectIssueVO.class);
             vo.setRepositorySid(repositorySid);
-            vo.setLabelIds(FormatUtil.listToString(dto.getLabelLIdList(), ","));
 
             boolean isExistIssue = projectIssueMapper.isExistRow(vo);
             if (isExistIssue) {

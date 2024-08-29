@@ -53,7 +53,7 @@ public class RepositoryController {
                 mav.addAllObjects(issues(search));
                 break;
             case "labels":
-                mav.addAllObjects(labels());
+                mav.addAllObjects(labels(search));
                 break;
             case "settings":
                 mav.addAllObjects(settings());
@@ -99,7 +99,7 @@ public class RepositoryController {
                 mav.addAllObjects(issues(search));
                 break;
             case "labels":
-                mav.addAllObjects(labels());
+                mav.addAllObjects(labels(search));
                 break;
             case "settings":
                 mav.addAllObjects(settings());
@@ -136,17 +136,20 @@ public class RepositoryController {
      * <pre>
      *     issues 검색 결과
      * </pre>
+     *
      * @param search
      * @return
      */
     public Map<String, Object> issues(ProjectSearch search) {
         Map<String, Object> map = new HashMap<>();
         map.put("list", projectService.getIssueList(search));
+        map.put("labels", projectService.getLabelMap(search));
         return map;
     }
 
-    public Map<String, Object> labels() {
+    public Map<String, Object> labels(ProjectSearch search) {
         Map<String, Object> map = new HashMap<>();
+        map.put("list", projectService.getLabelList(search));
         return map;
     }
 

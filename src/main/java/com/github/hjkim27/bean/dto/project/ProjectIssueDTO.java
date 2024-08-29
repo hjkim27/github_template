@@ -1,8 +1,10 @@
 package com.github.hjkim27.bean.dto.project;
 
 import lombok.*;
+import lombok.extern.slf4j.Slf4j;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * <pre>
@@ -25,19 +27,18 @@ public class ProjectIssueDTO {
     private String body;
     private String labelIds;
 
-    // 특정 issue 의 label_id 목록
-    private List<String> labelLIdList;
-
-    // [2024-08-28] issue 목록 반환 추가 수정 및 null 체크
-    public List<String> getLabelIdList() {
-        if (labelIds == null) {
-            return Collections.emptyList();
-        } else {
-            String[] arr = labelIds.split(",");
-            return Arrays.asList(arr);
-        }
-    }
-
     // 특정 issue 의 comment 목록
     private List<ProjectCommentDTO> commentList;
+
+    // issue 목록 조회수정
+    public List<Long> getLabelList() {
+        List<Long> list = new ArrayList<>();
+        if (!labelIds.isEmpty()) {
+            String[] arr = labelIds.split(",");
+            for (String s : arr) {
+                list.add(Long.parseLong(s));
+            }
+        }
+        return list;
+    }
 }

@@ -1,5 +1,7 @@
 package com.github.hjkim27.mapper.first;
 
+import com.github.hjkim27.bean.dto.project.ProjectLabelDTO;
+import com.github.hjkim27.bean.search.ProjectSearch;
 import com.github.hjkim27.bean.vo.project.ProjectLabelVO;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -65,4 +67,15 @@ public interface ProjectLabelMapper {
      * @return
      */
     public List<ProjectLabelVO> getLabelsByIssueNumber(Integer issueNumber);
+
+    /**
+     * <pre>
+     *     issue list 조회
+     * </pre>
+     *
+     * @param search
+     * @return
+     * @since 2024-08-29
+     */
+    public List<ProjectLabelDTO> getList(ProjectSearch search);
 }
