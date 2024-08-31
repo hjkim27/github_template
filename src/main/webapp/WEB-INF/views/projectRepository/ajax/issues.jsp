@@ -11,12 +11,12 @@
 
 <c:forEach var="item" items="${list}">
     <div class="repo item grid-column-2-1 grid-gap-10">
-        <div>
-            <div>${item.title}</div>
+        <div style="display: flex">
+            <div style="margin-right: 10px;">${item.title}</div>
             <div>
                 <c:forEach var="labelId" items="${item.labelList}">
                     <c:set var="label" value="${labels[labelId]}"/>
-                    <span name="label" id="label-${labelId}" data-color="${label.color}">${label.name}</span>
+                    <span class="repo round-box" name="label" id="label-${labelId}" data-color="${label.color}">${label.name}</span>
                 </c:forEach>
             </div>
         </div>
@@ -42,6 +42,7 @@
         let item = $(this);
         let dColor = item.data('color');
         item.css('background-color', dColor);
+        item.css('border-color', dColor);
         var cc = hexToRgb(dColor);
         item.css('color', (cc < 2) ? '#ffffff' : '#000000')
     })

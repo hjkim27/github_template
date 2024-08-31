@@ -32,5 +32,6 @@
             (select full_name from tb_project_repository where sid = i.repository_sid) as repository_full_name,
             state, issue_number, title, body, label_ids
         from tb_project_issue i
+        order by issue_number desc
     </select>
 </mapper>

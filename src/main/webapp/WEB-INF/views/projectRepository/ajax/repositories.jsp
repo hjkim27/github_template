@@ -13,7 +13,7 @@
     <div class="repo item grid-column-2-1 grid-gap-10">
         <div>
             <a class="repo name" href="javascript:window.open('${item.htmlUrl}')">${item.name}</a>
-            <span class="repo privacyType">
+            <span class="repo round-box">
               <c:if test="${item.privacy}">private</c:if>
               <c:if test="${!item.privacy}">public</c:if>
           </span>

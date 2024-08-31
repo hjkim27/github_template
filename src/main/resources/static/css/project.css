@@ -33,11 +33,11 @@ input, select {
     font-weight: 700;
 }
 
-.repo.privacyType {
+.repo.round-box {
     border: 1px solid var(--gray-scale-7);
     border-radius: 25px;
     padding: 0 10px;
-    font-weight: 700;
+    font-weight: 400;
     font-size: 12px;
     color: var(--gray-scale-7);
 }
