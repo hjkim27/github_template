@@ -11,13 +11,35 @@
 <link rel="stylesheet" type="text/css" href="${contextPath}/static/css/custom/project.css">
 <div id="loadTarget">
     <%-- ----------- --%>
+    <input type="hidden" id="privacyType" name="privacyType" value="${search.privacyType}">
+    <%-- ----------- --%>
     <input type="text" id="searchValue" name="searchValue" value="${search.searchValue}">
     <%-- ----------- --%>
-    <select id="privacyType" name="privacyType" onchange="search()">
-        <option value="-">All</option>
-        <option value="private" <c:if test="${search.privacyType eq 'private'}">select</c:if>>privavte</option>
-        <option value="pubilc" <c:if test="${search.privacyType eq 'public'}">select</c:if>>public</option>
-    </select>
+    <!-- Button trigger modal -->
+    <button id="privacyType-btn" type="button" class="btn btn-primary" data-toggle="modal" data-target="#privacyType-modal">
+        Type
+    </button>
+
+    <!-- Modal -->
+    <div id="privacyType-modal" class="modal fade" tabindex="-1" role="dialog"
+         aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div name="privacyType" data-value="">All</div>
+                    <div name="privacyType" data-value="private">private</div>
+                    <div name="privacyType" data-value="public">public</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <%-- ----------- --%>
+    <%--    <select id="privacyType" name="privacyType" onchange="search()">--%>
+    <%--        <option value="-">All</option>--%>
+    <%--        <option value="private" <c:if test="${search.privacyType eq 'private'}">select</c:if>>privavte</option>--%>
+    <%--        <option value="pubilc" <c:if test="${search.privacyType eq 'public'}">select</c:if>>public</option>--%>
+    <%--    </select>--%>
     <%-- ----------- --%>
     <select id="sortColumn" name="sortColumn" onchange="search()">
         <option value="-1">Sort</option>
@@ -54,4 +76,37 @@
             }
         })
     }
+
+    setModalPosition('privacyType');
+    function setModalPosition(targetId) {
+        var target = $('#' + targetId+'-btn');
+        var height = target.height();
+        var pos = target.position();
+        var modalDiv = $('#' + targetId + '-modal');
+        modalDiv.css('left', pos.left);
+        modalDiv.css('top', pos.top + target.height() + 15);
+    }
+
+    $('[name="privacyType"]').click(function (){
+        $('#privacyType').val($(this).data('value'));
+        search();
+
+    })
+    $('[name="privacyType"]').mouseover(function (){
+        var div = $(this);
+        div.css('background-color', 'var(--blue-scale-9)');
+    })
+    $('[name="privacyType"]').mouseout(function (){
+        var div = $(this);
+        div.css('background-color', 'var(--gray-scale-9)');
+    })
+
 </script>
+<style>
+    .modal-dialog {
+        margin: 0;
+    }
+    .modal-backdrop{
+        opacity: 0 !important;
+    }
+</style>
