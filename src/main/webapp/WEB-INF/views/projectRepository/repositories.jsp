@@ -8,7 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
-<link rel="stylesheet" type="text/css" href="${contextPath}/static/css/project.css">
+<link rel="stylesheet" type="text/css" href="${contextPath}/static/css/custom/project.css">
 <div id="loadTarget">
     <%-- ----------- --%>
     <input type="text" id="searchValue" name="searchValue" value="${search.searchValue}">

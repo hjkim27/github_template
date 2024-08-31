@@ -10,8 +10,10 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 
-<link rel="stylesheet" type="text/css" href="${contextPath}/static/css/main.css">
-<script type="text/javascript" src="${contextPath}/static/js/jquery-3.7.1.min.js"></script>
+<link rel="stylesheet" type="text/css" href="${contextPath}/static/css/custom/main.css">
+<link rel="stylesheet" type="text/css" href="${contextPath}/static/css/bootstrap/bootstrap-3.4.1.min.css">
+<script type="text/javascript" src="${contextPath}/static/js/jquery/jquery-3.7.1.min.js"></script>
+<script type="text/javascript" src="${contextPath}/static/js/bootstrap/bootstrap-3.4.1.min.js"></script>
 
 <div class="">
     <img style="max-height: 40px; filter: invert()" src="${contextPath}/static/img/logo/logo2-clean.png">

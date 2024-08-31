@@ -11,7 +11,7 @@
 <html>
 <head>
     <title>Title</title>
-    <script type="text/javascript" src="${contextPath}/static/js/jquery-3.7.1.min.js"></script>
+    <script type="text/javascript" src="${contextPath}/static/js/jquery/jquery-3.7.1.min.js"></script>
 
     <style>
         /* menu button */
