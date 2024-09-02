@@ -99,11 +99,11 @@ create table tb_project_issue
 create table tb_project_comment
 (
     sid               serial,
-    issue_number      Integer           not null, -- tb_project_issue.number
-    comment_id        character varying not null, -- comment.id
-    body              text              not null, -- comment.body
-    parent_comment_id character varying,          -- comment.parent.id
-    created_at        timestamp with time zone,   -- comment.createdAt
-    updated_at        timestamp with time zone,   -- comment.updatedAt
-    active            boolean           not null default true
+    issue_number      Integer not null,         -- tb_project_issue.number
+    comment_id        bigint  not null,         -- comment.id
+    body              text    not null,         -- comment.body
+    parent_comment_id character varying,        -- comment.parent.id
+    created_at        timestamp with time zone, -- comment.createdAt
+    updated_at        timestamp with time zone, -- comment.updatedAt
+    active            boolean not null default true
 );

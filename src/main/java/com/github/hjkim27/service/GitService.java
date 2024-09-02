@@ -6,7 +6,6 @@ import com.github.hjkim27.bean.vo.project.ProjectIssueVO;
 import com.github.hjkim27.bean.vo.project.ProjectLabelVO;
 import com.github.hjkim27.bean.vo.project.ProjectRepositoryVO;
 import com.github.hjkim27.mapper.first.*;
-import com.github.hjkim27.util.FormatUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -124,7 +123,7 @@ public class GitService {
 
             // comment 연동
             List<ProjectCommentDTO> comments = dto.getCommentList();
-            insertComment(comments);
+            insertComment(comments, vo.getIssueNumber());
         }
     }
 
@@ -137,9 +136,10 @@ public class GitService {
      * @param commentDTOList
      * @since 24.08.02
      */
-    public void insertComment(List<ProjectCommentDTO> commentDTOList) {
+    public void insertComment(List<ProjectCommentDTO> commentDTOList, Integer issueNumber) {
         for (ProjectCommentDTO dto : commentDTOList) {
             ProjectCommentVO vo = modelMapper.map(dto, ProjectCommentVO.class);
+            vo.setIssueNumber(issueNumber);
 
             boolean isExistComment = projectCommentMapper.isExistRow(vo);
             if (isExistComment) {
