@@ -4,6 +4,7 @@ import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -26,6 +27,7 @@ public class ProjectIssueDTO {
     private String title;
     private String body;
     private String labelIds;
+    private Date createdAt;
 
     // 특정 issue 의 comment 목록
     private List<ProjectCommentDTO> commentList;

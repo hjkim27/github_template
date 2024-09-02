@@ -3,6 +3,8 @@ package com.github.hjkim27.bean.vo.project;
 
 import lombok.*;
 
+import java.util.Date;
+
 /**
  * <pre>
  *     tb_project_issue table
@@ -25,5 +27,6 @@ public class ProjectIssueVO {
     private Integer issueNumber;
     private String title;
     private String body;
+    private Date createdAt;
 
 }
