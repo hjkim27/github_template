@@ -26,7 +26,6 @@ public class DateFormatUtil {
     public static String getNowDate(DateFormat format) {
         Calendar calendar = Calendar.getInstance();
         String result = format.format.format(calendar.getTime());
-        log.info("date : {}", result);
         return result;
     }
 
@@ -34,7 +33,6 @@ public class DateFormatUtil {
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.DAY_OF_MONTH, days);
         String result = format.format.format(calendar.getTime());
-        log.info("date : {}", result);
         return result;
     }
 }

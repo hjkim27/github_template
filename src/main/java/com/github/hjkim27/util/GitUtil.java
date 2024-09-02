@@ -76,7 +76,6 @@ public class GitUtil {
                     .sort(GHCommitSearchBuilder.Sort.AUTHOR_DATE);
         }
         PagedSearchIterable<GHCommit> list = builder.list();
-        log.info("commit >> list.getTotalCount() : {}", list.getTotalCount());
         commits = list;
     }
 
