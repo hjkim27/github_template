@@ -112,10 +112,19 @@
         modalDiv.css('top', pos.top + target.height() + 15);
     }
 
+    // 이전 검색으로 추가된 i tag 제거
+    function removeCheck(id) {
+        $('.selectCheck' + id).remove();
+    }
+
     // type, sort 검색 >> modal 에서 버튼 클릭 시 동작
     $('.modal-search-btn').click(function () {
         var name = $(this).attr('name');
         $('#' + name).val($(this).data('value'));
+        removeCheck(name)
+        var htmlVar = $(this).html();
+        htmlVar = '<i class="fas fa-check selectCheck' + name + '"></i>' + htmlVar;
+        $(this).html(htmlVar);
         search();
     })
 

@@ -11,6 +11,7 @@
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 
 <link rel="stylesheet" type="text/css" href="${contextPath}/static/css/custom/main.css">
+<link rel="stylesheet" type="text/css" href="${contextPath}/static/fontawesome/5.15.4/css/all.min.css">
 <link rel="stylesheet" type="text/css" href="${contextPath}/static/css/bootstrap/bootstrap-3.4.1.min.css">
 <script type="text/javascript" src="${contextPath}/static/js/jquery/jquery-3.7.1.min.js"></script>
 <script type="text/javascript" src="${contextPath}/static/js/bootstrap/bootstrap-3.4.1.min.js"></script>
