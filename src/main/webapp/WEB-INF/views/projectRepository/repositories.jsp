@@ -12,41 +12,59 @@
 <div id="loadTarget">
     <%-- ----------- --%>
     <input type="hidden" id="privacyType" name="privacyType" value="${search.privacyType}">
+    <input type="hidden" id="sortColumn" name="sortColumn" value="${search.sortColumn}">
     <%-- ----------- --%>
-    <input type="text" id="searchValue" name="searchValue" value="${search.searchValue}">
+    <input type="text" id="searchValue" name="searchValue" class="min-size" value="${search.searchValue}">
     <%-- ----------- --%>
     <!-- Button trigger modal -->
-    <button id="privacyType-btn" type="button" class="btn btn-primary" data-toggle="modal" data-target="#privacyType-modal">
+    <button id="privacyType-btn" type="button" class="btn bg-white-hover-blue br-dark-blue min-size" data-toggle="modal"
+            data-target="#privacyTypeModal">
         Type
     </button>
 
     <!-- Modal -->
-    <div id="privacyType-modal" class="modal fade" tabindex="-1" role="dialog"
-         aria-labelledby="exampleModalLabel"
-         aria-hidden="true">
+    <div id="privacyTypeModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="privacyTypeModalLabel">
         <div class="modal-dialog" role="document">
-            <div class="modal-content">
+            <div id="privacyTypeModalContent" class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Select Type</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
                 <div class="modal-body">
-                    <div name="privacyType" data-value="">All</div>
-                    <div name="privacyType" data-value="private">private</div>
-                    <div name="privacyType" data-value="public">public</div>
+                    <div name="privacyType" class="modal-search-btn" data-value="">All</div>
+                    <div name="privacyType" class="modal-search-btn" data-value="private">private</div>
+                    <div name="privacyType" class="modal-search-btn" data-value="public">public</div>
                 </div>
             </div>
         </div>
     </div>
     <%-- ----------- --%>
-    <%--    <select id="privacyType" name="privacyType" onchange="search()">--%>
-    <%--        <option value="-">All</option>--%>
-    <%--        <option value="private" <c:if test="${search.privacyType eq 'private'}">select</c:if>>privavte</option>--%>
-    <%--        <option value="pubilc" <c:if test="${search.privacyType eq 'public'}">select</c:if>>public</option>--%>
-    <%--    </select>--%>
+    <!-- Button trigger modal -->
+    <button id="sortColumn-btn" type="button" class="btn bg-white-hover-blue br-dark-blue min-size" data-toggle="modal"
+            data-target="#sortColumnModal">
+        Sort
+    </button>
+    <!-- Modal -->
+    <div id="sortColumnModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="sortColumnModalLabel">
+        <div class="modal-dialog" role="document">
+            <div id="sortColumnModalContent" class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Select Order</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div name="sortColumn" class="modal-search-btn" data-value="2">name</div>
+                    <div name="sortColumn" class="modal-search-btn" data-value="8">createdAt</div>
+                    <div name="sortColumn" class="modal-search-btn" data-value="9">updatedAt</div>
+                </div>
+            </div>
+        </div>
+    </div>
     <%-- ----------- --%>
-    <select id="sortColumn" name="sortColumn" onchange="search()">
-        <option value="-1">Sort</option>
-        <option value="2" <c:if test="${search.sortColumn eq 2}">select</c:if>>name</option>
-        <option value="8" <c:if test="${search.sortColumn eq 8}">select</c:if>>createdAt</option>
-        <option value="9" <c:if test="${search.sortColumn eq 9}">select</c:if>>updatedAt</option>
-    </select>
 </div>
 <%-- ajax 검색 결과 --%>
 <div id="ajax-container">
@@ -70,6 +88,8 @@
             data: search,
             success: function (result) {
                 $('#ajax-container').html(result);
+                // type, sort 검색 후 modal 을 닫기위함
+                $('.close').click();
             },
             error: function (e) {
                 console.log(e);
@@ -77,36 +97,38 @@
         })
     }
 
-    setModalPosition('privacyType');
+    // UI 화면이 변경되었을 경우에도 modal 을 제위치에 출력하기 위해...
+    setInterval(() => {
+        setModalPosition('privacyType');
+        setModalPosition('sortColumn');
+    })
+
     function setModalPosition(targetId) {
-        var target = $('#' + targetId+'-btn');
+        var target = $('#' + targetId + '-btn');
         var height = target.height();
         var pos = target.position();
-        var modalDiv = $('#' + targetId + '-modal');
+        var modalDiv = $('#' + targetId + 'ModalContent');
         modalDiv.css('left', pos.left);
         modalDiv.css('top', pos.top + target.height() + 15);
     }
 
-    $('[name="privacyType"]').click(function (){
-        $('#privacyType').val($(this).data('value'));
+    // type, sort 검색 >> modal 에서 버튼 클릭 시 동작
+    $('.modal-search-btn').click(function () {
+        var name = $(this).attr('name');
+        $('#' + name).val($(this).data('value'));
         search();
-
     })
-    $('[name="privacyType"]').mouseover(function (){
+
+    // modal버튼에 hover 효과 추가
+    $('.modal-search-btn').mouseover(function () {
         var div = $(this);
         div.css('background-color', 'var(--blue-scale-9)');
     })
-    $('[name="privacyType"]').mouseout(function (){
+
+    // modal버튼에서 마우스를 치웠을 경우
+    $('.modal-search-btn').mouseout(function () {
         var div = $(this);
         div.css('background-color', 'var(--gray-scale-9)');
     })
 
 </script>
-<style>
-    .modal-dialog {
-        margin: 0;
-    }
-    .modal-backdrop{
-        opacity: 0 !important;
-    }
-</style>
