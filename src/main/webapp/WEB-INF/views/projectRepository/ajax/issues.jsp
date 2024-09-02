@@ -10,15 +10,20 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <c:forEach var="item" items="${list}">
-    <div class="repo item grid-column-2-1 grid-gap-10">
+    <div class="repo item">
         <div style="display: flex">
-            <div style="margin-right: 10px;">${item.title}</div>
+            <div style="margin-right: 10px;">#${item.issueNumber} ${item.title}</div>
             <div>
                 <c:forEach var="labelId" items="${item.labelList}">
                     <c:set var="label" value="${labels[labelId]}"/>
                     <span class="repo round-box" name="label" id="label-${labelId}" data-color="${label.color}">${label.name}</span>
                 </c:forEach>
             </div>
+        </div>
+        <div style="font-size: 12px; color: var(--gray-scale-8)">
+            <c:if test="${item.createdAt ne null}">
+                CreatedAt : <fmt:formatDate value="${item.createdAt}" pattern="yyyy-MM-dd hh:mm"/>
+            </c:if>
         </div>
     </div>
 </c:forEach>

@@ -90,7 +90,8 @@ create table tb_project_issue
     state          character varying(6) not null default 'OPEN', -- issue.state
     issue_number   integer              not null,                -- issue.number
     title          character varying    not null,                -- issue.title
-    body           character varying                             -- issue.body
+    body           character varying,                            -- issue.body
+    created_at     timestamp with time zone                      -- issue.createdAt
 );
 
 -- comment

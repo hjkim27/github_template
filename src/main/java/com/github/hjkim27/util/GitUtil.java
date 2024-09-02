@@ -180,6 +180,7 @@ public class GitUtil {
                 issueDTO.setIssueNumber(issue.getNumber());
                 issueDTO.setTitle(issue.getTitle());
                 issueDTO.setBody(issue.getBody());
+                issueDTO.setCreatedAt(issue.getCreatedAt());
 //                log.info("issue : {}", issueDTO.toString());
 //                log.info("{} | #{} >> comments ----------", dto.getName(), issueDTO.getIssueNumber());
                 // issue.comment ----------
