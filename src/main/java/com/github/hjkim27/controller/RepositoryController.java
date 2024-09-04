@@ -95,7 +95,7 @@ public class RepositoryController {
             case "repositories":
                 mav.addAllObjects(repositories(search));
                 break;
-            case "issuees":
+            case "issues":
                 mav.addAllObjects(issues(search));
                 break;
             case "labels":
