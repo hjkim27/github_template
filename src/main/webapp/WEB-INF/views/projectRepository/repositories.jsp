@@ -11,21 +11,21 @@
 <link rel="stylesheet" type="text/css" href="${contextPath}/static/css/custom/project.css">
 <div id="loadTarget">
     <%-- ----------- --%>
-    <input type="hidden" id="privacyType" name="privacyType" value="${search.privacyType}">
+    <input type="hidden" id="filterType" name="filterType" value="${search.filterType}">
     <input type="hidden" id="sortColumn" name="sortColumn" value="${search.sortColumn}">
     <%-- ----------- --%>
     <input type="text" id="searchValue" name="searchValue" class="min-size" value="${search.searchValue}">
     <%-- ----------- --%>
     <!-- Button trigger modal -->
-    <button id="privacyType-btn" type="button" class="btn bg-white-hover-blue br-dark-blue min-size" data-toggle="modal"
-            data-target="#privacyTypeModal">
+    <button id="filterType-btn" type="button" class="btn bg-white-hover-blue br-dark-blue min-size" data-toggle="modal"
+            data-target="#filterTypeModal">
         Type
     </button>
 
     <!-- Modal -->
-    <div id="privacyTypeModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="privacyTypeModalLabel">
+    <div id="filterTypeModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="filterTypeModalLabel">
         <div class="modal-dialog" role="document">
-            <div id="privacyTypeModalContent" class="modal-content">
+            <div id="filterTypeModalContent" class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Select Type</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -33,9 +33,9 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div name="privacyType" class="modal-search-btn" data-value="">All</div>
-                    <div name="privacyType" class="modal-search-btn" data-value="private">private</div>
-                    <div name="privacyType" class="modal-search-btn" data-value="public">public</div>
+                    <div name="filterType" class="modal-search-btn" data-value="">All</div>
+                    <div name="filterType" class="modal-search-btn" data-value="private">private</div>
+                    <div name="filterType" class="modal-search-btn" data-value="public">public</div>
                 </div>
             </div>
         </div>
@@ -79,7 +79,7 @@
     function search() {
         var search = {
             searchValue: $('#searchValue').val(),
-            privacyType: $('#privacyType').val(),
+            filterType: $('#filterType').val(),
             sortColumn: $('#sortColumn').val() * 1
         }
         $.ajax({
@@ -99,7 +99,7 @@
 
     // UI 화면이 변경되었을 경우에도 modal 을 제위치에 출력하기 위해...
     setInterval(() => {
-        setModalPosition('privacyType');
+        setModalPosition('filterType');
         setModalPosition('sortColumn');
     })
 

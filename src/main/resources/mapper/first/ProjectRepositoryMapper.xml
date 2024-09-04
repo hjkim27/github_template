@@ -54,9 +54,9 @@
             <if test="searchValue != null and searchValue != ''">
                 and (name like '%'||#{searchValue}||'%' or description like '%'||#{searchValue}||'%')
             </if>
-            <if test="privacyType != null and privacyType != ''">
-                <if test="privacyType == 'private'">and privacy = true</if>
-                <if test="privacyType == 'public'">and privacy = false</if>
+            <if test="filterType != null and filterType != ''">
+                <if test="filterType == 'private'">and privacy = true</if>
+                <if test="filterType == 'public'">and privacy = false</if>
             </if>
         </trim>
         <if test="sortColumn != null and sortColumn != -1">

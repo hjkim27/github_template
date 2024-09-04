@@ -14,6 +14,8 @@ import lombok.ToString;
 @ToString(callSuper = true)
 public class ProjectSearch extends DefaultSearch {
 
-    private String privacyType; // privacy column >> private or public
+    // repositories > privacy column >> private or public
+    // issues > labelId
+    private String filterType;
 
 }
