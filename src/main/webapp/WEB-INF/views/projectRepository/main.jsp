@@ -23,13 +23,14 @@
     </div>
 
     <div id="menuArea" class="list-area">
-        <c:choose>
-            <c:when test="${path eq 'home'}"><jsp:include page="home.jsp"/></c:when>
-            <c:when test="${path eq 'repositories'}"><jsp:include page="repositories.jsp"/></c:when>
-            <c:when test="${path eq 'issues'}"><jsp:include page="issues.jsp"/></c:when>
-            <c:when test="${path eq 'labels'}"><jsp:include page="labels.jsp"/></c:when>
-            <c:when test="${path eq 'settings'}"><jsp:include page="settings.jsp"/></c:when>
-        </c:choose>
+        <c:if test="${path ne 'home'}">
+            <jsp:include page="common/searchArea.jsp"/>
+        </c:if>
+        <%-- ajax 검색 결과 --%>
+        <div id="ajax-container">
+            <jsp:include page="ajax/${path}.jsp"/>
+        </div>
+
     </div>
 </div>
 </div>

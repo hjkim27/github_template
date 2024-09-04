@@ -66,11 +66,6 @@
     </div>
     <%-- ----------- --%>
 </div>
-<%-- ajax 검색 결과 --%>
-<div id="ajax-container">
-    <jsp:include page="ajax/repositories.jsp"/>
-</div>
-
 <script>
     $('#searchValue').on('keyup', (e) => {
         search();
@@ -84,7 +79,7 @@
         }
         $.ajax({
             type: "post",
-            url: '${contextPath}/projectRepository/ajax/repositories',
+            url: '${contextPath}/projectRepository/ajax/${path}',
             data: search,
             success: function (result) {
                 $('#ajax-container').html(result);
