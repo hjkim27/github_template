@@ -7,7 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<c:set var="contextPath" value="${pageContext.request.contextPath}" />
+<c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 <html>
 <head>
     <title>hjkim27.github</title>
@@ -42,7 +42,7 @@
     /* [2024-08-23] enter 입력 시 로그인이 동작하도록 수정 */
     window.addEventListener('keypress', (e) => {
         /* cf:https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/code */
-        if(e.key === 'Enter'){
+        if (e.key === 'Enter') {
             login();
         }
     })
@@ -66,6 +66,9 @@
                     location.href = data.url;
                 } else {
                     alert(JSON.stringify(data.message));
+                    $('#loginPw').val('');
+                    $('#loginId').val('');
+                    $('#loginId').focus();
                 }
             },
             error: function (e) {
