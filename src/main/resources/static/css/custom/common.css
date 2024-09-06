@@ -138,7 +138,7 @@ a, a:visited, a:link, a:active {
 /* modal ================================================ */
 .modal-dialog {
     margin: 0;
-    width: 150px;
+    width: 400px;
 }
 
 .modal-backdrop {
@@ -152,10 +152,13 @@ a, a:visited, a:link, a:active {
 
 .modal-body {
     padding: 0;
+    max-height: 60vh;
+    overflow-y: scroll;
 }
 
 .modal-search-btn {
     padding: 5px 15px;
+    border-bottom: 1px solid var(--blue-scale-8);
 }
 
 /**/

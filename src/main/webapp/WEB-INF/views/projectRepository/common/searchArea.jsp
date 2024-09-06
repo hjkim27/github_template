@@ -32,11 +32,27 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body">
-                    <div name="filterType" class="modal-search-btn" data-value="">All</div>
-                    <div name="filterType" class="modal-search-btn" data-value="private">private</div>
-                    <div name="filterType" class="modal-search-btn" data-value="public">public</div>
-                </div>
+                <c:choose>
+                    <c:when test="${path eq 'repositories'}">
+                        <div class="modal-body">
+                            <div name="filterType" class="modal-search-btn" data-value="">All</div>
+                            <div name="filterType" class="modal-search-btn" data-value="private">private</div>
+                            <div name="filterType" class="modal-search-btn" data-value="public">public</div>
+                        </div>
+                    </c:when>
+                    <c:when test="${path eq 'issues'}">
+                        <div class="modal-body">
+                            <c:forEach var="item" items="${labelList}">
+                                <div name="filterType" class="modal-search-btn grid-gap-10"
+                                     style="grid-template-columns: 20px auto" data-value="${item.labelId}">
+                                    <div style="width:12px; height: 12px; background-color: ${item.color}"></div>
+                                    <div>${item.name}</div>
+                                    <div style="grid-column: 2; font-size: 12px">${item.description}</div>
+                                </div>
+                            </c:forEach>
+                        </div>
+                    </c:when>
+                </c:choose>
             </div>
         </div>
     </div>

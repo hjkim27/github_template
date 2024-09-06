@@ -44,6 +44,6 @@
     <!-- issue 목록 조회 -->
     <select id="getList" parameterType="com.github.hjkim27.bean.search.ProjectSearch" resultType="com.github.hjkim27.bean.dto.project.ProjectLabelDTO">
         select *
-        from tb_project_label;
+        from tb_project_label order by name;
     </select>
 </mapper>

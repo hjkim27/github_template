@@ -144,6 +144,7 @@ public class RepositoryController {
         Map<String, Object> map = new HashMap<>();
         map.put("list", projectService.getIssueList(search));
         map.put("labels", projectService.getLabelMap(search));
+        map.put("labelList", projectService.getLabelList(search));
         return map;
     }
 
