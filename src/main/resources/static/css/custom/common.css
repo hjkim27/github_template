@@ -159,6 +159,12 @@ a, a:visited, a:link, a:active {
 .modal-search-btn {
     padding: 5px 15px;
     border-bottom: 1px solid var(--blue-scale-8);
+    display: grid;
+    grid-gap: 10px;
+    grid-template-columns: minmax(0px, 20px) auto;
 }
 
+.modal-search-btn > div {
+    grid-column: 2;
+}
 /**/

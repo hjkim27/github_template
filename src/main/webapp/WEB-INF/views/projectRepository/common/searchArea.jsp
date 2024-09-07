@@ -32,29 +32,27 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <c:choose>
-                    <c:when test="${path eq 'repositories'}">
-                        <div class="modal-body">
-                            <div name="filterType" class="modal-search-btn" data-value="">All</div>
-                            <div name="filterType" class="modal-search-btn" data-value="private">private</div>
-                            <div name="filterType" class="modal-search-btn" data-value="public">public</div>
-                        </div>
-                    </c:when>
-                    <c:when test="${path eq 'issues'}">
-                        <div class="modal-body">
+                <div class="modal-body">
+                    <c:choose>
+                        <c:when test="${path eq 'repositories'}">
+                            <div name="filterType" class="modal-search-btn" data-value=""><div>All</div></div>
+                            <div name="filterType" class="modal-search-btn" data-value="private"><div>private</div></div>
+                            <div name="filterType" class="modal-search-btn" data-value="public"><div>public</div></div>
+                        </c:when>
+                        <c:when test="${path eq 'issues'}">
                             <c:forEach var="item" items="${labelList}">
                                 <div name="filterType" class="modal-search-btn grid-gap-10"
                                      style="grid-template-columns: minmax(0px, 20px) auto" data-value="${item.labelId}">
-                                    <div class="grid-gap-10" style="grid-column: 2;grid-template-columns: 20px auto">
+                                    <div class="grid-gap-10" style="grid-template-columns: 20px auto">
                                         <div style="width:12px; height: 12px; background-color: ${item.color}"></div>
                                         <div>${item.name}</div>
                                         <div style="grid-column: 2; font-size: 12px">${item.description}</div>
                                     </div>
                                 </div>
                             </c:forEach>
-                        </div>
-                    </c:when>
-                </c:choose>
+                        </c:when>
+                    </c:choose>
+                </div>
             </div>
         </div>
     </div>
