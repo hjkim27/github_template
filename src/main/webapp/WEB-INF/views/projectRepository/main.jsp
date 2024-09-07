@@ -14,29 +14,35 @@
 </head>
 <body>
 <div class="">
-<div class="header">
-    <jsp:include page="../common/header.jsp"/>
-</div>
-<div id="container-body" class="wrapper grid-gap-10 grid-column-1-3">
-    <div class="profile-area">
-        <jsp:include page="../common/profile.jsp"/>
+    <div class="header">
+        <jsp:include page="../common/header.jsp"/>
     </div>
-
-    <div id="menuArea" class="list-area">
-        <c:if test="${path ne 'home'}">
-            <jsp:include page="common/searchArea.jsp"/>
-        </c:if>
-        <%-- ajax 검색 결과 --%>
-        <div id="ajax-container">
-            <jsp:include page="ajax/${path}.jsp"/>
+    <div id="container-body" class="wrapper grid-gap-10 grid-column-1-3">
+        <div class="profile-area">
+            <jsp:include page="../common/profile.jsp"/>
         </div>
 
+            <div id="menuArea" class="list-area">
+                <c:if test="${path ne 'home'}">
+                    <c:choose>
+                        <c:when test="${multiType}">
+                            <jsp:include page="common/searchAreaMultiType.jsp"/>
+                        </c:when>
+                        <c:otherwise>
+                            <jsp:include page="common/searchArea.jsp"/>
+                        </c:otherwise>
+                    </c:choose>
+                </c:if>
+            <%-- ajax 검색 결과 --%>
+            <div id="ajax-container">
+                <jsp:include page="ajax/${path}.jsp"/>
+            </div>
+        </div>
     </div>
-</div>
 </div>
 <script>
     /* header 선택에 따른 css 추가 */
-    $('#menu-'+'${path}').css('border-bottom', '3px solid var(--point-color-light)');
+    $('#menu-' + '${path}').css('border-bottom', '3px solid var(--point-color-light)');
 </script>
 </body>
 </html>

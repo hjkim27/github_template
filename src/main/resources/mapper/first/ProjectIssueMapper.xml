@@ -33,12 +33,15 @@
             (select full_name from tb_project_repository where sid = i.repository_sid) as repository_full_name,
             state, issue_number, title, body, label_ids, created_at
         from tb_project_issue i
-        <trim prefix="where" prefixOverrides="and">
+        <trim prefix="where" prefixOverrides="and|or">
             <if test="searchValue != null and searchValue != ''">
                 and title like '%'||#{searchValue}||'%'
             </if>
-            <if test="filterType != null and filterType != ''">
-                and label_ids like '%'||#{filterType}||'%'
+            <!-- [2024-09-08] 다중검색이 가능하도록 수정 -->
+            <if test="filterTypeList != null and filterTypeList != ''">
+                <foreach collection="filterTypeList" item="item" open="and (" separator="and" close=")">
+                    label_ids like '%'||#{item}||'%'
+                </foreach>
             </if>
         </trim>
         order by issue_number desc

@@ -145,6 +145,7 @@ public class RepositoryController {
         map.put("list", projectService.getIssueList(search));
         map.put("labels", projectService.getLabelMap(search));
         map.put("labelList", projectService.getLabelList(search));
+        map.put("multiType", true); // 다중검색 기능을 사용하고자 할 경우 추가
         return map;
     }
 

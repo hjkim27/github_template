@@ -1,9 +1,10 @@
 <%--
   Created by IntelliJ IDEA.
   User: aa827
-  Date: 2024-07-22
-  Time: 오후 8:46
+  Date: 2024-09-08
+  Time: 오전 12:33
   To change this template use File | Settings | File Templates.
+  다중검색(filterType) 페이지 분리
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -34,12 +35,18 @@
                 </div>
                 <div class="modal-body">
                     <c:choose>
-                        <c:when test="${path eq 'repositories'}">
-                            <div name="filterType" class="modal-search-btn" data-value=""><div>All</div></div>
-                            <div name="filterType" class="modal-search-btn" data-value="private"><div>private</div></div>
-                            <div name="filterType" class="modal-search-btn" data-value="public"><div>public</div></div>
+                        <c:when test="${path eq 'issues'}">
+                            <c:forEach var="item" items="${labelList}">
+                                <div name="filterType" class="modal-search-btn grid-gap-10"
+                                     style="grid-template-columns: minmax(0px, 20px) auto" data-value="${item.labelId}">
+                                    <div class="grid-gap-10" style="grid-template-columns: 20px auto">
+                                        <div style="width:12px; height: 12px; background-color: ${item.color}"></div>
+                                        <div>${item.name}</div>
+                                        <div style="grid-column: 2; font-size: 12px">${item.description}</div>
+                                    </div>
+                                </div>
+                            </c:forEach>
                         </c:when>
-                        <%-- 다중검색 페이지 분리-- %>
                     </c:choose>
                 </div>
             </div>
@@ -72,6 +79,10 @@
     <%-- ----------- --%>
 </div>
 <script>
+    // filterType 다중 검색을 위한 변수
+    // 중복 제거를 위해 set 으로 작업 후 ajax 시 list 로 전달 진행
+    let filterTypeSet = new Set();
+
     $('#searchValue').on('keyup', (e) => {
         search();
     })
@@ -79,9 +90,10 @@
     function search() {
         var search = {
             searchValue: $('#searchValue').val(),
-            filterType: $('#filterType').val(),
-            sortColumn: $('#sortColumn').val() * 1
+            sortColumn: $('#sortColumn').val() * 1,
+            filterTypeList: Array.from(filterTypeSet)   // 다중 검색을 위한 list 전달
         }
+
         $.ajax({
             type: "post",
             url: '${contextPath}/projectRepository/ajax/${path}',
@@ -105,7 +117,6 @@
 
     function setModalPosition(targetId) {
         var target = $('#' + targetId + '-btn');
-        var height = target.height();
         var pos = target.position();
         var modalDiv = $('#' + targetId + 'ModalContent');
         modalDiv.css('left', pos.left);
@@ -119,12 +130,17 @@
 
     // type, sort 검색 >> modal 에서 버튼 클릭 시 동작
     $('.modal-search-btn').click(function () {
-        var name = $(this).attr('name');
-        $('#' + name).val($(this).data('value'));
-        removeCheck(name)
-        var htmlVar = $(this).html();
-        htmlVar = '<i class="fas fa-check selectCheck' + name + '"></i>' + htmlVar;
-        $(this).html(htmlVar);
+        var dValue = $(this).data('value');
+
+        if (filterTypeSet.has(dValue)) {
+            filterTypeSet.delete(dValue);
+            removeCheck(dValue);
+        } else {
+            filterTypeSet.add(dValue);
+            var htmlVar = $(this).html();
+            htmlVar = '<i class="fas fa-check selectCheck' + dValue + '"></i>' + htmlVar;
+            $(this).html(htmlVar);
+        }
         search();
     })
 
@@ -139,5 +155,4 @@
         var div = $(this);
         div.css('background-color', 'var(--gray-scale-9)');
     })
-
 </script>
