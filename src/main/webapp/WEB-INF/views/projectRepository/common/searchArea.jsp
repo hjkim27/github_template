@@ -44,10 +44,12 @@
                         <div class="modal-body">
                             <c:forEach var="item" items="${labelList}">
                                 <div name="filterType" class="modal-search-btn grid-gap-10"
-                                     style="grid-template-columns: 20px auto" data-value="${item.labelId}">
-                                    <div style="width:12px; height: 12px; background-color: ${item.color}"></div>
-                                    <div>${item.name}</div>
-                                    <div style="grid-column: 2; font-size: 12px">${item.description}</div>
+                                     style="grid-template-columns: minmax(0px, 20px) auto" data-value="${item.labelId}">
+                                    <div class="grid-gap-10" style="grid-column: 2;grid-template-columns: 20px auto">
+                                        <div style="width:12px; height: 12px; background-color: ${item.color}"></div>
+                                        <div>${item.name}</div>
+                                        <div style="grid-column: 2; font-size: 12px">${item.description}</div>
+                                    </div>
                                 </div>
                             </c:forEach>
                         </div>
