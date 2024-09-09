@@ -15,6 +15,7 @@
 <link rel="stylesheet" type="text/css" href="${contextPath}/static/css/bootstrap/bootstrap-3.4.1.min.css">
 <script type="text/javascript" src="${contextPath}/static/js/jquery/jquery-3.7.1.min.js"></script>
 <script type="text/javascript" src="${contextPath}/static/js/bootstrap/bootstrap-3.4.1.min.js"></script>
+<script type="text/javascript" src="${contextPath}/static/js/default/common.js"></script>
 
 <style>
     .menu-button {
@@ -42,15 +43,5 @@
     function showMenu(path){
         console.log('${contextPath}/projectRepository/'+path);
         location.href = '${contextPath}/projectRepository/' + path;
-        /*$.ajax({
-            url: '${contextPath}/projectRepository/'+url,
-            type: 'get',
-            success: function (data){
-                $('#menuArea').html(data);
-            },
-            error: function (e){
-                console.log(e);
-            }
-        })*/
     }
 </script>
