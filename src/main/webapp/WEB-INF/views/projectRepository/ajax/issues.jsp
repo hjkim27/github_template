@@ -11,7 +11,7 @@
 <%-- 검색 결과가 없을 경우 --%>
 <c:if test="${list eq null}">
     <div id="clear-filter" class="repo item" style="text-align: right; padding: 15px 0;"
-        onclick="location.reload()">
+         onclick="location.reload()">
         <i class="far fa-times-circle"> Clear Filter</i>
     </div>
     <div class="no-match-search">
