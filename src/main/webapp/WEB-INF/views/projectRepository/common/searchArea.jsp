@@ -39,7 +39,6 @@
                             <div name="filterType" class="modal-search-btn" data-value="private"><div>private</div></div>
                             <div name="filterType" class="modal-search-btn" data-value="public"><div>public</div></div>
                         </c:when>
-                        <%-- 다중검색 페이지 분리-- %>
                     </c:choose>
                 </div>
             </div>

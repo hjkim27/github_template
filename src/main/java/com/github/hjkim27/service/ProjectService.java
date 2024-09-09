@@ -25,11 +25,13 @@ public class ProjectService {
     private final ProjectLabelMapper labelMapper;
 
     public List<ProjectRepositoryDTO> getRepoList(ProjectSearch search) {
-        return repositoryMapper.getList(search);
+        List<ProjectRepositoryDTO> list = repositoryMapper.getList(search);
+        return (list.size() == 0) ? null : list;
     }
 
     public List<ProjectIssueDTO> getIssueList(ProjectSearch search) {
-        return issueMapper.getList(search);
+        List<ProjectIssueDTO> list = issueMapper.getList(search);
+        return (list.size() == 0) ? null : list;
     }
 
     public List<ProjectLabelDTO> getLabelList(ProjectSearch search) {
