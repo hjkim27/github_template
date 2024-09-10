@@ -29,4 +29,8 @@ public class ProjectIssueVO {
     private String body;
     private Date createdAt;
 
+    // [2024-09-11] updated, closed 추가
+    private Date updatedAt;
+    private Date closedAt;
+
 }

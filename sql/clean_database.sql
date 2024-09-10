@@ -91,7 +91,9 @@ create table tb_project_issue
     issue_number   integer              not null,                -- issue.number
     title          character varying    not null,                -- issue.title
     body           character varying,                            -- issue.body
-    created_at     timestamp with time zone                      -- issue.createdAt
+    created_at     timestamp with time zone,                      -- issue.createdAt
+    updated_at     timestamp with time zone,                      -- issue.updatedAt
+    closed_at     timestamp with time zone                      -- issue.updatedAt
 );
 
 -- comment

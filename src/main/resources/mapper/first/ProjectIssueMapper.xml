@@ -5,18 +5,20 @@
 
     <!-- issue 정보 추가 -->
     <insert id="insertRow" parameterType="com.github.hjkim27.bean.vo.project.ProjectIssueVO">
-        insert into tb_project_issue (repository_sid, label_ids, state, issue_number, title, body, created_at)
-        values (#{repositorySid}, #{labelIds}, #{state}, #{issueNumber}, #{title}, #{body}, #{createdAt})
+        insert into tb_project_issue (repository_sid, label_ids, state, issue_number, title, body, created_at, updated_at, closed_at)
+        values (#{repositorySid}, #{labelIds}, #{state}, #{issueNumber}, #{title}, #{body}, #{createdAt}, #{updatedAt}, #{closedAt})
     </insert>
 
     <!-- issue 정보 수정 -->
     <update id="updateRow" parameterType="com.github.hjkim27.bean.vo.project.ProjectIssueVO">
         update tb_project_issue
-        set label_ids = #{labelIds},
-            state     = #{state},
-            title     = #{title},
-            body      = #{body},
-            created_at = #{createdAt}
+        set label_ids  = #{labelIds},
+            state      = #{state},
+            title      = #{title},
+            body       = #{body},
+            created_at = #{createdAt},
+            updated_at = #{updatedAt},
+            closed_at  = #{closedAt}
         where issue_number = #{issueNumber}
     </update>
 
@@ -31,7 +33,7 @@
     <select id="getList" parameterType="com.github.hjkim27.bean.search.ProjectSearch" resultType="com.github.hjkim27.bean.dto.project.ProjectIssueDTO">
         select
             (select full_name from tb_project_repository where sid = i.repository_sid) as repository_full_name,
-            state, issue_number, title, body, label_ids, created_at
+            state, issue_number, title, body, label_ids, created_at, updated_at
         from tb_project_issue i
         <trim prefix="where" prefixOverrides="and|or">
             <if test="searchValue != null and searchValue != ''">

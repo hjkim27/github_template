@@ -180,6 +180,11 @@ public class GitUtil {
                 issueDTO.setTitle(issue.getTitle());
                 issueDTO.setBody(issue.getBody());
                 issueDTO.setCreatedAt(issue.getCreatedAt());
+
+                // [2024-09-11] updated, closed 추가
+                issueDTO.setUpdatedAt(issue.getUpdatedAt());
+                issueDTO.setClosedAt(issue.getClosedAt());
+
 //                log.info("issue : {}", issueDTO.toString());
 //                log.info("{} | #{} >> comments ----------", dto.getName(), issueDTO.getIssueNumber());
                 // issue.comment ----------

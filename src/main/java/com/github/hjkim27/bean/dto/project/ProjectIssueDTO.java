@@ -29,6 +29,10 @@ public class ProjectIssueDTO {
     private String labelIds;
     private Date createdAt;
 
+    // [2024-09-11] updated, closed 추가
+    private Date updatedAt;
+    private Date closedAt;
+
     // 특정 issue 의 comment 목록
     private List<ProjectCommentDTO> commentList;
 
