@@ -102,27 +102,5 @@
         setModalPosition('sortColumn');
     })
 
-    // type, sort 검색 >> modal 에서 버튼 클릭 시 동작
-    $('.modal-search-btn').click(function () {
-        var name = $(this).attr('name');
-        $('#' + name).val($(this).data('value'));
-        removeCheck(name)
-        var htmlVar = $(this).html();
-        htmlVar = '<i class="fas fa-check selectCheck' + name + '"></i>' + htmlVar;
-        $(this).html(htmlVar);
-        search();
-    })
-
-    // modal버튼에 hover 효과 추가
-    $('.modal-search-btn').mouseover(function () {
-        var div = $(this);
-        div.css('background-color', 'var(--blue-scale-9)');
-    })
-
-    // modal버튼에서 마우스를 치웠을 경우
-    $('.modal-search-btn').mouseout(function () {
-        var div = $(this);
-        div.css('background-color', 'var(--gray-scale-9)');
-    })
-
 </script>
+<script type="text/javascript" src="${contextPath}/static/js/default/search.js"></script>

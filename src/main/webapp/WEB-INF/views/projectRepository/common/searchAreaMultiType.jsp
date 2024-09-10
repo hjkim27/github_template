@@ -37,7 +37,7 @@
                     <c:choose>
                         <c:when test="${path eq 'issues'}">
                             <c:forEach var="item" items="${labelList}">
-                                <div name="filterType" class="modal-search-btn grid-gap-10"
+                                <div name="filterType" class="modal-search-btn-multi grid-gap-10"
                                      style="grid-template-columns: minmax(0px, 20px) auto" data-value="${item.labelId}">
                                     <div class="grid-gap-10" style="grid-template-columns: 20px auto">
                                         <div style="width:12px; height: 12px; background-color: ${item.color}"></div>
@@ -115,31 +115,5 @@
         setModalPosition('sortColumn');
     })
 
-    // type, sort 검색 >> modal 에서 버튼 클릭 시 동작
-    $('.modal-search-btn').click(function () {
-        var dValue = $(this).data('value');
-
-        if (filterTypeSet.has(dValue)) {
-            filterTypeSet.delete(dValue);
-            removeCheck(dValue);
-        } else {
-            filterTypeSet.add(dValue);
-            var htmlVar = $(this).html();
-            htmlVar = '<i class="fas fa-check selectCheck' + dValue + '"></i>' + htmlVar;
-            $(this).html(htmlVar);
-        }
-        search();
-    })
-
-    // modal버튼에 hover 효과 추가
-    $('.modal-search-btn').mouseover(function () {
-        var div = $(this);
-        div.css('background-color', 'var(--blue-scale-9)');
-    })
-
-    // modal버튼에서 마우스를 치웠을 경우
-    $('.modal-search-btn').mouseout(function () {
-        var div = $(this);
-        div.css('background-color', 'var(--gray-scale-9)');
-    })
 </script>
+<script type="text/javascript" src="${contextPath}/static/js/default/search.js"></script>
