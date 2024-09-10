@@ -46,6 +46,14 @@
                 </foreach>
             </if>
         </trim>
-        order by issue_number desc
+        <if test="sortColumn != null and sortColumn != -1">
+            order by
+            <choose>
+                <when test="sortColumn == 2">repository_full_name</when>
+                <when test="sortColumn == 8">created_at</when>
+                <when test="sortColumn == 9">updated_at</when>
+            </choose>
+            <if test="desc">desc</if>
+        </if>
     </select>
 </mapper>

@@ -14,6 +14,7 @@
     <%-- ----------- --%>
     <input type="hidden" id="filterType" name="filterType" value="${search.filterType}">
     <input type="hidden" id="sortColumn" name="sortColumn" value="${search.sortColumn}">
+    <input type="hidden" id="desc" name="desc" value="${search.desc}">
     <%-- ----------- --%>
     <input type="text" id="searchValue" name="searchValue" class="min-size" value="${search.searchValue}">
     <%-- ----------- --%>
@@ -69,9 +70,13 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div name="sortColumn" class="modal-search-btn" data-value="2">name</div>
-                    <div name="sortColumn" class="modal-search-btn" data-value="8">createdAt</div>
-                    <div name="sortColumn" class="modal-search-btn" data-value="9">updatedAt</div>
+                    <div name="sortColumn" class="modal-search-btn" data-value="8" data-desc="true">
+                        <i class="fas fa-check selectChecksortColumn"></i>
+                        Newest
+                    </div>
+                    <div name="sortColumn" class="modal-search-btn" data-value="8">Oldest</div>
+                    <div name="sortColumn" class="modal-search-btn" data-value="9">Last Updated</div>
+                    <div name="sortColumn" class="modal-search-btn" data-value="9" data-desc="true">Recently Updated</div>
                 </div>
             </div>
         </div>
@@ -91,7 +96,8 @@
         var search = {
             searchValue: $('#searchValue').val(),
             sortColumn: $('#sortColumn').val() * 1,
-            filterTypeList: Array.from(filterTypeSet)   // 다중 검색을 위한 list 전달
+            filterTypeList: Array.from(filterTypeSet),   // 다중 검색을 위한 list 전달
+            desc: $('#desc').val()
         }
 
         $.ajax({

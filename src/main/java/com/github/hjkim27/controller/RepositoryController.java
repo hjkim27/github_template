@@ -50,6 +50,9 @@ public class RepositoryController {
                 mav.addAllObjects(repositories(search));
                 break;
             case "issues":
+                // [2024-09-11] 정렬 기본값 설정
+                search.setDesc(true);
+                search.setSortColumn(8);
                 mav.addAllObjects(issues(search));
                 break;
             case "labels":
