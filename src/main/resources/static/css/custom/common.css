@@ -156,7 +156,7 @@ a, a:visited, a:link, a:active {
     overflow-y: scroll;
 }
 
-.modal-search-btn {
+.modal-search-btn, .modal-search-btn-multi {
     padding: 5px 15px;
     border-bottom: 1px solid var(--blue-scale-8);
     display: grid;
@@ -164,7 +164,7 @@ a, a:visited, a:link, a:active {
     grid-template-columns: minmax(0px, 20px) auto;
 }
 
-.modal-search-btn > div {
+.modal-search-btn > div, .modal-search-btn-multi > div {
     grid-column: 2;
 }
 /**/

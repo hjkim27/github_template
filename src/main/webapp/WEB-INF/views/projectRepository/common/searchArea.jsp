@@ -13,6 +13,7 @@
     <%-- ----------- --%>
     <input type="hidden" id="filterType" name="filterType" value="${search.filterType}">
     <input type="hidden" id="sortColumn" name="sortColumn" value="${search.sortColumn}">
+    <input type="hidden" id="desc" name="desc" value="${search.desc}">
     <%-- ----------- --%>
     <input type="text" id="searchValue" name="searchValue" class="min-size" value="${search.searchValue}">
     <%-- ----------- --%>
@@ -61,9 +62,14 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div name="sortColumn" class="modal-search-btn" data-value="2">name</div>
-                    <div name="sortColumn" class="modal-search-btn" data-value="8">createdAt</div>
-                    <div name="sortColumn" class="modal-search-btn" data-value="9">updatedAt</div>
+                    <div name="sortColumn" class="modal-search-btn" data-value="2">
+                        <i class="fas fa-check selectChecksortColumn"></i>
+                        name
+                    </div>
+                    <div name="sortColumn" class="modal-search-btn" data-value="8" data-desc="true"><div>Newest</div></div>
+                    <div name="sortColumn" class="modal-search-btn" data-value="8"><div>Oldest</div></div>
+                    <div name="sortColumn" class="modal-search-btn" data-value="9"><div>Last Updated</div></div>
+                    <div name="sortColumn" class="modal-search-btn" data-value="9" data-desc="true"><div>Recently Updated</div></div>
                 </div>
             </div>
         </div>
@@ -79,7 +85,8 @@
         var search = {
             searchValue: $('#searchValue').val(),
             filterType: $('#filterType').val(),
-            sortColumn: $('#sortColumn').val() * 1
+            sortColumn: $('#sortColumn').val() * 1,
+            desc: $('#desc').val()
         }
         $.ajax({
             type: "post",
