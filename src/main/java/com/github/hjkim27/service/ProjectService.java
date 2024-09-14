@@ -35,7 +35,8 @@ public class ProjectService {
     }
 
     public List<ProjectLabelDTO> getLabelList(ProjectSearch search) {
-        return labelMapper.getList(search);
+        List<ProjectLabelDTO> list = labelMapper.getList(search);
+        return (list.size() == 0) ? null : list;
     }
 
     public Map<Long, ProjectLabelDTO> getLabelMap(ProjectSearch search) {

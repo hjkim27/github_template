@@ -19,14 +19,14 @@
             created_at = #{createdAt},
             updated_at = #{updatedAt},
             closed_at  = #{closedAt}
-        where issue_number = #{issueNumber}
+        where repository_sid = ${repositorySid} and issue_number = #{issueNumber}
     </update>
 
     <!-- issue 존재여부 조회 -->
     <select id="isExistRow" parameterType="com.github.hjkim27.bean.vo.project.ProjectIssueVO" resultType="Boolean">
         select count(issue_number) > 0
         from tb_project_issue
-        where issue_number = #{issueNumber}
+        where repository_sid = ${repositorySid} and issue_number = #{issueNumber}
     </select>
 
     <!-- issue 목록 조회 -->
