@@ -14,17 +14,14 @@
 </head>
 <body>
 <div class="">
-    <!-- header Start -->
-    <jsp:include page="../common/header.jsp"/>
-    <!-- header End -->
+    <div class="header">
+        <jsp:include page="../common/header.jsp"/>
+    </div>
+    <div id="container-body" class="wrapper grid-gap-10 grid-column-1-3">
+        <div class="profile-area">
+            <jsp:include page="../common/profile.jsp"/>
+        </div>
 
-    <div style="display: grid; grid-template-columns: 150px auto;">
-        <!-- menu Start  -->
-        <jsp:include page="../common/menu/menu.jsp"/>
-        <!-- menu End -->
-
-        <!-- container Start -->
-        <div id="container-body" class="wrapper">
             <div id="menuArea" class="list-area">
                 <c:if test="${path ne 'home'}">
                     <c:choose>
@@ -36,13 +33,11 @@
                         </c:otherwise>
                     </c:choose>
                 </c:if>
-                <%-- ajax 검색 결과 --%>
-                <div id="ajax-container">
-                    <jsp:include page="ajax/${path}.jsp"/>
-                </div>
+            <%-- ajax 검색 결과 --%>
+            <div id="ajax-container">
+                <jsp:include page="ajax/${path}.jsp"/>
             </div>
         </div>
-        <!-- container End -->
     </div>
 </div>
 <script>

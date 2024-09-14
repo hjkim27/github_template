@@ -17,31 +17,12 @@
 <script type="text/javascript" src="${contextPath}/static/js/bootstrap/bootstrap-3.4.1.min.js"></script>
 <script type="text/javascript" src="${contextPath}/static/js/default/common.js"></script>
 
-<style>
-    .menu-button {
-        width: 100px;
-        height: 40px;
-        margin-top: 20px;
-        border-radius: 5px 5px 0 0;
-    }
-</style>
-<div class="">
-    <img style="max-height: 40px;" src="${contextPath}/static/img/logo/logo2-clean.png">
+<%-- [2024-09-15] menu 페이지 별도 분리 --%>
+<div class="header">
+    <div class="">
+        <img style="max-height: 40px;" src="${contextPath}/static/img/logo/logo2-clean.png">
+    </div>
+    <div class="align-right">
+        <button class="default br-dark-blue bg-white" onclick="location.href='${contextPath}/sign/logout'">Profile</button>
+    </div>
 </div>
-<div class="align-right">
-    <button class="default br-dark-blue bg-white" onclick="location.href='${contextPath}/sign/logout'">Profile</button>
-</div>
-<div style="grid-column: 1/3; display: flex; border-bottom: 1px solid var(--gray-scale-7);">
-    <button id="menu-home" class="bg-white-hover-blue border-none menu-button" onclick="showMenu('home')">home</button>
-    <button id="menu-repositories" class="bg-white-hover-blue border-none menu-button" onclick="showMenu('repositories')">Repositories</button>
-    <button id="menu-issues" class="bg-white-hover-blue border-none menu-button" onclick="showMenu('issues')">Issues</button>
-    <button id="menu-labels" class="bg-white-hover-blue border-none menu-button" onclick="showMenu('labels')">Labels</button>
-    <button id="menu-settings" class="bg-white-hover-blue border-none menu-button" onclick="showMenu('settings')">Settings</button>
-</div>
-
-<script>
-    function showMenu(path){
-        console.log('${contextPath}/projectRepository/'+path);
-        location.href = '${contextPath}/projectRepository/' + path;
-    }
-</script>
