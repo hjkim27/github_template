@@ -124,7 +124,6 @@ public class GitUtil {
                 dto.setColor(label.getColor());
                 list.add(dto);
             }
-            log.info("##### labelCount : {}", list.size());
         }
         return list;
     }
@@ -142,10 +141,9 @@ public class GitUtil {
     public List<ProjectRepositoryDTO> getRepositorys() throws IOException {
 //        PagedSearchIterable<GHCommit> commits = getCommits(DateFormatUtil.getBeforeNDays(DateFormatUtil.DateFormat.yyyy_MM_dd, -7));
         Iterator<GHCommit> it = commits.iterator();
-
         List<ProjectRepositoryDTO> list = new ArrayList<>();
 
-        log.info("== tb_project_repository ==========");
+        log.debug("commits.getTotalCount() : {}",commits.getTotalCount());
         Set<String> repoNames = new HashSet<>();
         while (it.hasNext()) {
             GHCommit commit = it.next();
@@ -167,8 +165,6 @@ public class GitUtil {
             dto.setCreatedAt(repository.getCreatedAt());
             dto.setUpdatedAt(repository.getUpdatedAt());
             // FIXME repository 소유주 추가 필요. 협업 repository 에 대한 내용도 추가되고 있어 구분이 필요함.
-            log.info("repository : {}", dto.toString());
-            log.info("{} >> issues ----------", dto.getName());
             // issue -----------
             List<ProjectIssueDTO> issueDTOList = new ArrayList<>();
             List<GHIssue> issues = commit.getOwner().getIssues(GHIssueState.ALL);
@@ -185,8 +181,6 @@ public class GitUtil {
                 issueDTO.setUpdatedAt(issue.getUpdatedAt());
                 issueDTO.setClosedAt(issue.getClosedAt());
 
-//                log.info("issue : {}", issueDTO.toString());
-//                log.info("{} | #{} >> comments ----------", dto.getName(), issueDTO.getIssueNumber());
                 // issue.comment ----------
                 List<ProjectCommentDTO> commentDTOList = new ArrayList<>();
                 List<GHIssueComment> comments = issue.getComments();
@@ -197,32 +191,28 @@ public class GitUtil {
                     commentDTO.setParentCommentId(comment.getParent().getId());
                     commentDTO.setCreatedAt(comment.getCreatedAt());
                     commentDTO.setUpdatedAt(comment.getUpdatedAt());
-//                    log.info("comment : {}", commentDTO.toString());
                     commentDTOList.add(commentDTO);
                 }
                 issueDTO.setCommentList(commentDTOList);
 
                 // issue.label ----------
-//                log.info("tb labels >>>>>>>>>>");
                 List<Long> labelIds = new ArrayList<>();
                 Collection<GHLabel> labels = issue.getLabels();
                 for (GHLabel label : labels) {
-//                    log.info("label.id : {}", label.getId());
                     labelIds.add(label.getId());
                 }
                 issueDTO.setLabelIds(FormatUtil.listToString(labelIds, ","));
                 issueDTOList.add(issueDTO);
             }
+            log.debug("issues : {}", issueDTOList.size());
             dto.setIssueDTOList(issueDTOList);
             list.add(dto);
+            log.debug("##### repoNames : {}", repoNames);
         }
-        log.info("##### repoNames : {}", repoNames.toString());
-        log.info("##### repoSize : {}", list.size());
         return list;
     }
 
     public List<ProjectCommitDTO> getCommit() throws IOException {
-//        PagedSearchIterable<GHCommit> commits = getCommits();
         Iterator<GHCommit> it = commits.iterator();
 
         List<ProjectCommitDTO> list = new ArrayList<>();
@@ -245,126 +235,8 @@ public class GitUtil {
 
             dto.setMessage(commit.getCommitShortInfo().getMessage());
             dto.setHtmlUrl(commit.getHtmlUrl().toString());
-            log.info("dto : {}", dto.toString());
             list.add(dto);
         }
         return list;
-    }
-
-    public void getCommits2() throws IOException {
-        log.info(GeneralConfig.START);
-        getConnection();
-
-        GHSearchBuilder builder = gitHub.searchCommits()
-                .author(userId)
-                .committerDate(">=2024-07-17")        // 입력한 날짜 이후의 COMMIT 이력을 조회한다.
-                .sort(GHCommitSearchBuilder.Sort.AUTHOR_DATE);
-
-        PagedSearchIterable<GHCommit> commits = builder.list();
-
-        Iterator<GHCommit> it = commits.iterator();
-        int i = 0;
-        while (it.hasNext()) {
-            GHCommit commit = it.next();
-            i++;
-            String key = GeneralConfig.yyyyMMddFormat.format(commit.getCommitShortInfo().getCommitDate());
-            if (commitCounts.containsKey(key)) {
-                Integer value = commitCounts.get(key);
-                commitCounts.put(key, ++value);
-            } else {
-                commitCounts.put(key, 1);
-            }
-
-            // repository
-            log.info("");
-            log.info("== tb_project_repository ==========");
-            log.info("getOwner().getName() : {}", commit.getOwner().getName());                 // name
-            log.info("getOwner().getFullName() : {}", commit.getOwner().getFullName());         // full_name
-            log.info("getOwner().getDescription() : {}", commit.getOwner().getDescription());   // description
-            log.info("getOwner().isPrivate() : {}", commit.getOwner().isPrivate());             // private
-            log.info("getOwner().getHtmlUrl() : {}", commit.getOwner().getHtmlUrl());           // html_url
-            log.info("getOwner().getSshUrl() : {}", commit.getOwner().getSshUrl());             // ssh_url
-
-            // user
-            log.info("");
-            log.info("== tb_project_owner ==========");
-            log.info("getOwner().getOwner.login() : {}", commit.getOwner().getOwner().getLogin());          // login
-            log.info("getOwner().getOwner.name() : {}", commit.getOwner().getOwner().getName());            // name
-            log.info("getOwner().getOwner.htmlUrl() : {}", commit.getOwner().getOwner().getHtmlUrl());      // html_url
-
-            // commit
-            log.info("");
-            log.info("== tb_project_commit ==========");
-            log.info("getTree.sha() : {}", commit.getTree().getSha());              // sha
-            log.info("getParentSHA1s() : {}", commit.getParentSHA1s().get(0));      // upper_sha
-            log.info("-- ShortInfo ----------");
-            log.info("sortInfo.committer().name() : {}", commit.getCommitShortInfo().getCommitter().getName());     // committer_name
-            log.info("sortInfo.committer().email() : {}", commit.getCommitShortInfo().getCommitter().getEmail());   // committer_email
-            log.info("sortInfo.committer().date() : {}", commit.getCommitShortInfo().getCommitter().getDate());     // committer_date
-            log.info("sortInfo.message : {}", commit.getCommitShortInfo().getMessage());        // commit message
-            log.info("------------------------");
-            log.info("htmlUrl : {}", commit.getHtmlUrl()); // html_url
-
-            // issue
-            log.info("");
-            log.info("\t == issue ==========");
-            List<GHIssue> issues = commit.getOwner().getIssues(GHIssueState.ALL);
-            for (GHIssue issue : issues) {
-                log.info("-----");
-                log.info("state : {}", issue.getState());
-                log.info("number : {}", issue.getNumber());
-                log.info("title : {}", issue.getTitle());
-                log.info("body : {}", issue.getBody());
-
-                // issue comment
-                log.info("");
-                log.info("\t == issue.comment ==========");
-                List<GHIssueComment> comments = issue.getComments();
-                for (GHIssueComment com : comments) {
-                    log.info("\tcommentId : {}", com.getId());
-                    log.info("\tcommentBody : {}", com.getBody());
-                    log.info("\tcommentParentId : {}", com.getParent().getId());
-                    log.info("\tcommentCreatedAt : {}", com.getCreatedAt());
-                    log.info("\tcommentUpdatedAt : {}", com.getUpdatedAt());
-                }
-                log.info("");
-                log.info("\t == issue.label ==========");
-                Collection<GHLabel> labels = issue.getLabels();
-                for (GHLabel label : labels) {
-                    log.info("\tlabelId : {}", label.getId());
-                    log.info("\tlabelName : {}", label.getName());
-                    log.info("\tlabelDescription : {}", label.getDescription());
-                    log.info("\tlabelColor : {}", label.getColor());
-                }
-
-            }
-            log.info("-----");
-
-            PagedIterable<GHLabel> labels = commit.getOwner().listLabels();
-            Iterator it2 = labels.iterator();
-
-            log.info("labels ==========");
-            while (it2.hasNext()) {
-                GHLabel label = (GHLabel) it2.next();
-                log.info("labelId : {}", label.getId());
-                log.info("labelName : {}", label.getName());
-                log.info("labelDescription : {}", label.getDescription());
-                log.info("labelColor : {}", label.getColor());
-                log.info("-----");
-            }
-            break;
-            /* example
-                commitDate      : 2024-07-23
-                getMessage      : [FIX] logback 수정  <br><br>  - 로그가 중복으로 찍히던 문제 수정
-                getTreeSHA1     : 69c51aedcc50aaad87b13ac85e6457585e6bce87
-                getHtmlUrl      : https://github.com/hjkim27/board_template/commit/8b9cb239693c88b39895b90020ec3e2feee11535
-                getFullName     : hjkim27/board_template
-                getOwnerName    : hjkim27
-                getName         : board_template
-             */
-        }
-
-        log.info("total {}", i);
-
     }
 }
