@@ -174,3 +174,10 @@ a, a:visited, a:link, a:active {
     text-align: center;
     padding: 40px;
 }
+
+.menu-button {
+    height: 60px;
+    border-radius: 0;
+    text-align: left;
+    padding: 0 20px;
+}

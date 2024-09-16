@@ -27,3 +27,17 @@ function setModalPosition(targetId) {
 function removeCheck(id) {
     $('.selectCheck' + id).remove();
 }
+
+/* [2024-09-16] sessionStorage */
+function setStorage(key, item) {
+    sessionStorage.setItem(key, item);
+}
+
+function getStorage(key) {
+    var item = sessionStorage.getItem(key);
+    return (item == undefined || item === 'undefined') ? null : item;
+}
+
+function removeStorage(key) {
+    sessionStorage.removeItem(key);
+}

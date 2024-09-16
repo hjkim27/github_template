@@ -74,9 +74,15 @@
                         <i class="fas fa-check selectChecksortColumn"></i>
                         Newest
                     </div>
-                    <div name="sortColumn" class="modal-search-btn" data-value="8"><div>Oldest</div></div>
-                    <div name="sortColumn" class="modal-search-btn" data-value="9"><div>Last Updated</div></div>
-                    <div name="sortColumn" class="modal-search-btn" data-value="9" data-desc="true"><div>Recently Updated</div></div>
+                    <div name="sortColumn" class="modal-search-btn" data-value="8">
+                        <div>Oldest</div>
+                    </div>
+                    <div name="sortColumn" class="modal-search-btn" data-value="9">
+                        <div>Last Updated</div>
+                    </div>
+                    <div name="sortColumn" class="modal-search-btn" data-value="9" data-desc="true">
+                        <div>Recently Updated</div>
+                    </div>
                 </div>
             </div>
         </div>

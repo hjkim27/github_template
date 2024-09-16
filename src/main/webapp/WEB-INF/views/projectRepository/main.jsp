@@ -18,7 +18,7 @@
     <jsp:include page="../common/header.jsp"/>
     <!-- header End -->
 
-    <div style="display: grid; grid-template-columns: 150px auto;">
+    <div class="grid-gap-10" style="grid-template-columns: 150px auto 150px;">
         <!-- menu Start  -->
         <jsp:include page="../common/menu/menu.jsp"/>
         <!-- menu End -->

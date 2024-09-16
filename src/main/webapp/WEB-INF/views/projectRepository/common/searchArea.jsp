@@ -36,9 +36,15 @@
                 <div class="modal-body">
                     <c:choose>
                         <c:when test="${path eq 'repositories'}">
-                            <div name="filterType" class="modal-search-btn" data-value=""><div>All</div></div>
-                            <div name="filterType" class="modal-search-btn" data-value="private"><div>private</div></div>
-                            <div name="filterType" class="modal-search-btn" data-value="public"><div>public</div></div>
+                            <div name="filterType" class="modal-search-btn" data-value="">
+                                <div>All</div>
+                            </div>
+                            <div name="filterType" class="modal-search-btn" data-value="private">
+                                <div>private</div>
+                            </div>
+                            <div name="filterType" class="modal-search-btn" data-value="public">
+                                <div>public</div>
+                            </div>
                         </c:when>
                     </c:choose>
                 </div>
@@ -66,10 +72,18 @@
                         <i class="fas fa-check selectChecksortColumn"></i>
                         name
                     </div>
-                    <div name="sortColumn" class="modal-search-btn" data-value="8" data-desc="true"><div>Newest</div></div>
-                    <div name="sortColumn" class="modal-search-btn" data-value="8"><div>Oldest</div></div>
-                    <div name="sortColumn" class="modal-search-btn" data-value="9"><div>Last Updated</div></div>
-                    <div name="sortColumn" class="modal-search-btn" data-value="9" data-desc="true"><div>Recently Updated</div></div>
+                    <div name="sortColumn" class="modal-search-btn" data-value="8" data-desc="true">
+                        <div>Newest</div>
+                    </div>
+                    <div name="sortColumn" class="modal-search-btn" data-value="8">
+                        <div>Oldest</div>
+                    </div>
+                    <div name="sortColumn" class="modal-search-btn" data-value="9">
+                        <div>Last Updated</div>
+                    </div>
+                    <div name="sortColumn" class="modal-search-btn" data-value="9" data-desc="true">
+                        <div>Recently Updated</div>
+                    </div>
                 </div>
             </div>
         </div>
