@@ -100,7 +100,8 @@
             searchValue: $('#searchValue').val(),
             filterType: $('#filterType').val(),
             sortColumn: $('#sortColumn').val() * 1,
-            desc: $('#desc').val()
+            desc: $('#desc').val(),
+            repositorySid: getStorage('repositorySid')
         }
         $.ajax({
             type: "post",

@@ -103,7 +103,8 @@
             searchValue: $('#searchValue').val(),
             sortColumn: $('#sortColumn').val() * 1,
             filterTypeList: Array.from(filterTypeSet),   // 다중 검색을 위한 list 전달
-            desc: $('#desc').val()
+            desc: $('#desc').val(),
+            repositorySid: getStorage('repositorySid')
         }
 
         $.ajax({

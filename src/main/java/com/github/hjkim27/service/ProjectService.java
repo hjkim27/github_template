@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,7 +37,7 @@ public class ProjectService {
 
     public List<ProjectLabelDTO> getLabelList(ProjectSearch search) {
         List<ProjectLabelDTO> list = labelMapper.getList(search);
-        return (list.size() == 0) ? null : list;
+        return (list.size() == 0) ? Collections.emptyList() : list;
     }
 
     public Map<Long, ProjectLabelDTO> getLabelMap(ProjectSearch search) {

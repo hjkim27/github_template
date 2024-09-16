@@ -72,12 +72,13 @@ create table tb_project_commit
 -- labels
 create table tb_project_label
 (
-    sid         serial,
-    label_id    bigint unique                 not null, -- commit.owner.listLabels(n).id
-    name        character varying(100) unique not null, -- commit.owner.listLabels(n).name
-    description character varying(100)        not null, -- commit.owner.listLabels(n).description
-    color       character varying(15)         not null, -- commit.owner.listLabels(n).color
-    active      boolean                       not null default true
+    sid            serial,
+    repository_sid integer                       not null, -- tb_project_repository.sid
+    label_id       bigint unique                 not null, -- commit.owner.listLabels(n).id
+    name           character varying(100) unique not null, -- commit.owner.listLabels(n).name
+    description    character varying(100)        not null, -- commit.owner.listLabels(n).description
+    color          character varying(15)         not null, -- commit.owner.listLabels(n).color
+    active         boolean                       not null default true
 );
 
 -- issue
@@ -91,9 +92,9 @@ create table tb_project_issue
     issue_number   integer              not null,                -- issue.number
     title          character varying    not null,                -- issue.title
     body           character varying,                            -- issue.body
-    created_at     timestamp with time zone,                      -- issue.createdAt
-    updated_at     timestamp with time zone,                      -- issue.updatedAt
-    closed_at     timestamp with time zone                      -- issue.updatedAt
+    created_at     timestamp with time zone,                     -- issue.createdAt
+    updated_at     timestamp with time zone,                     -- issue.updatedAt
+    closed_at      timestamp with time zone                      -- issue.updatedAt
 );
 
 -- comment

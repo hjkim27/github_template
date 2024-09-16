@@ -20,6 +20,9 @@ import java.util.List;
 @ToString
 public class ProjectRepositoryDTO {
 
+    // [2024-09-16] repository 에 해당하는 issue, label, setting 을 확인하기 위해 sid 필요
+    private Integer sid;
+
     private String name;
     private String fullName;
     private String description;

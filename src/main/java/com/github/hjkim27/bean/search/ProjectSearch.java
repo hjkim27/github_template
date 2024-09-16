@@ -23,4 +23,6 @@ public class ProjectSearch extends DefaultSearch {
     // issues > labelId
     private List<Object> filterTypeList;
 
+    // [2024-09-16] issue, label, setting 을 repo별로 확인하기 위함
+    private Integer repositorySid;
 }

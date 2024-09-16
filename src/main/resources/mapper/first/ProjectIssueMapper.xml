@@ -36,6 +36,7 @@
             state, issue_number, title, body, label_ids, created_at, updated_at
         from tb_project_issue i
         <trim prefix="where" prefixOverrides="and|or">
+            repository_sid = #{repositorySid}
             <if test="searchValue != null and searchValue != ''">
                 and title like '%'||#{searchValue}||'%'
             </if>
