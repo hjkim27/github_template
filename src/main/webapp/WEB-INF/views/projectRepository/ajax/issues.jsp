@@ -27,7 +27,7 @@
                     <c:forEach var="labelId" items="${item.labelList}">
                         <c:set var="label" value="${labels[labelId]}"/>
                         <%-- [2024-09-16] issue에는 label 이 있더라도 label 목록에 해당 값이 없을 경우 빈 span 출력 방지 --%>
-                        <c:if test="${label}!= ''">
+                        <c:if test="${label ne null}">
                             <span class="repo round-box" name="label" id="label-${labelId}" data-color="${label.color}">${label.name}</span>
                         </c:if>
                     </c:forEach>
