@@ -9,8 +9,8 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 
-<div class="profile" style="">
-    <div class="profile-img-div" style="">
+<div class="profile">
+    <div class="profile-img-div">
         <img class="profile-img" src="${contextPath}/static/img/logo/logo2.png">
     </div>
     <button class="bg-blue" style="">profile</button>

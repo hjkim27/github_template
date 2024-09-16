@@ -20,7 +20,10 @@
 <%-- [2024-09-15] menu 페이지 별도 분리 --%>
 <div class="header">
     <div class="">
-        <img style="max-height: 40px;" src="${contextPath}/static/img/logo/logo2-clean.png">
+        <img style="max-height: 40px;"
+            <%-- logo 클릭 시 home 으로 돌아가도록 추가 --%>
+             onclick="location.href = '${contextPath}'"
+             src="${contextPath}/static/img/logo/logo2-clean.png">
     </div>
     <div class="align-right">
         <button class="default br-dark-blue bg-white" onclick="location.href='${contextPath}/sign/logout'">Profile</button>

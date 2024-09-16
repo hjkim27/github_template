@@ -8,6 +8,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<c:set var="contextPath" value="${pageContext.request.contextPath}"/>
+
 <%-- 검색 결과가 없을 경우 --%>
 <c:if test="${list eq null}">
     <div id="clear-filter" class="repo item" style="text-align: right; padding: 15px 0;"
@@ -22,7 +24,8 @@
     <c:forEach var="item" items="${list}">
         <div class="repo item grid-column-2-1 grid-gap-10">
             <div>
-                <a class="repo name" href="javascript:window.open('${item.htmlUrl}')">${item.name}</a>
+                <%-- [2024-09-16] github url을 여는게 아니라 issue 목록 페이지로 이동하게 수정 --%>
+                <a class="repo name" href="javascript:openRepo('${item.sid}')">${item.name}</a>
                 <span class="repo round-box">
               <c:if test="${item.privacy}">private</c:if>
               <c:if test="${!item.privacy}">public</c:if>
@@ -33,3 +36,11 @@
         </div>
     </c:forEach>
 </c:if>
+
+<script>
+    // [2024-09-16] repository 에 해당하는 issue 만 보여지도록 하는 함수
+    function openRepo(sid){
+        setStorage('repositorySid', sid);
+        location.href = '${contextPath}/projectRepository/issues?repositorySid='+sid;
+    }
+</script>
