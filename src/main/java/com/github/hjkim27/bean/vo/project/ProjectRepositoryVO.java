@@ -38,4 +38,8 @@ public class ProjectRepositoryVO {
         this.htmlUrl = htmlUrl;
         this.sshUrl = sshUrl;
     }
+
+    public ProjectRepositoryVO(String fullName){
+        this.fullName = fullName;
+    }
 }

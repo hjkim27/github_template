@@ -6,8 +6,8 @@
     <!-- label 정보 추가 -->
     <insert id="insertRow" parameterType="com.github.hjkim27.bean.vo.project.ProjectLabelVO"
             keyProperty="labelId" keyColumn="label_id">
-        insert into tb_project_label (label_id, name, description, color)
-        values (#{labelId}, #{name}, #{description}, #{color});
+        insert into tb_project_label (label_id, name, description, color, repository_sid)
+        values (#{labelId}, #{name}, #{description}, #{color}, #{repositorySid});
     </insert>
 
     <!-- label 정보 수정 -->
@@ -17,7 +17,7 @@
             description = #{description},
             color       = #{color},
             active      = true
-        where label_id = #{labelId};
+        where repository_sid = #{repositorySid} and label_id = #{labelId};
     </update>
 
     <!-- 삭제된 label 을 확인하기 위해 모든 label 의 active 를 false 로 업데이트 -->
@@ -27,10 +27,10 @@
     </update>
 
     <!-- label 존재여부 조회 -->
-    <select id="isExistRow" parameterType="long" resultType="Boolean">
+    <select id="isExistRow" parameterType="com.github.hjkim27.bean.dto.project.ProjectLabelDTO" resultType="Boolean">
         select count(label_id) > 0
         from tb_project_label
-        where label_id = #{labelId}
+        where repository_sid = #{repositorySid} and label_id = #{labelId}
     </select>
 
 

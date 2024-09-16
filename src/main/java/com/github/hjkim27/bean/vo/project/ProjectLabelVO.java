@@ -18,6 +18,7 @@ import lombok.*;
 public class ProjectLabelVO {
 
     private Integer sid;
+    private Integer repositorySid;
     private Long labelId;
     private String name;
     private String description;

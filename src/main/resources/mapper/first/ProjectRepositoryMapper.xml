@@ -34,8 +34,8 @@
     </update>
 
     <!-- repository 존재여부 조회 -->
-    <select id="isExistRow" parameterType="com.github.hjkim27.bean.vo.project.ProjectRepositoryVO" resultType="Boolean">
-        select count(full_name) > 0
+    <select id="isExistRow" parameterType="com.github.hjkim27.bean.vo.project.ProjectRepositoryVO" resultType="Integer">
+        select sid
         from tb_project_repository
         where full_name = #{fullName}
     </select>

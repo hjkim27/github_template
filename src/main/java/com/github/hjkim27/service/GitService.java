@@ -57,7 +57,13 @@ public class GitService {
         for (ProjectLabelDTO dto : labelDTOList) {
             ProjectLabelVO vo = modelMapper.map(dto, ProjectLabelVO.class);
 
-            boolean isExistLabel = projectLabelMapper.isExistRow(vo.getLabelId());
+            // [2024-09-17] repositorySid 추가
+            ProjectRepositoryVO repositoryVO = new ProjectRepositoryVO(dto.getRepositoryFullName());
+            int repoSid = projectRepositoryMapper.isExistRow(repositoryVO);
+
+            vo.setRepositorySid(repoSid);
+
+            boolean isExistLabel = projectLabelMapper.isExistRow(vo);
             if (isExistLabel) {
                 projectLabelMapper.updateRow(vo);
                 log.info("update >> labelId : {}", vo.getLabelId());
@@ -82,8 +88,9 @@ public class GitService {
         for (ProjectRepositoryDTO dto : repositoryDTOList) {
             ProjectRepositoryVO vo = modelMapper.map(dto, ProjectRepositoryVO.class);
 
-            boolean isExistRepo = projectRepositoryMapper.isExistRow(vo);
-            if (isExistRepo) {
+            // [2024-09-17] isExistRow 반환타입 수정
+            Integer repoSid = projectRepositoryMapper.isExistRow(vo);
+            if (repoSid != null && repoSid > 0) {
                 projectRepositoryMapper.updateRow(vo);
                 log.info("update >> fullName : {}", vo.getFullName());
             } else {

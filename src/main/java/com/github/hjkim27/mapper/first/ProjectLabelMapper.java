@@ -53,10 +53,10 @@ public interface ProjectLabelMapper {
      *     where : label_id
      * </pre>
      *
-     * @param labelId
+     * @param projectLabelVO
      * @return
      */
-    public Boolean isExistRow(Long labelId);
+    public Boolean isExistRow(ProjectLabelVO projectLabelVO);
 
     /**
      * <pre>

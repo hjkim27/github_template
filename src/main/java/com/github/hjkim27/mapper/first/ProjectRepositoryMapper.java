@@ -51,12 +51,13 @@ public interface ProjectRepositoryMapper {
      * <pre>
      *     repository가 존재하는지 확인
      *     where : full_name
+     *     - [2024-09-17] label 연동 시 sid 사용을 위해 returnType 수정 (Bool -> Int)
      * </pre>
      *
      * @param projectRepositoryVO
      * @return
      */
-    public Boolean isExistRow(ProjectRepositoryVO projectRepositoryVO);
+    public Integer isExistRow(ProjectRepositoryVO projectRepositoryVO);
 
     /**
      * <pre>
