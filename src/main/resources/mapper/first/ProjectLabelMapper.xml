@@ -45,7 +45,13 @@
     <select id="getList" parameterType="com.github.hjkim27.bean.search.ProjectSearch" resultType="com.github.hjkim27.bean.dto.project.ProjectLabelDTO">
         select *
         from tb_project_label
-        where repository_sid = #{repositorySid}
+        <trim prefix="where" prefixOverrides="and|or">
+            repository_sid = #{repositorySid}
+            <!-- [2024-09-19] label 검색 추가 : 대소문자 구분 X -->
+            <if test="searchValue != null and searchValue != ''">
+                and (name ilike '%'||#{searchValue}||'%' or description ilike '%'||#{searchValue}||'%')
+            </if>
+        </trim>
         order by name;
     </select>
 </mapper>
