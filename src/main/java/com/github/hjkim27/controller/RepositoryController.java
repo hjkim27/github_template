@@ -155,6 +155,9 @@ public class RepositoryController {
     public Map<String, Object> labels(ProjectSearch search) {
         Map<String, Object> map = new HashMap<>();
         map.put("list", projectService.getLabelList(search));
+        // [2024-09-18] label 검색 시 사용
+        map.put("labelList", projectService.getLabelList(search));
+        map.put("multiType", true); // 다중검색 기능을 사용하고자 할 경우 추가
         return map;
     }
 

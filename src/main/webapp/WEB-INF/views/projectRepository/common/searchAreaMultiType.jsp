@@ -35,20 +35,16 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <c:choose>
-                        <c:when test="${path eq 'issues'}">
-                            <c:forEach var="item" items="${labelList}">
-                                <div name="filterType" class="modal-search-btn-multi grid-gap-10"
-                                     style="grid-template-columns: minmax(0px, 20px) auto" data-value="${item.labelId}">
-                                    <div class="grid-gap-10" style="grid-template-columns: 20px auto">
-                                        <div style="width:12px; height: 12px; background-color: ${item.color}"></div>
-                                        <div>${item.name}</div>
-                                        <div style="grid-column: 2; font-size: 12px">${item.description}</div>
-                                    </div>
-                                </div>
-                            </c:forEach>
-                        </c:when>
-                    </c:choose>
+                    <c:forEach var="item" items="${labelList}">
+                        <div name="filterType" class="modal-search-btn-multi grid-gap-10"
+                             style="grid-template-columns: minmax(0px, 20px) auto" data-value="${item.labelId}">
+                            <div class="grid-gap-10" style="grid-template-columns: 20px auto">
+                                <div style="width:12px; height: 12px; background-color: ${item.color}"></div>
+                                <div>${item.name}</div>
+                                <div style="grid-column: 2; font-size: 12px">${item.description}</div>
+                            </div>
+                        </div>
+                    </c:forEach>
                 </div>
             </div>
         </div>
