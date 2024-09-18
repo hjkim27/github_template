@@ -18,10 +18,13 @@
     <input type="text" id="searchValue" name="searchValue" class="min-size" value="${search.searchValue}">
     <%-- ----------- --%>
     <!-- Button trigger modal -->
-    <button id="filterType-btn" type="button" class="btn bg-white-hover-blue br-dark-blue min-size" data-toggle="modal"
-            data-target="#filterTypeModal">
-        Type
-    </button>
+        <%-- filterType 이 true 일 경우에만 filterType 검색 사용 --%>
+        <c:if test="${filterType}">
+            <button id="filterType-btn" type="button" class="btn bg-white-hover-blue br-dark-blue min-size" data-toggle="modal"
+                    data-target="#filterTypeModal">
+                Type
+            </button>
+        </c:if>
 
     <!-- Modal -->
     <div id="filterTypeModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="filterTypeModalLabel">

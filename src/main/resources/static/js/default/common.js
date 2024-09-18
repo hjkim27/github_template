@@ -16,13 +16,16 @@ function hexToRgb(hex) {
 // filter, sort 등 modal 을 사용한 select 위치 지정
 function setModalPosition(targetId) {
     var target = $('#' + targetId + '-btn');
-    var height = target.height();
-    var pos = target.position();
-    // [2024-09-19] modal 외 영역 클릭 시 modal 이 닫히는 동작 오류 수정
-    // 기존 modal-dialog 내 content 만 위치를 지정하여 modal-dialog 는 최상단에 위치, 해당 영역 클릭 시 modal 이 닫히지 않는 문제가 있었음.
-    var dialog = $('.modal-dialog.' + targetId);
-    dialog.css('left', pos.left);
-    dialog.css('top', pos.top + target.height() + 15);
+    // tag 존재여부 확인 추가
+    if (target.length > 0) {
+        var height = target.height();
+        var pos = target.position();
+        // [2024-09-19] modal 외 영역 클릭 시 modal 이 닫히는 동작 오류 수정
+        // 기존 modal-dialog 내 content 만 위치를 지정하여 modal-dialog 는 최상단에 위치, 해당 영역 클릭 시 modal 이 닫히지 않는 문제가 있었음.
+        var dialog = $('.modal-dialog.' + targetId);
+        dialog.css('left', pos.left);
+        dialog.css('top', pos.top + target.height() + 15);
+    }
 }
 
 // 이전 검색으로 추가된 i tag 제거
