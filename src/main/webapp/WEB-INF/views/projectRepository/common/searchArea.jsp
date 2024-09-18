@@ -25,7 +25,7 @@
 
     <!-- Modal -->
     <div id="filterTypeModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="filterTypeModalLabel">
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog filterType" role="document">
             <div id="filterTypeModalContent" class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Select Type</h5>
@@ -59,7 +59,7 @@
     </button>
     <!-- Modal -->
     <div id="sortColumnModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="sortColumnModalLabel">
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog sortColumn" role="document">
             <div id="sortColumnModalContent" class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Select Order</h5>

@@ -18,9 +18,11 @@ function setModalPosition(targetId) {
     var target = $('#' + targetId + '-btn');
     var height = target.height();
     var pos = target.position();
-    var modalDiv = $('#' + targetId + 'ModalContent');
-    modalDiv.css('left', pos.left);
-    modalDiv.css('top', pos.top + target.height() + 15);
+    // [2024-09-19] modal 외 영역 클릭 시 modal 이 닫히는 동작 오류 수정
+    // 기존 modal-dialog 내 content 만 위치를 지정하여 modal-dialog 는 최상단에 위치, 해당 영역 클릭 시 modal 이 닫히지 않는 문제가 있었음.
+    var dialog = $('.modal-dialog.' + targetId);
+    dialog.css('left', pos.left);
+    dialog.css('top', pos.top + target.height() + 15);
 }
 
 // 이전 검색으로 추가된 i tag 제거
