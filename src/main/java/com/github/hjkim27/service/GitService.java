@@ -58,8 +58,8 @@ public class GitService {
             ProjectLabelVO vo = modelMapper.map(dto, ProjectLabelVO.class);
 
             // [2024-09-17] repositorySid 추가
-            ProjectRepositoryVO repositoryVO = new ProjectRepositoryVO(dto.getRepositoryFullName());
-            int repoSid = projectRepositoryMapper.isExistRow(repositoryVO);
+            // [2024-09-22] sid 조회 방식 수정 (fullName > id)
+            int repoSid = projectRepositoryMapper.isExistRow(new ProjectRepositoryVO(dto.getGhRepositoryId()));
 
             vo.setRepositorySid(repoSid);
 

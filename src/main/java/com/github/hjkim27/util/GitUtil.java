@@ -124,7 +124,8 @@ public class GitUtil {
                 dto.setColor(label.getColor());
 
                 // hjkim [2024-09-17] repository 에 따라 label 이 다를 경우 확인을 위함
-                dto.setRepositoryFullName(commit.getOwner().getFullName());
+                // [2024-09-22] fullName > id 로 변경
+                dto.setGhRepositoryId(commit.getOwner().getId());
                 list.add(dto);
             }
         }

@@ -42,7 +42,8 @@ public class ProjectRepositoryVO {
         this.sshUrl = sshUrl;
     }
 
-    public ProjectRepositoryVO(String fullName){
-        this.fullName = fullName;
+    // [2024-09-22] fullName > id 로 변경
+    public ProjectRepositoryVO(Long ghRepositoryId) {
+        this.ghRepositoryId = ghRepositoryId;
     }
 }

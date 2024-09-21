@@ -22,6 +22,8 @@ public class ProjectLabelDTO {
     private String description;
     private String color;
 
-    // hjkim [2024-09-17] repository 에 따라 label 이 다를 경우 확인을 위함
-    private String repositoryFullName;
+    // [2024-09-17] repository 에 따라 label 이 다를 경우 확인을 위함
+    // [2024-09-22] fullName > id 로 변경
+    // private String repositoryFullName;
+    private Long ghRepositoryId;
 }
