@@ -167,6 +167,10 @@ public class GitUtil {
             dto.setSshUrl(repository.getSshUrl());
             dto.setCreatedAt(repository.getCreatedAt());
             dto.setUpdatedAt(repository.getUpdatedAt());
+
+            // [2024-09-22] repository id 추가
+            dto.setGhRepositoryId(repository.getId());
+
             // FIXME repository 소유주 추가 필요. 협업 repository 에 대한 내용도 추가되고 있어 구분이 필요함.
             // issue -----------
             List<ProjectIssueDTO> issueDTOList = new ArrayList<>();

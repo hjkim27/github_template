@@ -30,6 +30,9 @@ public class ProjectRepositoryVO {
     private Date updatedAt;
     private Boolean active;
 
+    // [2024-09-22] repository id 추가
+    private Long ghRepositoryId;
+
     public ProjectRepositoryVO(String name, String fullName, String description, Boolean privacy, String htmlUrl, String sshUrl) {
         this.name = name;
         this.fullName = fullName;

@@ -6,11 +6,12 @@
     <!-- repository 정보 추가 -->
     <insert id="insertRow" parameterType="com.github.hjkim27.bean.vo.project.ProjectRepositoryVO"
             keyProperty="sid" keyColumn="sid" useGeneratedKeys="true">
-        insert into tb_project_repository (name, full_name, description, privacy, html_url, ssh_url, created_at, updated_at)
-        values (#{name}, #{fullName}, #{description}, #{privacy}, #{htmlUrl}, #{sshUrl}, #{createdAt}, #{updatedAt});
+        insert into tb_project_repository (gh_repository_id, name, full_name, description, privacy, html_url, ssh_url, created_at, updated_at)
+        values (#{ghRepositoryId}, #{name}, #{fullName}, #{description}, #{privacy}, #{htmlUrl}, #{sshUrl}, #{createdAt}, #{updatedAt});
     </insert>
 
     <!-- repository 정보 수정 -->
+    <!-- [2024-09-22] where 조건 수정 -->
     <update id="updateRow" parameterType="com.github.hjkim27.bean.vo.project.ProjectRepositoryVO"
             keyProperty="sid" keyColumn="sid" useGeneratedKeys="true"
     >
@@ -24,7 +25,7 @@
             created_at     = #{createdAt},
             updated_at     = #{updatedAt},
             active      = true
-        where full_name = #{fullName};
+        where gh_repository_id = #{ghRepositoryId};
     </update>
 
     <!-- 삭제된 repository 을 확인하기 위해 모든 repository 의 active 를 false 로 업데이트 -->
@@ -34,10 +35,11 @@
     </update>
 
     <!-- repository 존재여부 조회 -->
+    <!-- [2024-09-22] where 조건 수정 -->
     <select id="isExistRow" parameterType="com.github.hjkim27.bean.vo.project.ProjectRepositoryVO" resultType="Integer">
         select sid
         from tb_project_repository
-        where full_name = #{fullName}
+        where gh_repository_id = #{ghRepositoryId}
     </select>
 
     <!-- fullName 으로 repoSid 조회 -->

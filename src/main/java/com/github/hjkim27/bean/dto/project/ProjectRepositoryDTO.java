@@ -32,6 +32,9 @@ public class ProjectRepositoryDTO {
     private Date createdAt;
     private Date updatedAt;
 
+    // [2024-09-22] repository id 추가
+    private Long ghRepositoryId;
+
     // 프로젝트에 속한 issue 목록
     private List<ProjectIssueDTO> issueDTOList;
 }

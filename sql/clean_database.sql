@@ -33,16 +33,17 @@ create table tb_setting_info
 -- repository
 create table tb_project_repository
 (
-    sid         serial,
-    name        character varying(100) not null,               -- commit.owner.name
-    full_name   character varying(100) not null,               -- commit.owner.fullName
-    description character varying,                             -- commit.owner.description
-    privacy     boolean                         default false, -- commit.owner.private
-    html_url    character varying,                             -- commit.owner.htmlUrl
-    ssh_url     character varying,                             -- commit.owner.sshUrl
-    created_at  timestamp with time zone,                      -- commit.owner.createdAt
-    updated_at  timestamp with time zone,                      -- commit.owner.updatedAt
-    active      boolean                not null default true
+    sid              serial,
+    gh_repository_id bigint unique          not null,
+    name             character varying(100) not null,               -- commit.owner.name
+    full_name        character varying(100) not null,               -- commit.owner.fullName
+    description      character varying,                             -- commit.owner.description
+    privacy          boolean                         default false, -- commit.owner.private
+    html_url         character varying,                             -- commit.owner.htmlUrl
+    ssh_url          character varying,                             -- commit.owner.sshUrl
+    created_at       timestamp with time zone,                      -- commit.owner.createdAt
+    updated_at       timestamp with time zone,                      -- commit.owner.updatedAt
+    active           boolean                not null default true
 );
 
 -- owner

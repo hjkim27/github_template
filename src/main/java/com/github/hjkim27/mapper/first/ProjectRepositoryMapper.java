@@ -29,8 +29,9 @@ public interface ProjectRepositoryMapper {
     /**
      * <pre>
      *     repository 업데이트
-     *     - set : name, full_name, description, privacy, html_url, ssh_url, active(true)
-     *     - where : full_name
+     *     set : name, full_name, description, privacy, html_url, ssh_url, active(true)
+     *     where : gh_repository_id
+     *     - [2024-09-22] where 조건 수정
      * </pre>
      *
      * @param projectRepositoryVO
@@ -50,8 +51,9 @@ public interface ProjectRepositoryMapper {
     /**
      * <pre>
      *     repository가 존재하는지 확인
-     *     where : full_name
+     *     where : gh_repository_id
      *     - [2024-09-17] label 연동 시 sid 사용을 위해 returnType 수정 (Bool -> Int)
+     *     - [2024-09-22] where 조건 수정
      * </pre>
      *
      * @param projectRepositoryVO
