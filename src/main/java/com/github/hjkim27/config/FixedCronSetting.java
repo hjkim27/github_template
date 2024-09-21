@@ -1,6 +1,5 @@
 package com.github.hjkim27.config;
 
-import com.github.hjkim27.bean.dto.project.ProjectCommitDTO;
 import com.github.hjkim27.bean.dto.project.ProjectLabelDTO;
 import com.github.hjkim27.bean.dto.project.ProjectRepositoryDTO;
 import com.github.hjkim27.service.GitService;
@@ -22,10 +21,10 @@ public class FixedCronSetting {
     private final GitService projectService;
     private final GitUtil gitUtil;
 
-    @Scheduled(cron = "*/1 * * * * *")
-    public void check() {
-        log.info(DateFormatUtil.getNowDate(DateFormatUtil.DateFormat.yyyy_MM_dd_hhmmss));
-    }
+//    @Scheduled(cron = "*/1 * * * * *")
+//    public void check() {
+//        log.info(DateFormatUtil.getNowDate(DateFormatUtil.DateFormat.yyyy_MM_dd_hhmmss));
+//    }
 
     // 매일 0시 5분에
     @Scheduled(cron = "0 5 0 */1 * *")
@@ -35,7 +34,7 @@ public class FixedCronSetting {
     }
 
     // 매 시간마다
-    @Scheduled(cron = "* * */1 * * *")
+    @Scheduled(cron = "0 0 */1 * * *")
     public void commits() {
         gitUtil.getCommits(DateFormatUtil.getBeforeNDays(DateFormatUtil.DateFormat.yyyy_MM_dd, -1));
     }
@@ -45,19 +44,18 @@ public class FixedCronSetting {
      * 초(0-59)   분(0-59)　　시간(0-23)　　일(1-31)　　월(1-12)　　요일(0-7)
      */
 //    @Scheduled(cron = "0 0 0 * * *")
-    @Scheduled(cron = "0 */2 * * * *")
-    public void insertLabels() throws IOException {
-        // insert label
+    @Scheduled(cron = "0 */5 * * * *")
+    public void insertLabelRepo() throws IOException {
         try {
-            List<ProjectLabelDTO> labelList = gitUtil.getLabels();
-            projectService.insertLabels(labelList);
 
             // insert repository
             List<ProjectRepositoryDTO> repoList = gitUtil.getRepositorys();
             projectService.insertRepos(repoList);
 
-            List<ProjectCommitDTO> commitList = gitUtil.getCommit();
-//            projectService.insertCommit(commitList);
+            // insert label
+            List<ProjectLabelDTO> labelList = gitUtil.getLabels();
+            projectService.insertLabels(labelList);
+
         } catch (Exception e) {
             log.error(e.getMessage(), e);
         }
