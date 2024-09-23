@@ -50,7 +50,12 @@
     // [2024-09-16] menu 클릭 함수 수정
     $('button').on('click', function () {
         var path = $(this).data('path');
-        var repositorySid = getStorage('repositorySid')
-        location.href = '${contextPath}/projectRepository/' + path + '?repositorySid=' + repositorySid;
+        // [2024-09-23] data-type 이 sub 일 경우에만 repositorySid 를 넘기도록 추가
+        var url = '${contextPath}/projectRepository/' + path;
+        if($(this).data('type') === 'sub'){
+            var repositorySid = getStorage('repositorySid');
+            url += '?repositorySid=' + repositorySid;
+        }
+        location.href = url;
     })
 </script>
