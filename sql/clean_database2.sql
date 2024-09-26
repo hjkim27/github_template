@@ -31,36 +31,38 @@ create table tb_setting_info
 );
 
 -- owner
+-- commit.owner.owner
 create table tb_project_owner_info
 (
     sid        serial,
-    gh_id      bigint,                   -- commit.owner.owner.id
-    name       character varying,        -- commit.owner.owner.name
-    email      character varying,        -- commit.owner.owner.email
-    login      character varying,        -- commit.owner.owner.login
-    html_url   character varying,        -- commit.owner.owner.htmlUrl.toString
-    url        character varying,        -- commit.owner.owner.url.toString
-    created_at timestamp with time zone, -- commit.owner.owner.createdAt
-    updated_at timestamp with time zone  -- commit.owner.owner.updatedAt
+    gh_id      bigint,                   -- > id
+    name       character varying,        -- > name
+    email      character varying,        -- > email
+    login      character varying,        -- > login
+    html_url   character varying,        -- > htmlUrl.toString
+    url        character varying,        -- > url.toString
+    created_at timestamp with time zone, -- > createdAt
+    updated_at timestamp with time zone  -- > updatedAt
 );
 
 
 -- repository
+-- commit.owner
 create table tb_project_repository
 (
     sid         serial,
-    gh_id       bigint,                   -- commit.owner.id
-    name        character varying,        -- commit.owner.name
-    full_name   character varying,        -- commit.owner.fullName
-    description character varying,        -- commit.owner.description
-    gh_private  boolean,                  -- commit.owner.private
-    language    character varying,        -- commit.owner.language
-    html_url    character varying,        -- commit.owner.htmlUrl.toString
-    ssh_url     character varying,        -- commit.owner.sshUrl.toString
-    url         character varying,        -- commit.owner.url.toString
-    created_at  timestamp with time zone, -- commit.owner.createdAt
-    updated_at  timestamp with time zone, -- commit.owner.updatedAt
-    gh_owner_id bigint,                   -- commit.owner.owner.id
+    gh_id       bigint,                   -- > id
+    name        character varying,        -- > name
+    full_name   character varying,        -- > fullName
+    description character varying,        -- > description
+    gh_private  boolean,                  -- > private
+    language    character varying,        -- > language
+    html_url    character varying,        -- > htmlUrl.toString
+    ssh_url     character varying,        -- > sshUrl.toString
+    url         character varying,        -- > url.toString
+    created_at  timestamp with time zone, -- > createdAt
+    updated_at  timestamp with time zone, -- > updatedAt
+    gh_owner_id bigint,                   -- > owner.id
 
     active      boolean                   -- repository 삭제여부
 );
@@ -70,83 +72,83 @@ create table tb_project_repository
 create table tb_project_issue
 (
     sid              serial,
-    gh_id            long,                     -- commit.owner.issues > id
-    issue_number     integer,                  -- commit.owner.issues > number
-    title            character varying,        -- commit.owner.issues > title
-    body             character varying,        -- commit.owner.issues > body
-    state            character varying,        -- commit.owner.issues > state
-    html_url         character varying,        -- commit.owner.issues > htmlUrl.toString
-    url              character varying,        -- commit.owner.issues > url.toString
-    created_at       timestamp with time zone, -- commit.owner.issues > createdAt
-    updated_at       timestamp with time zone, -- commit.owner.issues > updatedAt
-    closed_at        timestamp with time zone, -- commit.owner.issues > closedAt
-    gh_repository_id bigint,                   -- commit.owner.issues > repository.id
+    gh_id            long,                     -- > id
+    issue_number     integer,                  -- > number
+    title            character varying,        -- > title
+    body             character varying,        -- > body
+    state            character varying,        -- > state
+    html_url         character varying,        -- > htmlUrl.toString
+    url              character varying,        -- > url.toString
+    created_at       timestamp with time zone, -- > createdAt
+    updated_at       timestamp with time zone, -- > updatedAt
+    closed_at        timestamp with time zone, -- > closedAt
+    gh_repository_id bigint,                   -- > repository.id
 
-    label_ids        character varying,        -- commit.owner.issues > labels
-    active           boolean
+    label_ids        character varying         -- commit.owner.issues > labels
 );
 
 -- event
+-- commit.owner.issues > events
 create table tb_project_event
 (
-    sid             serial,
-    gh_id           bigint,                  -- commit.owner.issues > events > id
-    gh_issue_number integer,                 -- commit.owner.issues > events > issue.number
-    gh_actor_login  character varying,       -- commit.owner.issues > events > actor.login
-    event           character varying,       -- commit.owner.issues > events > event
-    commit_id       character varying,       -- commit.owner.issues > events > commitId
-    commit_url      character varying,       -- commit.owner.issues > events > commitUrl
-    url             character varying,       -- commit.owner.issues > events > url
-    created_at      timestamp with time zone -- commit.owner.issues > events > createdAt
+    sid            serial,
+    gh_id          bigint,                   -- > id
+    gh_actor_login character varying,        -- > actor.login
+    event          character varying,        -- > event
+    commit_id      character varying,        -- > commitId
+    commit_url     character varying,        -- > commitUrl
+    url            character varying,        -- > url
+    created_at     timestamp with time zone, -- > createdAt
+    gh_issue_id    bigint                    -- > issue.id
 )
 
 
 -- comment
--- commit.getOwner().getComments() > for
+-- commit.owner.issues > comments
 create table tb_project_comment
 (
-    sid               serial,
-    issue_number      Integer not null,         -- tb_project_issue.number
-    comment_id        bigint  not null,         -- comment.id
-    body              text    not null,         -- comment.body
-    parent_comment_id character varying,        -- comment.parent.id
-    created_at        timestamp with time zone, -- comment.createdAt
-    updated_at        timestamp with time zone, -- comment.updatedAt
-    active            boolean not null default true
+    sid         serial,
+    gh_id       bigint,                       -- > comments > id
+    body        text,                         -- > body
+    parent_id   character varying,            -- > parent.id
+    created_at  timestamp with time zone,     -- > createdAt
+    updated_at  timestamp with time zone,     -- > updatedAt
+    html_url    character varying,            -- > htmlUrl
+    url         character varying,            -- > url
+    gh_owner_id bigint,                       -- > user.id
+    gh_issue_id bigint,                       -- commit.owner.issues > id
+    active      boolean not null default true -- comment 삭제여부
 );
 
-
-
-
----------------------------------------------------------------
 
 --  commit 내역
 create table tb_project_commit
 (
     sid                serial,
-    gh_repository_id   bigint,
-    sha                character varying,
-    parent_sha         character varying,
-    commit_date        timestamp with time zone,
-    message            character varying,
-    commit_count       integer,
-    committer_name     character varying,
-    committer_username character varying,
-    committer_email    character varying,
-    committer_date     character varying,
-    html_url           character varying,
-    url                character varying
+    sha                character varying,        -- commit.tree.sha
+    parent_sha         character varying,        -- commit.parentSHA1
+    commit_date        timestamp with time zone, -- commit.commitDate
+    message            character varying,        -- commit.commitShortInfo.message
+    commit_count       integer,                  -- commit.commitShortInfo.commentCount
+    committer_name     character varying,        -- commit.commitShortInfo.committer.name
+    committer_username character varying,        -- commit.commitShortInfo.committer.username
+    committer_email    character varying,        -- commit.commitShortInfo.committer.email
+    committer_date     character varying,        -- commit.commitShortInfo.committer.date
+    html_url           character varying,        -- commit.htmlUrl
+    url                character varying,        -- commit.url
+    gh_repository_id   bigint                    -- commit.owner.id
 );
 
 -- labels
+-- commit.owner.listLabels
 create table tb_project_label
 (
     sid              serial,
-    gh_repository_id bigint,
-    gh_label_id      bigint,
-    name             character varying,
-    description      character varying,
-    color            character varying,
-    url              character varying
+    gh_id            bigint,            -- > id
+    name             character varying, -- > name
+    description      character varying, -- > description
+    color            character varying, -- > color
+    url              character varying, -- > url
+    gh_repository_id bigint             -- commit.owner.id
 );
 
