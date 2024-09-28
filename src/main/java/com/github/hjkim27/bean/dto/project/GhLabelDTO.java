@@ -4,7 +4,7 @@ import lombok.*;
 
 /**
  * <pre>
- *     tb_project_label
+ *     gh_label
  * </pre>
  *
  * @author hjkim27
@@ -15,15 +15,15 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class ProjectLabelDTO {
+public class GhLabelDTO {
 
-    private Long labelId;
+    private Integer sid;
+    private Long ghId;
     private String name;
     private String description;
     private String color;
+    private String url;
 
-    // [2024-09-17] repository 에 따라 label 이 다를 경우 확인을 위함
-    // [2024-09-22] fullName > id 로 변경
-    // private String repositoryFullName;
     private Long ghRepositoryId;
+    private Integer repositorySid;
 }
