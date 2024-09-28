@@ -4,7 +4,7 @@
 -- Description  |   clean database query
 ------------------------------------------------------------
 -- 관리자 로그인 정보
-create table tb_admin_info
+create table admin_info
 (
     sid           serial,
     login_id      character varying not null,
@@ -17,11 +17,11 @@ create table tb_admin_info
 );
 
 -- admin / privacy
-insert into tb_admin_info (login_id, login_pw, name)
+insert into admin_info (login_id, login_pw, name)
 values ('admin', 'ca56ea33be18cc9ad3701ba63a11e676866e7deefd42a27d579f4284b6e064f0', '관리자');
 
 -- 설정정보
-create table tb_setting_info
+create table setting_info
 (
     sid         serial,
     key         character varying unique not null,
@@ -32,7 +32,7 @@ create table tb_setting_info
 
 -- owner
 -- commit.owner.owner
-create table tb_project_owner_info
+create table gh_owner_info
 (
     sid        serial,
     gh_id      bigint,                   -- > id
@@ -48,7 +48,7 @@ create table tb_project_owner_info
 
 -- repository
 -- commit.owner
-create table tb_project_repository
+create table gh_repository
 (
     sid         serial,
     gh_id       bigint,                   -- > id
@@ -69,7 +69,7 @@ create table tb_project_repository
 
 -- issue
 -- commit.getOwner().getIssue(GHIssueState.ALL) > for
-create table tb_project_issue
+create table gh_issue
 (
     sid              serial,
     gh_id            long,                     -- > id
@@ -89,7 +89,7 @@ create table tb_project_issue
 
 -- event
 -- commit.owner.issues > events
-create table tb_project_event
+create table gh_event
 (
     sid            serial,
     gh_id          bigint,                   -- > id
@@ -105,7 +105,7 @@ create table tb_project_event
 
 -- comment
 -- commit.owner.issues > comments
-create table tb_project_comment
+create table gh_comment
 (
     sid         serial,
     gh_id       bigint,                       -- > comments > id
@@ -122,7 +122,7 @@ create table tb_project_comment
 
 
 --  commit 내역
-create table tb_project_commit
+create table gh_commit
 (
     sid                serial,
     sha                character varying,        -- commit.tree.sha
@@ -141,7 +141,7 @@ create table tb_project_commit
 
 -- labels
 -- commit.owner.listLabels
-create table tb_project_label
+create table gh_label
 (
     sid              serial,
     gh_id            bigint,            -- > id
