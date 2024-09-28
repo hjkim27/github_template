@@ -93,7 +93,7 @@ public class AdminInfoService {
      * </pre>
      *
      * @param adminRequestDTO {@link AdminRequestDTO} 계정 추가를 위한 정보
-     * @return 계정 추가 성공여부 (실패: -1 / 성공: tb_admin_info.sid)
+     * @return 계정 추가 성공여부 (실패: -1 / 성공: admin_info.sid)
      */
     public int insertAdmin(AdminRequestDTO adminRequestDTO) {
         int adminSid = getAdminSid(adminRequestDTO);

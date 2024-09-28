@@ -4,7 +4,13 @@ import lombok.*;
 
 /**
  * <pre>
- *     tb_setting_info table
+ * create table setting_info (
+ *     sid         serial,
+ *     key         character varying unique not null,
+ *     value       character varying,
+ *     type        character varying,
+ *     description character varying
+ * );
  * </pre>
  *
  * @author hjkim27

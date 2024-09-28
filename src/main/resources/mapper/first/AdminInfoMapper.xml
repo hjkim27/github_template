@@ -7,7 +7,7 @@
     <select id="getAdminInfoSearch" parameterType="com.github.hjkim27.bean.vo.AdminInfoVO"
             resultType="com.github.hjkim27.bean.vo.AdminInfoVO">
         select sid, login_id, login_pw, name, created_at, updated_at, last_login_at
-        from tb_admin_info
+        from admin_info
         <trim prefix="where" prefixOverrides="and">
             <if test="sid != null and sid != ''">and sid = #{sid}</if>
             <if test="loginId != null and loginId != ''">and login_id = #{loginId}</if>
@@ -20,7 +20,7 @@
     <!-- loginid, loginpw 를 조건으로 sid 조회 -->
     <select id="getAdminSid" parameterType="com.github.hjkim27.bean.vo.AdminInfoVO" resultType="int">
         select sid
-        from tb_admin_info
+        from admin_info
         where login_id = #{loginId}
         <if test="loginPw != null">
             and login_pw = #{loginPw}
@@ -29,7 +29,7 @@
 
     <!-- Sid 를 조건으로 update -->
     <update id="updateAdminInfoBySid" parameterType="com.github.hjkim27.bean.vo.AdminInfoVO">
-        update tb_admin_info
+        update admin_info
         <trim prefix="set" prefixOverrides=",">
             <if test="loginId != null">, login_id = #{loginId}</if>
             <if test="loginPw != null">, login_pw = #{loginPw}</if>
@@ -41,7 +41,7 @@
 
     <!-- login 성공 : loginId, lpginPw 를 조건으로 update -->
     <update id="updateAdminLoginAt" parameterType="com.github.hjkim27.bean.vo.AdminInfoVO">
-        update tb_admin_info
+        update admin_info
         set last_login_at = now()
         where login_id = #{loginId}
           and login_pw = #{loginPw}
@@ -50,13 +50,13 @@
     <!-- 계정 추가 -->
     <insert id="insertAdminInfo" parameterType="com.github.hjkim27.bean.vo.AdminInfoVO"
             useGeneratedKeys="true" keyColumn="sid" keyProperty="sid">
-        insert into tb_admin_info(login_id, login_pw, name)
+        insert into admin_info(login_id, login_pw, name)
         values (#{loginId}, #{loginPw}, #{name})
     </insert>
 
     <!-- 계정 삭제 -->
     <delete id="deleteAdminInfo" parameterType="int">
-        delete from tb_admin_info
+        delete from admin_info
         where sid in
         <foreach collection="sids" item="item" open="(" separator="," close=")">#{item}</foreach>
     </delete>
