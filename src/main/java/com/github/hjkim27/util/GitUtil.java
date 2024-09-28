@@ -104,11 +104,11 @@ public class GitUtil {
      * @return
      * @throws IOException
      */
-    public List<ProjectLabelDTO> getLabels() throws IOException {
+    public List<GhLabelDTO> getLabels() throws IOException {
 //        PagedSearchIterable<GHCommit> commits = getCommits(DateFormatUtil.getBeforeNDays(DateFormatUtil.DateFormat.yyyy_MM_dd, -7));
         Iterator<GHCommit> it = commits.iterator();
 
-        List<ProjectLabelDTO> list = new ArrayList<>();
+        List<GhLabelDTO> list = new ArrayList<>();
         if (it.hasNext()) {
             GHCommit commit = it.next();
 
@@ -117,14 +117,14 @@ public class GitUtil {
 
             while (it2.hasNext()) {
                 GHLabel label = (GHLabel) it2.next();
-                ProjectLabelDTO dto = new ProjectLabelDTO();
-                dto.setLabelId(label.getId());
+
+                // == label ==
+                GhLabelDTO dto = new GhLabelDTO();
+                dto.setGhId(label.getId());
                 dto.setName(label.getName());
                 dto.setDescription(label.getDescription());
                 dto.setColor(label.getColor());
-
-                // hjkim [2024-09-17] repository 에 따라 label 이 다를 경우 확인을 위함
-                // [2024-09-22] fullName > id 로 변경
+                dto.setUrl(label.getUrl());
                 dto.setGhRepositoryId(commit.getOwner().getId());
                 list.add(dto);
             }
