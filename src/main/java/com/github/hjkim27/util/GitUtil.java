@@ -142,12 +142,10 @@ public class GitUtil {
      * @return
      * @throws IOException
      */
-    public List<ProjectRepositoryDTO> getRepositorys() throws IOException {
-//        PagedSearchIterable<GHCommit> commits = getCommits(DateFormatUtil.getBeforeNDays(DateFormatUtil.DateFormat.yyyy_MM_dd, -7));
+    public List<GhRepositoryDTO> getRepositorys() throws IOException {
         Iterator<GHCommit> it = commits.iterator();
-        List<ProjectRepositoryDTO> list = new ArrayList<>();
+        List<GhRepositoryDTO> list = new ArrayList<>();
 
-        log.debug("commits.getTotalCount() : {}",commits.getTotalCount());
         Set<String> repoNames = new HashSet<>();
         while (it.hasNext()) {
             GHCommit commit = it.next();
@@ -225,12 +223,7 @@ public class GitUtil {
                 issueDTO.setCommentList(commentDTOList);
 
                 // issue.label ----------
-                List<Long> labelIds = new ArrayList<>();
-                Collection<GHLabel> labels = issue.getLabels();
-                for (GHLabel label : labels) {
-                    labelIds.add(label.getId());
-                }
-                issueDTO.setLabelIds(FormatUtil.listToString(labelIds, ","));
+
                 issueDTOList.add(issueDTO);
             }
             log.debug("issues : {}", issueDTOList.size());
