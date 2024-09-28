@@ -4,32 +4,39 @@
 <mapper namespace="com.github.hjkim27.mapper.first.ProjectCommentMapper">
 
     <!-- comment 정보 추가 -->
-    <insert id="insertRow" parameterType="com.github.hjkim27.bean.vo.project.ProjectCommentVO"
+    <insert id="insertRow" parameterType="com.github.hjkim27.bean.dto.project.GhCommentDTO"
             keyProperty="sid" keyColumn="sid" useGeneratedKeys="true">
-        insert into tb_project_comment (issue_number, comment_id, body, parent_comment_id, created_at, updated_at)
-        values (#{issueNumber}, #{commentId}, #{body}, #{parentCommentId}, #{createdAt}, #{updatedAt});
+        insert into gh_comment (gh_id, body, parent_id, created_at, updated_at, html_url, url, gh_owner_id, gh_issue_id)
+        values (#{ghId}, #{body}, #{parentId}, #{createdAt}, #{updatedAt}, #{htmlUrl}, #{url}, #{ghOwnerId}, #{ghIssueId});
     </insert>
 
     <!-- comment 정보 수정 -->
-    <update id="updateRow" parameterType="com.github.hjkim27.bean.vo.project.ProjectCommentVO">
-        update tb_project_comment
-        set body              = #{body},
-            parent_comment_id = #{parentCommentId},
-            updated_at        = #{updatedAt}
-        where comment_id = #{commentId};
+    <update id="updateRow" parameterType="com.github.hjkim27.bean.dto.project.GhCommentDTO">
+        update gh_comment
+        <trim prefix="set" prefixOverrides=",">
+            <if test="body != null and body != ''">, body = #{body}</if>
+            <if test="parentId != null and parentId != ''">, parent_id = #{parentId}</if>
+            <if test="createdAt != null">, created_at = #{createdAt}</if>
+            <if test="updatedAt != null">, updated_at = #{updatedAt}</if>
+            <if test="htmlUrl != null and htmlUrl != ''">, html_url = #{htmlUrl}</if>
+            <if test="url != null and url != ''">, url = #{url}</if>
+            <if test="ghOwnerId != null and ghOwnerId != ''">, gh_owner_id = #{ghOwnerId}</if>
+            <if test="ghIssueId != null and ghIssueId != ''">, gh_issue_id = #{ghIssueId}</if>
+        </trim>
+        where gh_id = #{ghId};
     </update>
 
     <!-- 삭제된 comment 을 확인하기 위해 모든 repository 의 active 를 false 로 업데이트 -->
     <update id="updateActiveFalse">
-        update tb_project_comment
+        update gh_comment
         set active = false;
     </update>
 
     <!-- comment 존재여부 조회 -->
-    <select id="isExistRow" parameterType="com.github.hjkim27.bean.vo.project.ProjectCommentVO" resultType="Boolean">
+    <select id="isExistRow" parameterType="com.github.hjkim27.bean.dto.project.GhCommentDTO" resultType="Boolean">
         select count(comment_id) > 0
-        from tb_project_comment
-        where comment_id = #{commentId}
+        from gh_comment
+        where gh_id = #{ghId}
     </select>
 
 </mapper>
