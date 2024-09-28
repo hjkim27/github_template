@@ -8,7 +8,7 @@
             keyProperty="sha" keyColumn="sha">
         insert into tb_project_commit (repository_sid, sha, parent_sha, committer_name, committer_email,
                                        committer_date, message, html_url)
-        values ((select sid from tb_project_repository where full_name = #{repositoryFullName}),
+        values ((select sid from gh_repository where full_name = #{repositoryFullName}),
                 #{sha}, #{parentSha}, #{committerName}, #{committerEmail}, #{committerDate}, #{message}, #{htmlUrl});
     </insert>
 

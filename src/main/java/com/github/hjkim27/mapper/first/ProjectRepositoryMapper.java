@@ -1,14 +1,13 @@
 package com.github.hjkim27.mapper.first;
 
-import com.github.hjkim27.bean.dto.project.ProjectRepositoryDTO;
+import com.github.hjkim27.bean.dto.project.GhRepositoryDTO;
 import com.github.hjkim27.bean.search.ProjectSearch;
-import com.github.hjkim27.bean.vo.project.ProjectRepositoryVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
 /**
- * tb_project_repository mapper class
+ * gh_repository mapper class
  *
  * @author hjkim27
  * @since 24.07.30
@@ -21,64 +20,47 @@ public interface ProjectRepositoryMapper {
      *     repository 추가
      * </pre>
      *
-     * @param projectRepositoryVO
-     * @return
+     * @param ghRepositoryDTO ghRepository 정보
      */
-    public Long insertRow(ProjectRepositoryVO projectRepositoryVO);
+    void insertRow(GhRepositoryDTO ghRepositoryDTO);
 
     /**
      * <pre>
      *     repository 업데이트
-     *     set : name, full_name, description, privacy, html_url, ssh_url, active(true)
-     *     where : gh_repository_id
-     *     - [2024-09-22] where 조건 수정
+     *     where : ghId
      * </pre>
      *
-     * @param projectRepositoryVO
-     * @return
+     * @param ghRepositoryDTO ghRepository 정보
      */
-    public Integer updateRow(ProjectRepositoryVO projectRepositoryVO);
+    void updateRow(GhRepositoryDTO ghRepositoryDTO);
 
     /**
      * <pre>
      *     모든 repository의 active=false 업데이트
      * </pre>
      *
-     * @return
+     * @return update row count
      */
-    public Integer updateActiveFalse();
+    Integer updateActiveFalse();
 
     /**
      * <pre>
-     *     repository가 존재하는지 확인
-     *     where : gh_repository_id
-     *     - [2024-09-17] label 연동 시 sid 사용을 위해 returnType 수정 (Bool -> Int)
-     *     - [2024-09-22] where 조건 수정
+     *     repository 가 존재하는지 확인
+     *     where : ghId or fullName
      * </pre>
      *
-     * @param projectRepositoryVO
-     * @return
+     * @param ghRepositoryDTO ghRepository 정보
+     * @return tableSid
      */
-    public Integer isExistRow(ProjectRepositoryVO projectRepositoryVO);
+    Integer isExistRow(GhRepositoryDTO ghRepositoryDTO);
 
-    /**
-     * <pre>
-     *     repository fullName으로  repository 가 존재하는지 확인
-     *     where : full_name
-     * </pre>
-     *
-     * @param fullName
-     * @return
-     */
-    public int getSidByRepositoryFullName(String fullName);
 
     /**
      * <pre>
      *     repository list 조회
      * </pre>
      *
-     * @since 2024-08-19
-     * @return
+     * @return repository 정보 목록
      */
-    public List<ProjectRepositoryDTO> getList(ProjectSearch search);
+    List<GhRepositoryDTO> getList(ProjectSearch search);
 }

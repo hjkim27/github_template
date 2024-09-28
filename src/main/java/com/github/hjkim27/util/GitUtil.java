@@ -159,18 +159,21 @@ public class GitUtil {
             } else {
                 repoNames.add(repoName);
             }
-            ProjectRepositoryDTO dto = new ProjectRepositoryDTO();
+            GhRepositoryDTO dto = new GhRepositoryDTO();
+
+            // repository ==
+            dto.setGhId(repository.getId());
             dto.setName(repository.getName());
             dto.setFullName(repository.getFullName());
             dto.setDescription(repository.getDescription());
-            dto.setPrivacy(repository.isPrivate());
+            dto.setGhPrivate(repository.isPrivate());
+            dto.setLanguage(repository.getLanguage());
             dto.setHtmlUrl(repository.getHtmlUrl().toString());
             dto.setSshUrl(repository.getSshUrl());
+            dto.setUrl(repository.getUrl().toString());
             dto.setCreatedAt(repository.getCreatedAt());
             dto.setUpdatedAt(repository.getUpdatedAt());
-
-            // [2024-09-22] repository id 추가
-            dto.setGhRepositoryId(repository.getId());
+            dto.setGhOwnerId(repository.getOwner().getId());
 
             // FIXME repository 소유주 추가 필요. 협업 repository 에 대한 내용도 추가되고 있어 구분이 필요함.
             // issue -----------

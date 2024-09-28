@@ -7,7 +7,7 @@ import java.util.List;
 
 /**
  * <pre>
- *     tb_project_repository
+ *     gh_repository
  * </pre>
  *
  * @author hjkim27
@@ -18,23 +18,24 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class ProjectRepositoryDTO {
+public class GhRepositoryDTO {
 
-    // [2024-09-16] repository 에 해당하는 issue, label, setting 을 확인하기 위해 sid 필요
     private Integer sid;
-
+    private Long ghId;
     private String name;
     private String fullName;
     private String description;
-    private Boolean privacy;
+    private Boolean ghPrivate;
+    private String language;
     private String htmlUrl;
     private String sshUrl;
+    private String url;
     private Date createdAt;
     private Date updatedAt;
+    private Long ghOwnerId;
 
-    // [2024-09-22] repository id 추가
-    private Long ghRepositoryId;
+    private Boolean active;
 
     // 프로젝트에 속한 issue 목록
-    private List<ProjectIssueDTO> issueDTOList;
+    private List<GhIssueDTO> issueDTOList;
 }
