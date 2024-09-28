@@ -6,22 +6,25 @@
     <!-- comment 정보 추가 -->
     <insert id="insertRow" parameterType="com.github.hjkim27.bean.dto.project.GhCommentDTO"
             keyProperty="sid" keyColumn="sid" useGeneratedKeys="true">
-        insert into gh_comment (gh_id, body, parent_id, created_at, updated_at, html_url, url, gh_owner_id, gh_issue_id)
-        values (#{ghId}, #{body}, #{parentId}, #{createdAt}, #{updatedAt}, #{htmlUrl}, #{url}, #{ghOwnerId}, #{ghIssueId});
+        insert into gh_comment ( gh_id, body, parent_id, created_at, updated_at, html_url, url
+                               , gh_owner_id
+                               , issue_sid)
+        values ( #{ghId}, #{body}, #{parentId}, #{createdAt}, #{updatedAt}, #{htmlUrl}, #{url}
+               , (select sid from gh_owner_info where gh_id = #{ghOwnerId})
+               , (select sid from gh_issue where gh_id = #{ghIssueId}));
     </insert>
 
     <!-- comment 정보 수정 -->
     <update id="updateRow" parameterType="com.github.hjkim27.bean.dto.project.GhCommentDTO">
         update gh_comment
         <trim prefix="set" prefixOverrides=",">
+            active = true
             <if test="body != null and body != ''">, body = #{body}</if>
             <if test="parentId != null and parentId != ''">, parent_id = #{parentId}</if>
             <if test="createdAt != null">, created_at = #{createdAt}</if>
             <if test="updatedAt != null">, updated_at = #{updatedAt}</if>
             <if test="htmlUrl != null and htmlUrl != ''">, html_url = #{htmlUrl}</if>
             <if test="url != null and url != ''">, url = #{url}</if>
-            <if test="ghOwnerId != null and ghOwnerId != ''">, gh_owner_id = #{ghOwnerId}</if>
-            <if test="ghIssueId != null and ghIssueId != ''">, gh_issue_id = #{ghIssueId}</if>
         </trim>
         where gh_id = #{ghId};
     </update>

@@ -8,11 +8,11 @@
         insert into gh_issue ( gh_id, issue_number, title, body, state
                              , html_url, url
                              , created_at, updated_at, closed_at
-                             , gh_repository_id)
+                             , repository_sid)
         values ( #{ghId}, #{issueNumber}, #{title}, #{body}, #{state}
                , #{htmlUrl}, #{url}
                , #{createdAt}, #{updatedAt}, #{closedAt}
-               , #{ghRepositoryId})
+               , (select sid from gh_repository where gh_id = #{ghRepositoryId}))
     </insert>
 
     <!-- issue 정보 수정 -->
@@ -47,7 +47,7 @@
     <select id="getList" parameterType="com.github.hjkim27.bean.search.ProjectSearch" resultType="com.github.hjkim27.bean.dto.project.GhIssueDTO">
         select i.issue_number, i.title, i.body, i.state, i.created_at, i.updated_at, i.label_ids
              , r.full_name as repositry_full_name
-        from gh_issue i left join ( select sid, gh_id, full_name from gh_repository ) r on i.gh_repository_id = r.gh_id
+        from gh_issue i left join ( select sid, full_name from gh_repository ) r on i.repository_sid = r.sid
         <trim prefix="where" prefixOverrides="and|or">
             r.sid = #{repositorySid}
             <if test="searchValue != null and searchValue != ''">

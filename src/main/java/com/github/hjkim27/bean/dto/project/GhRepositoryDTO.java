@@ -32,7 +32,9 @@ public class GhRepositoryDTO {
     private String url;
     private Date createdAt;
     private Date updatedAt;
+
     private Long ghOwnerId;
+    private Integer ownerSid;
 
     private Boolean active;
 

@@ -32,7 +32,9 @@ public class GhIssueDTO {
     private Date createdAt;
     private Date updatedAt;
     private Date closedAt;
+
     private Long ghRepositoryId;
+    private Integer repositorySid;
 
     private String labelIds;
 

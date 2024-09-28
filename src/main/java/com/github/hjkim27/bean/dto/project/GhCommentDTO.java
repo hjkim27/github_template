@@ -27,7 +27,11 @@ public class GhCommentDTO {
     private Date updatedAt;
     private String htmlUrl;
     private String url;
+
     private Long ghOwnerId;
     private Long ghIssueId;
+
+    private Integer ownerSid;
+    private Integer issueSid;
 
 }
