@@ -38,7 +38,7 @@
     <select id="getLabelsByIssueNumber" parameterType="Integer" resultType="com.github.hjkim27.bean.vo.project.ProjectLabelVO">
         select *
         from tb_project_label
-        where (select label_ids from tb_project_issue where issue_number = #{issue_number}) like '%' || label_id::varchar||'%';
+        where (select label_ids from gh_issue where issue_number = #{issue_number}) like '%' || label_id::varchar||'%';
     </select>
 
     <!-- issue 목록 조회 -->
