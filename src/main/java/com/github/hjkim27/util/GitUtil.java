@@ -177,20 +177,32 @@ public class GitUtil {
 
             // FIXME repository 소유주 추가 필요. 협업 repository 에 대한 내용도 추가되고 있어 구분이 필요함.
             // issue -----------
-            List<ProjectIssueDTO> issueDTOList = new ArrayList<>();
+            List<GhIssueDTO> issueDTOList = new ArrayList<>();
             List<GHIssue> issues = commit.getOwner().getIssues(GHIssueState.ALL);
             for (GHIssue issue : issues) {
-                ProjectIssueDTO issueDTO = new ProjectIssueDTO();
-                issueDTO.setRepositoryFullName(commit.getOwner().getFullName());
-                issueDTO.setState(issue.getState().name());
+
+                // == issue ==
+                GhIssueDTO issueDTO = new GhIssueDTO();
+                issueDTO.setGhId(issue.getId());
                 issueDTO.setIssueNumber(issue.getNumber());
                 issueDTO.setTitle(issue.getTitle());
                 issueDTO.setBody(issue.getBody());
+                issueDTO.setState(issue.getState().name());
+                issueDTO.setHtmlUrl(issue.getHtmlUrl().toString());
+                issueDTO.setUrl(issue.getUrl().toString());
                 issueDTO.setCreatedAt(issue.getCreatedAt());
-
-                // [2024-09-11] updated, closed 추가
                 issueDTO.setUpdatedAt(issue.getUpdatedAt());
                 issueDTO.setClosedAt(issue.getClosedAt());
+                issueDTO.setGhRepositoryId(issue.getRepository().getId());
+
+                // label_ids
+                List<Long> labelIds = new ArrayList<>();
+                Collection<GHLabel> labels = issue.getLabels();
+                for (GHLabel label : labels) {
+                    labelIds.add(label.getId());
+                }
+                issueDTO.setLabelIds(FormatUtil.listToString(labelIds, ","));
+
 
                 // issue.comment ----------
                 List<ProjectCommentDTO> commentDTOList = new ArrayList<>();

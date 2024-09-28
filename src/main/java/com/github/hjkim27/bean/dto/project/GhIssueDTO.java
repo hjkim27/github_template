@@ -1,7 +1,6 @@
 package com.github.hjkim27.bean.dto.project;
 
 import lombok.*;
-import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -9,7 +8,7 @@ import java.util.List;
 
 /**
  * <pre>
- *     tb_project_issue
+ *     gh_issue
  * </pre>
  *
  * @author hjkim27
@@ -20,18 +19,25 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class ProjectIssueDTO {
-    private String repositoryFullName;
-    private String state;
+public class GhIssueDTO {
+
+    private Integer sid;
+    private Long ghId;
     private Integer issueNumber;
     private String title;
     private String body;
-    private String labelIds;
+    private String state;
+    private String htmlUrl;
+    private String url;
     private Date createdAt;
-
-    // [2024-09-11] updated, closed 추가
     private Date updatedAt;
     private Date closedAt;
+    private Long ghRepositoryId;
+
+    private String labelIds;
+
+
+    private String repositoryFullName;
 
     // 특정 issue 의 comment 목록
     private List<ProjectCommentDTO> commentList;
