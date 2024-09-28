@@ -6,7 +6,7 @@ import java.util.Date;
 
 /**
  * <pre>
- *     tb_project_comomment
+ *     gh_comment
  * </pre>
  *
  * @author hjkim27
@@ -17,12 +17,17 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class ProjectCommentDTO {
+public class GhCommentDTO {
 
-    private Integer issueNumber;
-    private Long commentId;
+    private Integer sid;
+    private Long ghId;
     private String body;
-    private Long parentCommentId;
+    private Long parentId;
     private Date createdAt;
     private Date updatedAt;
+    private String htmlUrl;
+    private String url;
+    private Long ghOwnerId;
+    private Long ghIssueId;
+
 }

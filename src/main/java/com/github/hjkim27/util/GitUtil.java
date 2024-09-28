@@ -205,15 +205,21 @@ public class GitUtil {
 
 
                 // issue.comment ----------
-                List<ProjectCommentDTO> commentDTOList = new ArrayList<>();
+                List<GhCommentDTO> commentDTOList = new ArrayList<>();
                 List<GHIssueComment> comments = issue.getComments();
                 for (GHIssueComment comment : comments) {
-                    ProjectCommentDTO commentDTO = new ProjectCommentDTO();
-                    commentDTO.setCommentId(comment.getId());
+
+                    // == comment ==
+                    GhCommentDTO commentDTO = new GhCommentDTO();
+                    commentDTO.setGhId(comment.getId());
                     commentDTO.setBody(comment.getBody());
-                    commentDTO.setParentCommentId(comment.getParent().getId());
+                    commentDTO.setParentId(comment.getParent().getId());
                     commentDTO.setCreatedAt(comment.getCreatedAt());
                     commentDTO.setUpdatedAt(comment.getUpdatedAt());
+                    commentDTO.setHtmlUrl(comment.getHtmlUrl().toString());
+                    commentDTO.setUrl(comment.getUrl().toString());
+                    commentDTO.setGhOwnerId(comment.getUser().getId());
+                    commentDTO.setGhIssueId(issue.getId());
                     commentDTOList.add(commentDTO);
                 }
                 issueDTO.setCommentList(commentDTOList);

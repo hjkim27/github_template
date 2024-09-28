@@ -40,7 +40,7 @@ public class GhIssueDTO {
     private String repositoryFullName;
 
     // 특정 issue 의 comment 목록
-    private List<ProjectCommentDTO> commentList;
+    private List<GhCommentDTO> commentList;
 
     // issue 목록 조회수정
     public List<Long> getLabelList() {
