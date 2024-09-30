@@ -4,7 +4,7 @@ import com.github.hjkim27.bean.dto.project.GhCommentDTO;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
- * tb_project_comment mapper class
+ * gh_commit mapper class
  *
  * @author hjkim27
  * @since 24.08.02
