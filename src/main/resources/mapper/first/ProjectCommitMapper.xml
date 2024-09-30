@@ -4,17 +4,19 @@
 <mapper namespace="com.github.hjkim27.mapper.first.ProjectCommitMapper">
 
     <!-- commit 정보 추가 -->
-    <insert id="insertRow" parameterType="com.github.hjkim27.bean.dto.project.ProjectCommitDTO"
+    <insert id="insertRow" parameterType="com.github.hjkim27.bean.dto.project.GhCommitDTO"
             keyProperty="sha" keyColumn="sha">
-        insert into tb_project_commit (repository_sid, sha, parent_sha, committer_name, committer_email,
-                                       committer_date, message, html_url)
-        values ((select sid from gh_repository where full_name = #{repositoryFullName}),
-                #{sha}, #{parentSha}, #{committerName}, #{committerEmail}, #{committerDate}, #{message}, #{htmlUrl});
+        insert into gh_commit ( sha, parent_sha, message, commit_date, comment_count, html_url, url
+                              , committer_name, committer_username, committer_email, committer_date
+                              , repository_sid)
+        values ( #{sha}, #{parentSha}, #{message}, #{commitDate}, #{commentCount}, #{htmlUrl}, #{url}
+               , #{committer.name}, #{committer.username}, #{committer.email}, #{committer.committerDate}
+               , (select sid from gh_repository where gh_id = #{ghRepositoryId}));
     </insert>
 
     <!-- commit 정보 수정 -->
-    <update id="updateRow" parameterType="com.github.hjkim27.bean.dto.project.ProjectCommitDTO">
-        update tb_project_commit
+    <update id="updateRow" parameterType="com.github.hjkim27.bean.dto.project.GhCommitDTO">
+        update gh_commit
         <trim prefix="set" prefixOverrides=",">
             <if test="committerName != null and committerName!=''">
                 committer_name = #{committerName},
@@ -36,9 +38,9 @@
     </update>
 
     <!-- commit 존재여부 조회 -->
-    <select id="isExistRow" parameterType="com.github.hjkim27.bean.dto.project.ProjectCommitDTO" resultType="Boolean">
+    <select id="isExistRow" parameterType="com.github.hjkim27.bean.dto.project.GhCommitDTO" resultType="Boolean">
         select count(sha) > 0
-        from tb_project_commit
+        from gh_commit
         where sha = #{sha}
     </select>
 

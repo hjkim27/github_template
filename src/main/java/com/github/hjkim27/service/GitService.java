@@ -140,8 +140,8 @@ public class GitService {
      * @param commitDTOList commit info list
      * @since 2024.08.05
      */
-    public void insertCommit(List<ProjectCommitDTO> commitDTOList) {
-        for (ProjectCommitDTO dto : commitDTOList) {
+    public void insertCommit(List<GhCommitDTO> commitDTOList) {
+        for (GhCommitDTO dto : commitDTOList) {
             boolean isExistcommit = projectCommitMapper.isExistRow(dto);
             if (isExistcommit) {
                 projectCommitMapper.updateRow(dto);

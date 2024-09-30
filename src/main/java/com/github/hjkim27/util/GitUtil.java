@@ -2,7 +2,6 @@ package com.github.hjkim27.util;
 
 import com.github.hjkim27.bean.dto.project.*;
 import com.github.hjkim27.bean.type.CompareSignEnum;
-import com.github.hjkim27.config.GeneralConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.kohsuke.github.*;
 import org.springframework.stereotype.Component;
@@ -234,29 +233,32 @@ public class GitUtil {
         return list;
     }
 
-    public List<ProjectCommitDTO> getCommit() throws IOException {
+    public List<GhCommitDTO> getCommit() throws IOException {
         Iterator<GHCommit> it = commits.iterator();
 
-        List<ProjectCommitDTO> list = new ArrayList<>();
+        List<GhCommitDTO> list = new ArrayList<>();
 
-        log.info("== tb_project_commit ==========");
+        log.info("== gh_commit ==========");
         while (it.hasNext()) {
             GHCommit commit = it.next();
-            ProjectCommitDTO dto = new ProjectCommitDTO();
-            dto.setRepositoryFullName(commit.getOwner().getFullName());
+
+            // == commit ==
+            GhCommitDTO dto = new GhCommitDTO();
             dto.setSha(commit.getTree().getSha());
             List<String> parent = commit.getParentSHA1s();
             if (parent != null && !parent.isEmpty()) {
                 dto.setParentSha(parent.get(0));
             }
-
-            GitUser user = commit.getCommitShortInfo().getCommitter();
-            dto.setCommitterName(user.getName());
-            dto.setCommitterEmail(user.getEmail());
-            dto.setCommitterDate(user.getDate());
-
+            dto.setCommitDate(commit.getCommitDate());
+            dto.setCommentCount(commit.getCommitShortInfo().getCommentCount());
             dto.setMessage(commit.getCommitShortInfo().getMessage());
             dto.setHtmlUrl(commit.getHtmlUrl().toString());
+            dto.setUrl(commit.getUrl().toString());
+
+            GitUser user = commit.getCommitShortInfo().getCommitter();
+            dto.setCommitter(new GhCommitDTO.Committer(user.getName(), user.getUsername(), user.getEmail(), user.getDate()));
+
+            dto.setGhRepositoryId(commit.getOwner().getId());
             list.add(dto);
         }
         return list;
