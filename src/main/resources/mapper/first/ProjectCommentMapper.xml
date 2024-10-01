@@ -7,7 +7,7 @@
     <insert id="insertRow" parameterType="com.github.hjkim27.bean.dto.project.GhCommentDTO"
             keyProperty="sid" keyColumn="sid" useGeneratedKeys="true">
         insert into gh_comment ( gh_id, body, parent_id, created_at, updated_at, html_url, url
-                               , gh_owner_id
+                               , owner_sid
                                , issue_sid)
         values ( #{ghId}, #{body}, #{parentId}, #{createdAt}, #{updatedAt}, #{htmlUrl}, #{url}
                , (select sid from gh_owner_info where gh_id = #{ghOwnerId})
@@ -37,7 +37,7 @@
 
     <!-- comment 존재여부 조회 -->
     <select id="isExistRow" parameterType="com.github.hjkim27.bean.dto.project.GhCommentDTO" resultType="Boolean">
-        select count(comment_id) > 0
+        select count(gh_id) > 0
         from gh_comment
         where gh_id = #{ghId}
     </select>

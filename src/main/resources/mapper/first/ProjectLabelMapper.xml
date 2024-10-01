@@ -18,10 +18,10 @@
         <trim prefix="set" prefixOverrides=",">
             active = true
             <if test="name != null and name != ''">, name = #{name}</if>
-            <if test="description != null and description != ''">, name = #{description}</if>
+            <if test="description != null and description != ''">, description = #{description}</if>
             <if test="color != null and color != ''">, color = #{color}</if>
             <if test="url != null and url != ''">, url = #{url}</if>
-            <if test="ghRepositoryId != null and ghRepositoryId != ''">, repositry_sid = (select sid from gh_repository
+            <if test="ghRepositoryId != null and ghRepositoryId != ''">, repository_sid = (select sid from gh_repository
                 where gh_id = #{ghRepositoryId})
             </if>
         </trim>
@@ -36,7 +36,7 @@
 
     <!-- label 존재여부 조회 -->
     <select id="isExistRow" parameterType="com.github.hjkim27.bean.dto.project.GhLabelDTO" resultType="Boolean">
-        select count(label_id) > 0
+        select count(gh_id) > 0
         from gh_label
         where  gh_id = #{ghId}
     </select>

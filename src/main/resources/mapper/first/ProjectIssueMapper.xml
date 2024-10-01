@@ -8,11 +8,13 @@
         insert into gh_issue ( gh_id, issue_number, title, body, state
                              , html_url, url
                              , created_at, updated_at, closed_at
-                             , repository_sid)
+                             , repository_sid
+                             , label_ids)
         values ( #{ghId}, #{issueNumber}, #{title}, #{body}, #{state}
                , #{htmlUrl}, #{url}
                , #{createdAt}, #{updatedAt}, #{closedAt}
-               , (select sid from gh_repository where gh_id = #{ghRepositoryId}))
+               , (select sid from gh_repository where gh_id = #{ghRepositoryId})
+               , #{labelIds})
     </insert>
 
     <!-- issue 정보 수정 -->
@@ -27,13 +29,14 @@
             <if test="createdAt != null">, created_at = #{createdAt}</if>
             <if test="updatedAt != null">, updated_at = #{updatedAt}</if>
             <if test="closedAt != null">, closed_at = #{closedAt}</if>
+            <if test="labelIds != null and labelIds != ''">, label_ids = #{labelIds}</if>
         </trim>
         where gh_id = ${ghId}
     </update>
 
     <!-- issue 존재여부 조회 -->
     <select id="isExistRow" parameterType="com.github.hjkim27.bean.dto.project.GhIssueDTO" resultType="Boolean">
-        select count(issue_number) > 0
+        select count(sid) > 0
         from gh_issue
         <where>
             <choose>

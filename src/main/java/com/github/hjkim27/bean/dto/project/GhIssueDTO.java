@@ -45,9 +45,10 @@ public class GhIssueDTO {
     private List<GhCommentDTO> commentList;
 
     // issue 목록 조회수정
-    public List<Long> getLabelList() {
+    // null 체크 추가
+    public List<Long> getLabelIdList() {
         List<Long> list = new ArrayList<>();
-        if (!labelIds.isEmpty()) {
+        if (labelIds != null && !labelIds.isEmpty()) {
             String[] arr = labelIds.split(",");
             for (String s : arr) {
                 list.add(Long.parseLong(s));

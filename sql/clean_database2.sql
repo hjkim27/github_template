@@ -70,20 +70,20 @@ create table gh_repository
 -- commit.getOwner().getIssue(GHIssueState.ALL) > for
 create table gh_issue
 (
-    sid           serial,
-    gh_id         bigint unique not null,   -- > id
-    issue_number  integer,                  -- > number
-    title         character varying,        -- > title
-    body          character varying,        -- > body
-    state         character varying,        -- > state
-    html_url      character varying,        -- > htmlUrl.toString
-    url           character varying,        -- > url.toString
-    created_at    timestamp with time zone, -- > createdAt
-    updated_at    timestamp with time zone, -- > updatedAt
-    closed_at     timestamp with time zone, -- > closedAt
-    repositorySid integer,                  -- > repository.id
+    sid            serial,
+    gh_id          bigint unique not null,   -- > id
+    issue_number   integer,                  -- > number
+    title          character varying,        -- > title
+    body           character varying,        -- > body
+    state          character varying,        -- > state
+    html_url       character varying,        -- > htmlUrl.toString
+    url            character varying,        -- > url.toString
+    created_at     timestamp with time zone, -- > createdAt
+    updated_at     timestamp with time zone, -- > updatedAt
+    closed_at      timestamp with time zone, -- > closedAt
+    repository_sid integer,                  -- > repository.id
 
-    label_ids     character varying         -- commit.owner.issues > labels
+    label_ids      character varying         -- commit.owner.issues > labels
 );
 
 -- event
