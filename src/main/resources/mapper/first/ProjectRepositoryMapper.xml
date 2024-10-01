@@ -69,8 +69,8 @@
                 and (name like '%'||#{searchValue}||'%' or description like '%'||#{searchValue}||'%')
             </if>
             <if test="filterType != null and filterType != ''">
-                <if test="filterType == 'private'">and privacy = true</if>
-                <if test="filterType == 'public'">and privacy = false</if>
+                <if test="filterType == 'private'">and gh_private = true</if>
+                <if test="filterType == 'public'">and gh_private = false</if>
             </if>
         </trim>
         <if test="sortColumn != null and sortColumn != -1">
