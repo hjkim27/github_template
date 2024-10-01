@@ -1,8 +1,8 @@
 package com.github.hjkim27.service;
 
-import com.github.hjkim27.bean.dto.project.ProjectIssueDTO;
-import com.github.hjkim27.bean.dto.project.ProjectLabelDTO;
-import com.github.hjkim27.bean.dto.project.ProjectRepositoryDTO;
+import com.github.hjkim27.bean.dto.project.GhIssueDTO;
+import com.github.hjkim27.bean.dto.project.GhLabelDTO;
+import com.github.hjkim27.bean.dto.project.GhRepositoryDTO;
 import com.github.hjkim27.bean.search.ProjectSearch;
 import com.github.hjkim27.mapper.first.ProjectIssueMapper;
 import com.github.hjkim27.mapper.first.ProjectLabelMapper;
@@ -25,26 +25,26 @@ public class ProjectService {
     private final ProjectIssueMapper issueMapper;
     private final ProjectLabelMapper labelMapper;
 
-    public List<ProjectRepositoryDTO> getRepoList(ProjectSearch search) {
-        List<ProjectRepositoryDTO> list = repositoryMapper.getList(search);
+    public List<GhRepositoryDTO> getRepoList(ProjectSearch search) {
+        List<GhRepositoryDTO> list = repositoryMapper.getList(search);
         return (list.size() == 0) ? null : list;
     }
 
-    public List<ProjectIssueDTO> getIssueList(ProjectSearch search) {
-        List<ProjectIssueDTO> list = issueMapper.getList(search);
+    public List<GhIssueDTO> getIssueList(ProjectSearch search) {
+        List<GhIssueDTO> list = issueMapper.getList(search);
         return (list.size() == 0) ? null : list;
     }
 
-    public List<ProjectLabelDTO> getLabelList(ProjectSearch search) {
-        List<ProjectLabelDTO> list = labelMapper.getList(search);
+    public List<GhLabelDTO> getLabelList(ProjectSearch search) {
+        List<GhLabelDTO> list = labelMapper.getList(search);
         return (list.size() == 0) ? Collections.emptyList() : list;
     }
 
-    public Map<Long, ProjectLabelDTO> getLabelMap(ProjectSearch search) {
-        List<ProjectLabelDTO> list = getLabelList(search);
-        Map<Long, ProjectLabelDTO> map = new HashMap<>();
-        for (ProjectLabelDTO dto : list) {
-            map.put(dto.getLabelId(), dto);
+    public Map<Long, GhLabelDTO> getLabelMap(ProjectSearch search) {
+        List<GhLabelDTO> list = getLabelList(search);
+        Map<Long, GhLabelDTO> map = new HashMap<>();
+        for (GhLabelDTO dto : list) {
+            map.put(dto.getGhId(), dto);
         }
         return map;
     }

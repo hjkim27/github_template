@@ -4,61 +4,73 @@
 <mapper namespace="com.github.hjkim27.mapper.first.ProjectRepositoryMapper">
 
     <!-- repository 정보 추가 -->
-    <insert id="insertRow" parameterType="com.github.hjkim27.bean.vo.project.ProjectRepositoryVO"
+    <insert id="insertRow" parameterType="com.github.hjkim27.bean.dto.project.GhRepositoryDTO"
             keyProperty="sid" keyColumn="sid" useGeneratedKeys="true">
-        insert into tb_project_repository (gh_repository_id, name, full_name, description, privacy, html_url, ssh_url, created_at, updated_at)
-        values (#{ghRepositoryId}, #{name}, #{fullName}, #{description}, #{privacy}, #{htmlUrl}, #{sshUrl}, #{createdAt}, #{updatedAt});
+        insert into gh_repository ( gh_id
+                                  , name, full_name, description, gh_private
+                                  , language, html_url, ssh_url, url
+                                  , created_at, updated_at
+                                  , owner_sid)
+        values ( #{ghId}
+               , #{name}, #{fullName}, #{description}, #{ghPrivate}
+               , #{language}, #{htmlUrl}, #{sshUrl}, #{url}
+               , #{createdAt}, #{updatedAt}
+               , (select sid from gh_owner_info where gh_id = #{ghOwnerId}));
     </insert>
 
     <!-- repository 정보 수정 -->
     <!-- [2024-09-22] where 조건 수정 -->
-    <update id="updateRow" parameterType="com.github.hjkim27.bean.vo.project.ProjectRepositoryVO"
+    <update id="updateRow" parameterType="com.github.hjkim27.bean.dto.project.GhRepositoryDTO"
             keyProperty="sid" keyColumn="sid" useGeneratedKeys="true"
     >
-        update tb_project_repository
-        set name        = #{name},
-            full_name   = #{fullName},
-            description = #{description},
-            privacy     = #{privacy},
-            html_url    = #{htmlUrl},
-            ssh_url     = #{sshUrl},
-            created_at     = #{createdAt},
-            updated_at     = #{updatedAt},
-            active      = true
-        where gh_repository_id = #{ghRepositoryId};
+        update gh_repository
+        <trim prefix="set" prefixOverrides=",">
+            active = true
+            <if test="name != null and name != ''">, name = #{name}</if>
+            <if test="fullName != null and fullName != ''">, full_name = #{fullName}</if>
+            <if test="description != null and description != ''">, description = #{description}</if>
+            <if test="ghPrivate != null and ghPrivate != ''">, gh_private = #{ghPrivate}</if>
+            <if test="language != null and language != ''">, language = #{language}</if>
+            <if test="htmlUrl != null and htmlUrl != ''">, html_url = #{htmlUrl}</if>
+            <if test="sshUrl != null and sshUrl != ''">, ssh_url = #{sshUrl}</if>
+            <if test="createdAt != null">, created_at = #{createdAt}</if>
+            <if test="updatedAt != null">, updated_at = #{updatedAt}</if>
+            <if test="ghOwnerId != null and ghOwnerId != ''">, owner_sid = (select sid from gh_owner_info where gh_id = #{ghOwnerId})</if>
+        </trim>
+        where gh_id = #{ghId};
     </update>
 
     <!-- 삭제된 repository 을 확인하기 위해 모든 repository 의 active 를 false 로 업데이트 -->
     <update id="updateActiveFalse">
-        update tb_project_repository
+        update gh_repository
         set active = false;
     </update>
 
     <!-- repository 존재여부 조회 -->
     <!-- [2024-09-22] where 조건 수정 -->
-    <select id="isExistRow" parameterType="com.github.hjkim27.bean.vo.project.ProjectRepositoryVO" resultType="Integer">
+    <select id="isExistRow" parameterType="com.github.hjkim27.bean.dto.project.GhRepositoryDTO" resultType="Integer">
         select sid
-        from tb_project_repository
-        where gh_repository_id = #{ghRepositoryId}
+        from gh_repository
+        <where>
+            <choose>
+                <when test="ghId != null">gh_id = #{ghId}</when>
+                <when test="fullName != null">full_name = #{fullName}</when>
+                <when test="name != null">name = #{name}</when>
+            </choose>
+        </where>
     </select>
 
-    <!-- fullName 으로 repoSid 조회 -->
-    <select id="getSidByRepositoryFullName" parameterType="string" resultType="int">
-        select sid
-        from tb_project_repository
-        where full_name = #{fullName}
-    </select>
-    
-    <select id="getList" parameterType="com.github.hjkim27.bean.search.ProjectSearch" resultType="com.github.hjkim27.bean.dto.project.ProjectRepositoryDTO">
+    <select id="getList" parameterType="com.github.hjkim27.bean.search.ProjectSearch"
+            resultType="com.github.hjkim27.bean.dto.project.GhRepositoryDTO">
         select *
-        from tb_project_repository
+        from gh_repository
         <trim prefix="where" prefixOverrides="and">
             <if test="searchValue != null and searchValue != ''">
                 and (name like '%'||#{searchValue}||'%' or description like '%'||#{searchValue}||'%')
             </if>
             <if test="filterType != null and filterType != ''">
-                <if test="filterType == 'private'">and privacy = true</if>
-                <if test="filterType == 'public'">and privacy = false</if>
+                <if test="filterType == 'private'">and gh_private = true</if>
+                <if test="filterType == 'public'">and gh_private = false</if>
             </if>
         </trim>
         <if test="sortColumn != null and sortColumn != -1">

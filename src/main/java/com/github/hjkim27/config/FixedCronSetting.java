@@ -1,7 +1,7 @@
 package com.github.hjkim27.config;
 
-import com.github.hjkim27.bean.dto.project.ProjectLabelDTO;
-import com.github.hjkim27.bean.dto.project.ProjectRepositoryDTO;
+import com.github.hjkim27.bean.dto.project.GhLabelDTO;
+import com.github.hjkim27.bean.dto.project.GhRepositoryDTO;
 import com.github.hjkim27.service.GitService;
 import com.github.hjkim27.util.DateFormatUtil;
 import com.github.hjkim27.util.GitUtil;
@@ -49,11 +49,11 @@ public class FixedCronSetting {
         try {
 
             // insert repository
-            List<ProjectRepositoryDTO> repoList = gitUtil.getRepositorys();
+            List<GhRepositoryDTO> repoList = gitUtil.getRepositorys();
             projectService.insertRepos(repoList);
 
             // insert label
-            List<ProjectLabelDTO> labelList = gitUtil.getLabels();
+            List<GhLabelDTO> labelList = gitUtil.getLabels();
             projectService.insertLabels(labelList);
 
         } catch (Exception e) {

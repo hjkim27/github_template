@@ -2,7 +2,6 @@ package com.github.hjkim27.util;
 
 import com.github.hjkim27.bean.dto.project.*;
 import com.github.hjkim27.bean.type.CompareSignEnum;
-import com.github.hjkim27.config.GeneralConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.kohsuke.github.*;
 import org.springframework.stereotype.Component;
@@ -104,11 +103,11 @@ public class GitUtil {
      * @return
      * @throws IOException
      */
-    public List<ProjectLabelDTO> getLabels() throws IOException {
+    public List<GhLabelDTO> getLabels() throws IOException {
 //        PagedSearchIterable<GHCommit> commits = getCommits(DateFormatUtil.getBeforeNDays(DateFormatUtil.DateFormat.yyyy_MM_dd, -7));
         Iterator<GHCommit> it = commits.iterator();
 
-        List<ProjectLabelDTO> list = new ArrayList<>();
+        List<GhLabelDTO> list = new ArrayList<>();
         if (it.hasNext()) {
             GHCommit commit = it.next();
 
@@ -117,14 +116,14 @@ public class GitUtil {
 
             while (it2.hasNext()) {
                 GHLabel label = (GHLabel) it2.next();
-                ProjectLabelDTO dto = new ProjectLabelDTO();
-                dto.setLabelId(label.getId());
+
+                // == label ==
+                GhLabelDTO dto = new GhLabelDTO();
+                dto.setGhId(label.getId());
                 dto.setName(label.getName());
                 dto.setDescription(label.getDescription());
                 dto.setColor(label.getColor());
-
-                // hjkim [2024-09-17] repository 에 따라 label 이 다를 경우 확인을 위함
-                // [2024-09-22] fullName > id 로 변경
+                dto.setUrl(label.getUrl());
                 dto.setGhRepositoryId(commit.getOwner().getId());
                 list.add(dto);
             }
@@ -142,12 +141,10 @@ public class GitUtil {
      * @return
      * @throws IOException
      */
-    public List<ProjectRepositoryDTO> getRepositorys() throws IOException {
-//        PagedSearchIterable<GHCommit> commits = getCommits(DateFormatUtil.getBeforeNDays(DateFormatUtil.DateFormat.yyyy_MM_dd, -7));
+    public List<GhRepositoryDTO> getRepositorys() throws IOException {
         Iterator<GHCommit> it = commits.iterator();
-        List<ProjectRepositoryDTO> list = new ArrayList<>();
+        List<GhRepositoryDTO> list = new ArrayList<>();
 
-        log.debug("commits.getTotalCount() : {}",commits.getTotalCount());
         Set<String> repoNames = new HashSet<>();
         while (it.hasNext()) {
             GHCommit commit = it.next();
@@ -159,57 +156,73 @@ public class GitUtil {
             } else {
                 repoNames.add(repoName);
             }
-            ProjectRepositoryDTO dto = new ProjectRepositoryDTO();
+            GhRepositoryDTO dto = new GhRepositoryDTO();
+
+            // repository ==
+            dto.setGhId(repository.getId());
             dto.setName(repository.getName());
             dto.setFullName(repository.getFullName());
             dto.setDescription(repository.getDescription());
-            dto.setPrivacy(repository.isPrivate());
+            dto.setGhPrivate(repository.isPrivate());
+            dto.setLanguage(repository.getLanguage());
             dto.setHtmlUrl(repository.getHtmlUrl().toString());
             dto.setSshUrl(repository.getSshUrl());
+            dto.setUrl(repository.getUrl().toString());
             dto.setCreatedAt(repository.getCreatedAt());
             dto.setUpdatedAt(repository.getUpdatedAt());
-
-            // [2024-09-22] repository id 추가
-            dto.setGhRepositoryId(repository.getId());
+            dto.setGhOwnerId(repository.getOwner().getId());
 
             // FIXME repository 소유주 추가 필요. 협업 repository 에 대한 내용도 추가되고 있어 구분이 필요함.
             // issue -----------
-            List<ProjectIssueDTO> issueDTOList = new ArrayList<>();
+            List<GhIssueDTO> issueDTOList = new ArrayList<>();
             List<GHIssue> issues = commit.getOwner().getIssues(GHIssueState.ALL);
             for (GHIssue issue : issues) {
-                ProjectIssueDTO issueDTO = new ProjectIssueDTO();
-                issueDTO.setRepositoryFullName(commit.getOwner().getFullName());
-                issueDTO.setState(issue.getState().name());
+
+                // == issue ==
+                GhIssueDTO issueDTO = new GhIssueDTO();
+                issueDTO.setGhId(issue.getId());
                 issueDTO.setIssueNumber(issue.getNumber());
                 issueDTO.setTitle(issue.getTitle());
                 issueDTO.setBody(issue.getBody());
+                issueDTO.setState(issue.getState().name());
+                issueDTO.setHtmlUrl(issue.getHtmlUrl().toString());
+                issueDTO.setUrl(issue.getUrl().toString());
                 issueDTO.setCreatedAt(issue.getCreatedAt());
-
-                // [2024-09-11] updated, closed 추가
                 issueDTO.setUpdatedAt(issue.getUpdatedAt());
                 issueDTO.setClosedAt(issue.getClosedAt());
+                issueDTO.setGhRepositoryId(issue.getRepository().getId());
 
-                // issue.comment ----------
-                List<ProjectCommentDTO> commentDTOList = new ArrayList<>();
-                List<GHIssueComment> comments = issue.getComments();
-                for (GHIssueComment comment : comments) {
-                    ProjectCommentDTO commentDTO = new ProjectCommentDTO();
-                    commentDTO.setCommentId(comment.getId());
-                    commentDTO.setBody(comment.getBody());
-                    commentDTO.setParentCommentId(comment.getParent().getId());
-                    commentDTO.setCreatedAt(comment.getCreatedAt());
-                    commentDTO.setUpdatedAt(comment.getUpdatedAt());
-                    commentDTOList.add(commentDTO);
-                }
-                issueDTO.setCommentList(commentDTOList);
-
-                // issue.label ----------
+                // label_ids
                 List<Long> labelIds = new ArrayList<>();
                 Collection<GHLabel> labels = issue.getLabels();
                 for (GHLabel label : labels) {
                     labelIds.add(label.getId());
                 }
                 issueDTO.setLabelIds(FormatUtil.listToString(labelIds, ","));
+
+
+                // issue.comment ----------
+                List<GhCommentDTO> commentDTOList = new ArrayList<>();
+                List<GHIssueComment> comments = issue.getComments();
+                for (GHIssueComment comment : comments) {
+
+                    // == comment ==
+                    GhCommentDTO commentDTO = new GhCommentDTO();
+                    commentDTO.setGhId(comment.getId());
+                    commentDTO.setBody(comment.getBody());
+                    commentDTO.setParentId(comment.getParent().getId());
+                    commentDTO.setCreatedAt(comment.getCreatedAt());
+                    commentDTO.setUpdatedAt(comment.getUpdatedAt());
+                    commentDTO.setHtmlUrl(comment.getHtmlUrl().toString());
+                    commentDTO.setUrl(comment.getUrl().toString());
+                    commentDTO.setGhOwnerId(comment.getUser().getId());
+                    commentDTO.setGhIssueId(issue.getId());
+                    commentDTOList.add(commentDTO);
+                }
+                issueDTO.setCommentList(commentDTOList);
+
+                // issue.label ----------
+
                 issueDTOList.add(issueDTO);
             }
             log.debug("issues : {}", issueDTOList.size());
@@ -220,29 +233,32 @@ public class GitUtil {
         return list;
     }
 
-    public List<ProjectCommitDTO> getCommit() throws IOException {
+    public List<GhCommitDTO> getCommit() throws IOException {
         Iterator<GHCommit> it = commits.iterator();
 
-        List<ProjectCommitDTO> list = new ArrayList<>();
+        List<GhCommitDTO> list = new ArrayList<>();
 
-        log.info("== tb_project_commit ==========");
+        log.info("== gh_commit ==========");
         while (it.hasNext()) {
             GHCommit commit = it.next();
-            ProjectCommitDTO dto = new ProjectCommitDTO();
-            dto.setRepositoryFullName(commit.getOwner().getFullName());
+
+            // == commit ==
+            GhCommitDTO dto = new GhCommitDTO();
             dto.setSha(commit.getTree().getSha());
             List<String> parent = commit.getParentSHA1s();
             if (parent != null && !parent.isEmpty()) {
                 dto.setParentSha(parent.get(0));
             }
-
-            GitUser user = commit.getCommitShortInfo().getCommitter();
-            dto.setCommitterName(user.getName());
-            dto.setCommitterEmail(user.getEmail());
-            dto.setCommitterDate(user.getDate());
-
+            dto.setCommitDate(commit.getCommitDate());
+            dto.setCommentCount(commit.getCommitShortInfo().getCommentCount());
             dto.setMessage(commit.getCommitShortInfo().getMessage());
             dto.setHtmlUrl(commit.getHtmlUrl().toString());
+            dto.setUrl(commit.getUrl().toString());
+
+            GitUser user = commit.getCommitShortInfo().getCommitter();
+            dto.setCommitter(new GhCommitDTO.Committer(user.getName(), user.getUsername(), user.getEmail(), user.getDate()));
+
+            dto.setGhRepositoryId(commit.getOwner().getId());
             list.add(dto);
         }
         return list;

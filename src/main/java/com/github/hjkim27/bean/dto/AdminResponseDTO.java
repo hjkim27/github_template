@@ -8,7 +8,7 @@ import java.util.Date;
 
 /**
  * <pre>
- *     tb_admin_info
+ *     admin_info
  *     - select (결과)
  * </pre>
  *

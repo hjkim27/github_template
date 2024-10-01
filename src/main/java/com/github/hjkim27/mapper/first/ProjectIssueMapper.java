@@ -1,15 +1,14 @@
 package com.github.hjkim27.mapper.first;
 
-import com.github.hjkim27.bean.dto.project.ProjectIssueDTO;
+import com.github.hjkim27.bean.dto.project.GhIssueDTO;
 import com.github.hjkim27.bean.search.ProjectSearch;
-import com.github.hjkim27.bean.vo.project.ProjectIssueVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
 
 /**
- * tb_project_issue mapper class
+ * gh_issue mapper class
  *
  * @author hjkim27
  * @since 24.08.02
@@ -22,43 +21,38 @@ public interface ProjectIssueMapper {
      *     issue 추가
      * </pre>
      *
-     * @param projectIssueVO
-     * @return
+     * @param ghIssueDTO ghIssue 정보
      */
-    public Long insertRow(ProjectIssueVO projectIssueVO);
+    void insertRow(GhIssueDTO ghIssueDTO);
 
     /**
      * <pre>
      *     issue 업데이트
-     *     - set : label_ids, state, title, body
-     *     - where : issue_number
+     *     - where : ghId
      * </pre>
      *
-     * @param projectIssueVO
-     * @return
+     * @param ghIssueDTO ghIssue 정보
      */
-    public Integer updateRow(ProjectIssueVO projectIssueVO);
+    void updateRow(GhIssueDTO ghIssueDTO);
 
     /**
      * <pre>
      *     issue가 존재하는지 확인
-     *     where : issue_number
+     *     where : ghId or issueNumber
      * </pre>
      *
-     * @param projectIssueVO
-     * @return
+     * @param ghIssueDTO ghIssue 정보
+     * @return check Exist
      */
-    public Boolean isExistRow(ProjectIssueVO projectIssueVO);
+    Boolean isExistRow(GhIssueDTO ghIssueDTO);
 
     /**
      * <pre>
      *     issue list 조회
      * </pre>
      *
-     * @param search
-     * @return
-     * @since 2024-08-27
+     * @return 프로젝트에 속한 issue 목록
      */
-    public List<ProjectIssueDTO> getList(ProjectSearch search);
+    List<GhIssueDTO> getList(ProjectSearch search);
 
 }

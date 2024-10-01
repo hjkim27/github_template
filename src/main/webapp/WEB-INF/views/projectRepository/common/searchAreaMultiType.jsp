@@ -37,7 +37,7 @@
                 <div class="modal-body">
                     <c:forEach var="item" items="${labelList}">
                         <div name="filterType" class="modal-search-btn-multi grid-gap-10"
-                             style="grid-template-columns: minmax(0px, 20px) auto" data-value="${item.labelId}">
+                             style="grid-template-columns: minmax(0px, 20px) auto" data-value="${item.ghId}">
                             <div class="grid-gap-10" style="grid-template-columns: 20px auto">
                                 <div style="width:12px; height: 12px; background-color: ${item.color}"></div>
                                 <div>${item.name}</div>

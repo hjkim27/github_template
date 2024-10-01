@@ -1,6 +1,6 @@
 package com.github.hjkim27.mapper.first;
 
-import com.github.hjkim27.bean.dto.project.ProjectCommitDTO;
+import com.github.hjkim27.bean.dto.project.GhCommitDTO;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
@@ -11,10 +11,9 @@ public interface ProjectCommitMapper {
      *     commit 메시지 추가
      * </pre>
      *
-     * @param projectCommitDTO
-     * @return
+     * @param ghCommitDTO ghCommit 정보
      */
-    public Long insertRow(ProjectCommitDTO projectCommitDTO);
+    void insertRow(GhCommitDTO ghCommitDTO);
 
     /**
      * <pre>
@@ -23,10 +22,9 @@ public interface ProjectCommitMapper {
      *     - where : label_id
      * </pre>
      *
-     * @param projectCommitDTO
-     * @return
+     * @param ghCommitDTO ghCommit 정보
      */
-    public Integer updateRow(ProjectCommitDTO projectCommitDTO);
+    void updateRow(GhCommitDTO ghCommitDTO);
 
     /**
      * <pre>
@@ -34,9 +32,9 @@ public interface ProjectCommitMapper {
      *     where : sha
      * </pre>
      *
-     * @param projectCommitDTO
-     * @return
+     * @param ghCommitDTO ghCommit 정보
+     * @return check Exist
      */
-    public Boolean isExistRow(ProjectCommitDTO projectCommitDTO);
+    Boolean isExistRow(GhCommitDTO ghCommitDTO);
 
 }

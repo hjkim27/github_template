@@ -4,39 +4,55 @@
 <mapper namespace="com.github.hjkim27.mapper.first.ProjectIssueMapper">
 
     <!-- issue 정보 추가 -->
-    <insert id="insertRow" parameterType="com.github.hjkim27.bean.vo.project.ProjectIssueVO">
-        insert into tb_project_issue (repository_sid, label_ids, state, issue_number, title, body, created_at, updated_at, closed_at)
-        values (#{repositorySid}, #{labelIds}, #{state}, #{issueNumber}, #{title}, #{body}, #{createdAt}, #{updatedAt}, #{closedAt})
+    <insert id="insertRow" parameterType="com.github.hjkim27.bean.dto.project.GhIssueDTO">
+        insert into gh_issue ( gh_id, issue_number, title, body, state
+                             , html_url, url
+                             , created_at, updated_at, closed_at
+                             , repository_sid
+                             , label_ids)
+        values ( #{ghId}, #{issueNumber}, #{title}, #{body}, #{state}
+               , #{htmlUrl}, #{url}
+               , #{createdAt}, #{updatedAt}, #{closedAt}
+               , (select sid from gh_repository where gh_id = #{ghRepositoryId})
+               , #{labelIds})
     </insert>
 
     <!-- issue 정보 수정 -->
-    <update id="updateRow" parameterType="com.github.hjkim27.bean.vo.project.ProjectIssueVO">
-        update tb_project_issue
-        set label_ids  = #{labelIds},
-            state      = #{state},
-            title      = #{title},
-            body       = #{body},
-            created_at = #{createdAt},
-            updated_at = #{updatedAt},
-            closed_at  = #{closedAt}
-        where repository_sid = ${repositorySid} and issue_number = #{issueNumber}
+    <update id="updateRow" parameterType="com.github.hjkim27.bean.dto.project.GhIssueDTO">
+        update gh_issue
+        <trim prefix="set" prefixOverrides=",">
+            <if test="title != null and title != ''">, title = #{title}</if>
+            <if test="body != null and body != ''">, body = #{body}</if>
+            <if test="state != null and state != ''">, state = #{state}</if>
+            <if test="htmlUrl != null and htmlUrl != ''">, html_url = #{htmlUrl}</if>
+            <if test="url != null and url != ''">, url = #{url}</if>
+            <if test="createdAt != null">, created_at = #{createdAt}</if>
+            <if test="updatedAt != null">, updated_at = #{updatedAt}</if>
+            <if test="closedAt != null">, closed_at = #{closedAt}</if>
+            <if test="labelIds != null and labelIds != ''">, label_ids = #{labelIds}</if>
+        </trim>
+        where gh_id = ${ghId}
     </update>
 
     <!-- issue 존재여부 조회 -->
-    <select id="isExistRow" parameterType="com.github.hjkim27.bean.vo.project.ProjectIssueVO" resultType="Boolean">
-        select count(issue_number) > 0
-        from tb_project_issue
-        where repository_sid = ${repositorySid} and issue_number = #{issueNumber}
+    <select id="isExistRow" parameterType="com.github.hjkim27.bean.dto.project.GhIssueDTO" resultType="Boolean">
+        select count(sid) > 0
+        from gh_issue
+        <where>
+            <choose>
+                <when test="ghId != null">gh_id = #{ghId}</when>
+                <when test="issueNumber != null">issue_number = #{issueNumber}</when>
+            </choose>
+        </where>
     </select>
 
     <!-- issue 목록 조회 -->
-    <select id="getList" parameterType="com.github.hjkim27.bean.search.ProjectSearch" resultType="com.github.hjkim27.bean.dto.project.ProjectIssueDTO">
-        select
-            (select full_name from tb_project_repository where sid = i.repository_sid) as repository_full_name,
-            state, issue_number, title, body, label_ids, created_at, updated_at
-        from tb_project_issue i
+    <select id="getList" parameterType="com.github.hjkim27.bean.search.ProjectSearch" resultType="com.github.hjkim27.bean.dto.project.GhIssueDTO">
+        select i.issue_number, i.title, i.body, i.state, i.created_at, i.updated_at, i.label_ids
+             , r.full_name as repositry_full_name
+        from gh_issue i left join ( select sid, full_name from gh_repository ) r on i.repository_sid = r.sid
         <trim prefix="where" prefixOverrides="and|or">
-            repository_sid = #{repositorySid}
+            r.sid = #{repositorySid}
             <if test="searchValue != null and searchValue != ''">
                 and title like '%'||#{searchValue}||'%'
             </if>

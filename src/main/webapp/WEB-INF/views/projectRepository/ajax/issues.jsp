@@ -24,7 +24,7 @@
             <div style="display: flex">
                 <div style="margin-right: 10px;">#${item.issueNumber} ${item.title}</div>
                 <div>
-                    <c:forEach var="labelId" items="${item.labelList}">
+                    <c:forEach var="labelId" items="${item.labelIdList}">
                         <c:set var="label" value="${labels[labelId]}"/>
                         <%-- [2024-09-16] issue에는 label 이 있더라도 label 목록에 해당 값이 없을 경우 빈 span 출력 방지 --%>
                         <c:if test="${label ne null}">

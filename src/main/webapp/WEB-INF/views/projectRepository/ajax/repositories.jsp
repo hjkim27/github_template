@@ -27,8 +27,8 @@
                 <%-- [2024-09-16] github url을 여는게 아니라 issue 목록 페이지로 이동하게 수정 --%>
                 <a class="repo name" href="javascript:openRepo('${item.sid}')">${item.name}</a>
                 <span class="repo round-box">
-              <c:if test="${item.privacy}">private</c:if>
-              <c:if test="${!item.privacy}">public</c:if>
+              <c:if test="${item.ghPrivate}">private</c:if>
+              <c:if test="${!item.ghPrivate}">public</c:if>
           </span>
             </div>
             <div class="repo at-div"><fmt:formatDate value="${item.createdAt}" pattern="yyyy-MM-dd hh:mm"/></div>

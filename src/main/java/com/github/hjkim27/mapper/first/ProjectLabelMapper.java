@@ -1,14 +1,13 @@
 package com.github.hjkim27.mapper.first;
 
-import com.github.hjkim27.bean.dto.project.ProjectLabelDTO;
+import com.github.hjkim27.bean.dto.project.GhLabelDTO;
 import com.github.hjkim27.bean.search.ProjectSearch;
-import com.github.hjkim27.bean.vo.project.ProjectLabelVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
 /**
- * tb_project_label mapper class
+ * gh_label mapper class
  *
  * @author hjkim27
  * @since 24.07.28
@@ -21,10 +20,9 @@ public interface ProjectLabelMapper {
      *     라벨정보 추가
      * </pre>
      *
-     * @param projectLabelVO
-     * @return
+     * @param ghLabelDTO ghLabel 정보
      */
-    public Long insertRow(ProjectLabelVO projectLabelVO);
+    void insertRow(GhLabelDTO ghLabelDTO);
 
     /**
      * <pre>
@@ -33,49 +31,46 @@ public interface ProjectLabelMapper {
      *     - where : label_id
      * </pre>
      *
-     * @param projectLabelVO
-     * @return
+     * @param ghLabelDTO ghLabel 정보
      */
-    public Integer updateRow(ProjectLabelVO projectLabelVO);
+    void updateRow(GhLabelDTO ghLabelDTO);
 
     /**
      * <pre>
      *     모든 라벨의 active=false 업데이트
      * </pre>
      *
-     * @return
+     * @return update row count
      */
-    public Integer updateActiveFalse();
+    Integer updateActiveFalse();
 
     /**
      * <pre>
      *     라벨이 존재하는지 확인
-     *     where : label_id
+     *     where : ghId
      * </pre>
      *
-     * @param projectLabelVO
-     * @return
+     * @param ghLabelDTO ghLabel 정보
+     * @return check Exist
      */
-    public Boolean isExistRow(ProjectLabelVO projectLabelVO);
+    Boolean isExistRow(GhLabelDTO ghLabelDTO);
 
     /**
      * <pre>
      *     issue번호로 issue 에 해당하는 label 목록 조회
      * </pre>
      *
-     * @param issueNumber
-     * @return
+     * @param issueNumber label 을 조회할 ghIssue 번호
+     * @return ghLabel 목록
      */
-    public List<ProjectLabelVO> getLabelsByIssueNumber(Integer issueNumber);
+    List<GhLabelDTO> getLabelsByIssueNumber(Integer issueNumber);
 
     /**
      * <pre>
      *     issue list 조회
      * </pre>
      *
-     * @param search
-     * @return
-     * @since 2024-08-29
+     * @return ghLabel 목록
      */
-    public List<ProjectLabelDTO> getList(ProjectSearch search);
+    List<GhLabelDTO> getList(ProjectSearch search);
 }

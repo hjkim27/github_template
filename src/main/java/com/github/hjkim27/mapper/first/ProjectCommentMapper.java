@@ -1,10 +1,10 @@
 package com.github.hjkim27.mapper.first;
 
-import com.github.hjkim27.bean.vo.project.ProjectCommentVO;
+import com.github.hjkim27.bean.dto.project.GhCommentDTO;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
- * tb_project_comment mapper class
+ * gh_commit mapper class
  *
  * @author hjkim27
  * @since 24.08.02
@@ -17,10 +17,9 @@ public interface ProjectCommentMapper {
      *     issue의 comment 추가
      * </pre>
      *
-     * @param projectCommentVO
-     * @return
+     * @param ghCommentDTO ghComment 정보
      */
-    public Long insertRow(ProjectCommentVO projectCommentVO);
+    void insertRow(GhCommentDTO ghCommentDTO);
 
 
     /**
@@ -30,19 +29,18 @@ public interface ProjectCommentMapper {
      *     - where : comment_id
      * </pre>
      *
-     * @param projectCommentVO
-     * @return
+     * @param ghCommentDTO ghComment 정보
      */
-    public Integer updateRow(ProjectCommentVO projectCommentVO);
+    void updateRow(GhCommentDTO ghCommentDTO);
 
     /**
      * <pre>
      *     모든 comment 의 active=false 업데이트
      * </pre>
      *
-     * @return
+     * @return update row count
      */
-    public Integer updateActiveFalse();
+    Integer updateActiveFalse();
 
     /**
      * <pre>
@@ -50,8 +48,8 @@ public interface ProjectCommentMapper {
      *     where : comment_id
      * </pre>
      *
-     * @param projectCommentVO
-     * @return
+     * @param ghCommentDTO ghComment 정보
+     * @return check Exist
      */
-    public Boolean isExistRow(ProjectCommentVO projectCommentVO);
+    Boolean isExistRow(GhCommentDTO ghCommentDTO);
 }

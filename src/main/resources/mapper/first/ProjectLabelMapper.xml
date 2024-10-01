@@ -4,47 +4,55 @@
 <mapper namespace="com.github.hjkim27.mapper.first.ProjectLabelMapper">
 
     <!-- label 정보 추가 -->
-    <insert id="insertRow" parameterType="com.github.hjkim27.bean.vo.project.ProjectLabelVO"
+    <insert id="insertRow" parameterType="com.github.hjkim27.bean.dto.project.GhLabelDTO"
             keyProperty="labelId" keyColumn="label_id">
-        insert into tb_project_label (label_id, name, description, color, repository_sid)
-        values (#{labelId}, #{name}, #{description}, #{color}, #{repositorySid});
+        insert into gh_label ( gh_id, name, description, color, url
+                             , repository_sid)
+        values ( #{ghId}, #{name}, #{description}, #{color}, #{url}
+               , (select sid from gh_repository where gh_id = #{ghRepositoryId}));
     </insert>
 
     <!-- label 정보 수정 -->
-    <update id="updateRow" parameterType="com.github.hjkim27.bean.vo.project.ProjectLabelVO">
-        update tb_project_label
-        set name        = #{name},
-            description = #{description},
-            color       = #{color},
-            active      = true
-        where repository_sid = #{repositorySid} and label_id = #{labelId};
+    <update id="updateRow" parameterType="com.github.hjkim27.bean.dto.project.GhLabelDTO">
+        update gh_label
+        <trim prefix="set" prefixOverrides=",">
+            active = true
+            <if test="name != null and name != ''">, name = #{name}</if>
+            <if test="description != null and description != ''">, description = #{description}</if>
+            <if test="color != null and color != ''">, color = #{color}</if>
+            <if test="url != null and url != ''">, url = #{url}</if>
+            <if test="ghRepositoryId != null and ghRepositoryId != ''">, repository_sid = (select sid from gh_repository
+                where gh_id = #{ghRepositoryId})
+            </if>
+        </trim>
+        where gh_id = #{ghId}
     </update>
 
     <!-- 삭제된 label 을 확인하기 위해 모든 label 의 active 를 false 로 업데이트 -->
     <update id="updateActiveFalse">
-        update tb_project_label
+        update gh_label
         set active = false;
     </update>
 
     <!-- label 존재여부 조회 -->
-    <select id="isExistRow" parameterType="com.github.hjkim27.bean.dto.project.ProjectLabelDTO" resultType="Boolean">
-        select count(label_id) > 0
-        from tb_project_label
-        where repository_sid = #{repositorySid} and label_id = #{labelId}
+    <select id="isExistRow" parameterType="com.github.hjkim27.bean.dto.project.GhLabelDTO" resultType="Boolean">
+        select count(gh_id) > 0
+        from gh_label
+        where  gh_id = #{ghId}
     </select>
 
 
     <!-- issue 에서 사용중인 label 목록 조회 -->
-    <select id="getLabelsByIssueNumber" parameterType="Integer" resultType="com.github.hjkim27.bean.vo.project.ProjectLabelVO">
+    <select id="getLabelsByIssueNumber" parameterType="Integer" resultType="com.github.hjkim27.bean.dto.project.GhLabelDTO">
         select *
-        from tb_project_label
-        where (select label_ids from tb_project_issue where issue_number = #{issue_number}) like '%' || label_id::varchar||'%';
+        from gh_label
+        where (select label_ids from gh_issue where issue_number = #{issueNumber}) like '%' || label_id::varchar||'%';
     </select>
 
     <!-- issue 목록 조회 -->
-    <select id="getList" parameterType="com.github.hjkim27.bean.search.ProjectSearch" resultType="com.github.hjkim27.bean.dto.project.ProjectLabelDTO">
+    <select id="getList" parameterType="com.github.hjkim27.bean.search.ProjectSearch" resultType="com.github.hjkim27.bean.dto.project.GhLabelDTO">
         select *
-        from tb_project_label
+        from gh_label
         <trim prefix="where" prefixOverrides="and|or">
             repository_sid = #{repositorySid}
             <!-- [2024-09-19] label 검색 추가 : 대소문자 구분 X -->
