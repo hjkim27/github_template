@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * <pre>
@@ -104,7 +105,6 @@ public class GitUtil {
      * @throws IOException
      */
     public List<GhLabelDTO> getLabels() throws IOException {
-//        PagedSearchIterable<GHCommit> commits = getCommits(DateFormatUtil.getBeforeNDays(DateFormatUtil.DateFormat.yyyy_MM_dd, -7));
         Iterator<GHCommit> it = commits.iterator();
 
         List<GhLabelDTO> list = new ArrayList<>();
@@ -125,8 +125,89 @@ public class GitUtil {
                 dto.setColor(label.getColor());
                 dto.setUrl(label.getUrl());
                 dto.setGhRepositoryId(commit.getOwner().getId());
+
                 list.add(dto);
             }
+        }
+        return list;
+    }
+
+
+    /**
+     * <pre>
+     *     issue 연동
+     *     issue 에 속한 event, comment 포함
+     * </pre>
+     *
+     * @return
+     * @throws IOException
+     * @since 2024-10-04
+     */
+    public List<GhIssueDTO> getIssues() throws IOException {
+        Iterator<GHCommit> it = commits.iterator();
+
+        List<GhIssueDTO> list = new ArrayList<>();
+        if (it.hasNext()) {
+            GHCommit commit = it.next();
+
+            PagedIterable<GHIssue> issues = commit.getOwner().listIssues(GHIssueState.ALL);
+            Iterator it2 = issues.iterator();
+
+            while (it2.hasNext()) {
+                GHIssue issue = (GHIssue) it2.next();
+                // == issue ==
+                GhIssueDTO issueDTO = new GhIssueDTO();
+                issueDTO.setGhId(issue.getId());
+                issueDTO.setIssueNumber(issue.getNumber());
+                issueDTO.setTitle(issue.getTitle());
+                issueDTO.setBody(issue.getBody());
+                issueDTO.setState(issue.getState().name());
+                issueDTO.setHtmlUrl(issue.getHtmlUrl().toString());
+                issueDTO.setUrl(issue.getUrl().toString());
+                issueDTO.setCreatedAt(issue.getCreatedAt());
+                issueDTO.setUpdatedAt(issue.getUpdatedAt());
+                issueDTO.setClosedAt(issue.getClosedAt());
+                issueDTO.setGhRepositoryId(issue.getRepository().getId());
+
+                List<Long> labelIds = issue.getLabels().stream()
+                        .map(GHLabel::getId)
+                        .collect(Collectors.toList());
+                issueDTO.setLabelIds(FormatUtil.listToString(labelIds, ","));
+
+                // == comment ==
+                List<GHIssueComment> comments = issue.getComments();
+                for (GHIssueComment comment : comments) {
+                    GhCommentDTO commentDTO = new GhCommentDTO();
+                    commentDTO.setGhId(comment.getId());
+                    commentDTO.setBody(comment.getBody());
+                    commentDTO.setParentId(comment.getParent().getId());
+                    commentDTO.setCreatedAt(comment.getCreatedAt());
+                    commentDTO.setUpdatedAt(comment.getUpdatedAt());
+                    commentDTO.setHtmlUrl(comment.getHtmlUrl().toString());
+                    commentDTO.setUrl(comment.getUrl().toString());
+                    commentDTO.setGhOwnerId(comment.getUser().getId());
+                    commentDTO.setGhIssueId(issue.getId());
+
+                    issueDTO.addComment(commentDTO);
+                }
+
+                // == event ==
+                for (GHIssueEvent event : issue.listEvents()) {
+                    GhEventDTO eventDTO = new GhEventDTO();
+                    eventDTO.setGhId(event.getId());
+                    eventDTO.setGhActorLogin(event.getActor().getLogin());
+                    eventDTO.setEvent(event.getEvent());
+                    eventDTO.setCommitId(event.getCommitId());
+                    eventDTO.setCommitUrl(event.getCommitUrl());
+                    eventDTO.setUrl(event.getUrl());
+                    eventDTO.setCreatedAt(event.getCreatedAt());
+                    eventDTO.setGhIssueId(event.getIssue().getId());
+
+                    issueDTO.addEvent(eventDTO);
+                }
+                list.add(issueDTO);
+            }
+
         }
         return list;
     }
@@ -136,12 +217,13 @@ public class GitUtil {
      *     commit 을 기준으로 repository 이름을 가져온다.
      *     FIXME 수정 필요. >> commit 이 없는 repository 는 조회할 수 없나..?
      *     - [2024.08.02] issue, comment, label(issue에 등록된) 관련 추가
+     *     - [2024.10.04] issue, comment 별도 메서드 분리
      * </pre>
      *
      * @return
      * @throws IOException
      */
-    public List<GhRepositoryDTO> getRepositorys() throws IOException {
+    public List<GhRepositoryDTO> getRepositories() throws IOException {
         Iterator<GHCommit> it = commits.iterator();
         List<GhRepositoryDTO> list = new ArrayList<>();
 
@@ -159,6 +241,7 @@ public class GitUtil {
             GhRepositoryDTO dto = new GhRepositoryDTO();
 
             // repository ==
+            GhRepositoryDTO dto = new GhRepositoryDTO();
             dto.setGhId(repository.getId());
             dto.setName(repository.getName());
             dto.setFullName(repository.getFullName());
@@ -172,63 +255,7 @@ public class GitUtil {
             dto.setUpdatedAt(repository.getUpdatedAt());
             dto.setGhOwnerId(repository.getOwner().getId());
 
-            // FIXME repository 소유주 추가 필요. 협업 repository 에 대한 내용도 추가되고 있어 구분이 필요함.
-            // issue -----------
-            List<GhIssueDTO> issueDTOList = new ArrayList<>();
-            List<GHIssue> issues = commit.getOwner().getIssues(GHIssueState.ALL);
-            for (GHIssue issue : issues) {
-
-                // == issue ==
-                GhIssueDTO issueDTO = new GhIssueDTO();
-                issueDTO.setGhId(issue.getId());
-                issueDTO.setIssueNumber(issue.getNumber());
-                issueDTO.setTitle(issue.getTitle());
-                issueDTO.setBody(issue.getBody());
-                issueDTO.setState(issue.getState().name());
-                issueDTO.setHtmlUrl(issue.getHtmlUrl().toString());
-                issueDTO.setUrl(issue.getUrl().toString());
-                issueDTO.setCreatedAt(issue.getCreatedAt());
-                issueDTO.setUpdatedAt(issue.getUpdatedAt());
-                issueDTO.setClosedAt(issue.getClosedAt());
-                issueDTO.setGhRepositoryId(issue.getRepository().getId());
-
-                // label_ids
-                List<Long> labelIds = new ArrayList<>();
-                Collection<GHLabel> labels = issue.getLabels();
-                for (GHLabel label : labels) {
-                    labelIds.add(label.getId());
-                }
-                issueDTO.setLabelIds(FormatUtil.listToString(labelIds, ","));
-
-
-                // issue.comment ----------
-                List<GhCommentDTO> commentDTOList = new ArrayList<>();
-                List<GHIssueComment> comments = issue.getComments();
-                for (GHIssueComment comment : comments) {
-
-                    // == comment ==
-                    GhCommentDTO commentDTO = new GhCommentDTO();
-                    commentDTO.setGhId(comment.getId());
-                    commentDTO.setBody(comment.getBody());
-                    commentDTO.setParentId(comment.getParent().getId());
-                    commentDTO.setCreatedAt(comment.getCreatedAt());
-                    commentDTO.setUpdatedAt(comment.getUpdatedAt());
-                    commentDTO.setHtmlUrl(comment.getHtmlUrl().toString());
-                    commentDTO.setUrl(comment.getUrl().toString());
-                    commentDTO.setGhOwnerId(comment.getUser().getId());
-                    commentDTO.setGhIssueId(issue.getId());
-                    commentDTOList.add(commentDTO);
-                }
-                issueDTO.setCommentList(commentDTOList);
-
-                // issue.label ----------
-
-                issueDTOList.add(issueDTO);
-            }
-            log.debug("issues : {}", issueDTOList.size());
-            dto.setIssueDTOList(issueDTOList);
             list.add(dto);
-            log.debug("##### repoNames : {}", repoNames);
         }
         return list;
     }
