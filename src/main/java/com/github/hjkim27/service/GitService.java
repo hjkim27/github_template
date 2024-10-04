@@ -26,6 +26,7 @@ public class GitService {
     private final ProjectIssueMapper projectIssueMapper;
     private final ProjectCommentMapper projectCommentMapper;
     private final ProjectCommitMapper projectCommitMapper;
+    private final ProjectEventMapper projectEventMapper;
 
     /**
      * <pre>
@@ -78,10 +79,6 @@ public class GitService {
             } else {
                 projectRepositoryMapper.insertRow(dto);
             }
-
-            // issue 연동
-            List<GhIssueDTO> issues = dto.getIssueDTOList();
-            insertIssues(issues);
         }
     }
 
@@ -103,6 +100,10 @@ public class GitService {
             } else {
                 projectIssueMapper.insertRow(dto);
             }
+
+            // event 연동
+            List<GhEventDTO> events = dto.getEventList();
+            insertEvent(events);
 
             // comment 연동
             List<GhCommentDTO> comments = dto.getCommentList();
@@ -127,6 +128,25 @@ public class GitService {
                 projectCommentMapper.updateRow(dto);
             } else {
                 projectCommentMapper.insertRow(dto);
+            }
+        }
+    }
+
+    /**
+     * <pre>
+     *     git event link
+     *     - event_id 를 기준으로 존재여부 확인, insert/udate 진행
+     * </pre>
+     *
+     * @param eventDTOList
+     */
+    public void insertEvent(List<GhEventDTO> eventDTOList) {
+        for (GhEventDTO dto : eventDTOList) {
+            boolean isExistEvent = projectEventMapper.isExistRow(dto);
+            if (isExistEvent) {
+                projectEventMapper.updateRow(dto);
+            } else {
+                projectEventMapper.insertRow(dto);
             }
         }
     }
