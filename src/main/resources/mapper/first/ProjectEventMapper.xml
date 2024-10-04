@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?><!--Converted at: Mon May 02 17:59:21 KST 2022-->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.github.hjkim27.mapper.first.ProjectEventMapper">
+
+    <!-- event 정보 추가 -->
+    <insert id="insertRow" parameterType="com.github.hjkim27.bean.dto.project.GhEventDTO"
+            keyProperty="sid" keyColumn="sid" useGeneratedKeys="true">
+        insert into gh_event ( gh_id, gh_actor_login, event, commit_id, commit_url
+                             , url, created_at
+                             , issue_sid)
+        values ( #{ghId}, #{ghActorLogin}, #{event}, #{commitId}, #{commitUrl}
+               , #{url}, #{createdAt}
+               , (select sid from gh_issue where gh_id = #{ghIssueId}));
+    </insert>
+
+    <!-- event 정보 수정 -->
+    <update id="updateRow" parameterType="com.github.hjkim27.bean.dto.project.GhEventDTO">
+        update gh_comment
+        <trim prefix="set" prefixOverrides=",">
+            active = true
+            <if test="ghActorLogin != null and ghActorLogin != ''">, gh_actor_login = #{ghActorLogin}</if>
+            <if test="event != null and event != ''">, event = #{event}</if>
+            <if test="commitId != nulland commitId != ''">, commit_id = #{commitId}</if>
+            <if test="commitUrl != null and commitUrl != ''">, commit_url = #{commitUrl}</if>
+            <if test="url != null and url != ''">, url = #{url}</if>
+            <if test="createdAt != null">, created_at = #{createdAt}</if>
+        </trim>
+        where gh_id = #{ghId};
+    </update>
+
+
+    <!-- event 존재여부 조회 -->
+    <select id="isExistRow" parameterType="com.github.hjkim27.bean.dto.project.GhEventDTO" resultType="Boolean">
+        select count(gh_id) > 0
+        from gh_event
+        where gh_id = #{ghId}
+    </select>
+
+</mapper>

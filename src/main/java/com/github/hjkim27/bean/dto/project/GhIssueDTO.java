@@ -42,7 +42,13 @@ public class GhIssueDTO {
     private String repositoryFullName;
 
     // 특정 issue 의 comment 목록
-    private List<GhCommentDTO> commentList;
+    private List<GhCommentDTO> commentList = new ArrayList<>();
+    public void addComment(GhCommentDTO comment){
+        if(commentList == null){
+            commentList = new ArrayList<>();
+        }
+        commentList.add(comment);
+    }
 
     // issue 목록 조회수정
     // null 체크 추가
@@ -55,5 +61,14 @@ public class GhIssueDTO {
             }
         }
         return list;
+    }
+
+    // 특정 issue 의 event 목록
+    private List<GhEventDTO> eventList = new ArrayList<>();
+    public void addEvent(GhEventDTO event){
+        if(eventList == null){
+            eventList = new ArrayList<>();
+        }
+        eventList.add(event);
     }
 }

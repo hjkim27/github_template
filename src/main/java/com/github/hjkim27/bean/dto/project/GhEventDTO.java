@@ -19,5 +19,7 @@ public class GhEventDTO {
     private String commitUrl;
     private String url;
     private Date createdAt;
+
+    private Long ghIssueId;
     private Integer issueSid;
 }

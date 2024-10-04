@@ -98,7 +98,7 @@ create table gh_event
     commit_url     character varying,        -- > commitUrl
     url            character varying,        -- > url
     created_at     timestamp with time zone, -- > createdAt
-    gh_issue_id    bigint                    -- > issue.id
+    issue_sid      bigint                    -- > issue.id
 );
 
 

@@ -38,6 +38,4 @@ public class GhRepositoryDTO {
 
     private Boolean active;
 
-    // 프로젝트에 속한 issue 목록
-    private List<GhIssueDTO> issueDTOList;
 }
