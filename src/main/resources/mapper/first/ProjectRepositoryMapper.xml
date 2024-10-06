@@ -51,13 +51,7 @@
     <select id="isExistRow" parameterType="com.github.hjkim27.bean.dto.project.GhRepositoryDTO" resultType="Integer">
         select sid
         from gh_repository
-        <where>
-            <choose>
-                <when test="ghId != null">gh_id = #{ghId}</when>
-                <when test="fullName != null">full_name = #{fullName}</when>
-                <when test="name != null">name = #{name}</when>
-            </choose>
-        </where>
+        where gh_id = #{ghId}
     </select>
 
     <select id="getList" parameterType="com.github.hjkim27.bean.search.ProjectSearch"
