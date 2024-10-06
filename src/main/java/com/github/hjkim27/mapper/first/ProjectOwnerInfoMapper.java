@@ -1,7 +1,9 @@
 package com.github.hjkim27.mapper.first;
 
 import com.github.hjkim27.bean.dto.project.GhOwnerInfoDTO;
+import org.apache.ibatis.annotations.Mapper;
 
+@Mapper
 public interface ProjectOwnerInfoMapper {
 
 
