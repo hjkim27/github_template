@@ -238,7 +238,6 @@ public class GitUtil {
             } else {
                 repoNames.add(repoName);
             }
-            GhRepositoryDTO dto = new GhRepositoryDTO();
 
             // repository ==
             GhRepositoryDTO dto = new GhRepositoryDTO();
@@ -254,6 +253,20 @@ public class GitUtil {
             dto.setCreatedAt(repository.getCreatedAt());
             dto.setUpdatedAt(repository.getUpdatedAt());
             dto.setGhOwnerId(repository.getOwner().getId());
+
+            // == owner ==
+            GHUser user = repository.getOwner();
+            GhOwnerInfoDTO ownerInfoDTO = new GhOwnerInfoDTO();
+            ownerInfoDTO.setGhId(user.getId());
+            ownerInfoDTO.setName(user.getName());
+            ownerInfoDTO.setEmail(user.getEmail());
+            ownerInfoDTO.setLogin(user.getLogin());
+            ownerInfoDTO.setHtmlUrl(user.getHtmlUrl().toString());
+            ownerInfoDTO.setUrl(user.getUrl().toString());
+            ownerInfoDTO.setCreatedAt(user.getCreatedAt());
+            ownerInfoDTO.setUpdatedAt(user.getUpdatedAt());
+
+            dto.setGhOwner(ownerInfoDTO);
 
             list.add(dto);
         }

@@ -27,6 +27,7 @@ public class GitService {
     private final ProjectCommentMapper projectCommentMapper;
     private final ProjectCommitMapper projectCommitMapper;
     private final ProjectEventMapper projectEventMapper;
+    private final ProjectOwnerInfoMapper projectOwnerInfoMapper;
 
     /**
      * <pre>
@@ -72,6 +73,10 @@ public class GitService {
     public void insertRepos(List<GhRepositoryDTO> repositoryDTOList) {
         for (GhRepositoryDTO dto : repositoryDTOList) {
 
+            // ghOwnerInfo
+            int ownerSid = insertOwner(dto.getGhOwner());
+            dto.setOwnerSid(ownerSid);
+
             // [2024-09-17] isExistRow 반환타입 수정
             Integer repoSid = projectRepositoryMapper.isExistRow(dto);
             if (repoSid != null && repoSid > 0) {
@@ -81,6 +86,28 @@ public class GitService {
             }
         }
     }
+
+    /**
+     * <pre>
+     *     git owner link
+     * </pre>
+     *
+     * @param dto {@link GhOwnerInfoDTO}
+     * @return gh_owner_info.sid
+     * @since 2024.10.06
+     */
+    public int insertOwner(GhOwnerInfoDTO dto) {
+        Integer ownerSid = projectOwnerInfoMapper.isExistRow(dto);
+        if (ownerSid != null && ownerSid > 0) {
+            projectOwnerInfoMapper.updateRow(dto);
+        } else {
+            projectOwnerInfoMapper.insertRow(dto);
+            ownerSid = dto.getSid();
+        }
+        return ownerSid;
+
+    }
+
 
     /**
      * <pre>

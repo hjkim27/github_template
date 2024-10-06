@@ -37,5 +37,8 @@ public class GhRepositoryDTO {
     private Integer ownerSid;
 
     private Boolean active;
+    
+    // repository 소유자 정보 추가
+    private GhOwnerInfoDTO ghOwner;
 
 }
