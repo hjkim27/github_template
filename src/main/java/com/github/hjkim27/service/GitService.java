@@ -21,13 +21,13 @@ import java.util.List;
 @RequiredArgsConstructor
 public class GitService {
 
-    private final ProjectLabelMapper projectLabelMapper;
-    private final ProjectRepositoryMapper projectRepositoryMapper;
-    private final ProjectIssueMapper projectIssueMapper;
-    private final ProjectCommentMapper projectCommentMapper;
-    private final ProjectCommitMapper projectCommitMapper;
-    private final ProjectEventMapper projectEventMapper;
-    private final ProjectOwnerInfoMapper projectOwnerInfoMapper;
+    private final GhLabelMapper labelMapper;
+    private final GhRepositoryMapper repositoryMapper;
+    private final GhIssueMapper issueMapper;
+    private final GhCommentMapper commentMapper;
+    private final GhCommitMapper commitMapper;
+    private final GhEventMapper eventMapper;
+    private final GHOwnerInfoMapper ownerInfoMapper;
 
     /**
      * <pre>
@@ -35,9 +35,9 @@ public class GitService {
      * </pre>
      */
     public void updateActiveFalse() {
-        projectLabelMapper.updateActiveFalse();
-        projectRepositoryMapper.updateActiveFalse();
-        projectCommentMapper.updateActiveFalse();
+        labelMapper.updateActiveFalse();
+        repositoryMapper.updateActiveFalse();
+        commentMapper.updateActiveFalse();
     }
 
     /**
@@ -51,11 +51,11 @@ public class GitService {
     public void insertLabels(List<GhLabelDTO> labelDTOList) {
         for (GhLabelDTO dto : labelDTOList) {
 
-            boolean isExistLabel = projectLabelMapper.isExistRow(dto);
+            boolean isExistLabel = labelMapper.isExistRow(dto);
             if (isExistLabel) {
-                projectLabelMapper.updateRow(dto);
+                labelMapper.updateRow(dto);
             } else {
-                projectLabelMapper.insertRow(dto);
+                labelMapper.insertRow(dto);
             }
         }
     }
@@ -78,11 +78,11 @@ public class GitService {
             dto.setOwnerSid(ownerSid);
 
             // [2024-09-17] isExistRow 반환타입 수정
-            Integer repoSid = projectRepositoryMapper.isExistRow(dto);
+            Integer repoSid = repositoryMapper.isExistRow(dto);
             if (repoSid != null && repoSid > 0) {
-                projectRepositoryMapper.updateRow(dto);
+                repositoryMapper.updateRow(dto);
             } else {
-                projectRepositoryMapper.insertRow(dto);
+                repositoryMapper.insertRow(dto);
             }
         }
     }
@@ -97,11 +97,11 @@ public class GitService {
      * @since 2024.10.06
      */
     public int insertOwner(GhOwnerInfoDTO dto) {
-        Integer ownerSid = projectOwnerInfoMapper.isExistRow(dto);
+        Integer ownerSid = ownerInfoMapper.isExistRow(dto);
         if (ownerSid != null && ownerSid > 0) {
-            projectOwnerInfoMapper.updateRow(dto);
+            ownerInfoMapper.updateRow(dto);
         } else {
-            projectOwnerInfoMapper.insertRow(dto);
+            ownerInfoMapper.insertRow(dto);
             ownerSid = dto.getSid();
         }
         return ownerSid;
@@ -121,11 +121,11 @@ public class GitService {
     public void insertIssues(List<GhIssueDTO> issueDTOList) {
         for (GhIssueDTO dto : issueDTOList) {
 
-            boolean isExistIssue = projectIssueMapper.isExistRow(dto);
+            boolean isExistIssue = issueMapper.isExistRow(dto);
             if (isExistIssue) {
-                projectIssueMapper.updateRow(dto);
+                issueMapper.updateRow(dto);
             } else {
-                projectIssueMapper.insertRow(dto);
+                issueMapper.insertRow(dto);
             }
 
             // event 연동
@@ -150,11 +150,11 @@ public class GitService {
     public void insertComment(List<GhCommentDTO> commentDTOList) {
         for (GhCommentDTO dto : commentDTOList) {
 
-            boolean isExistComment = projectCommentMapper.isExistRow(dto);
+            boolean isExistComment = commentMapper.isExistRow(dto);
             if (isExistComment) {
-                projectCommentMapper.updateRow(dto);
+                commentMapper.updateRow(dto);
             } else {
-                projectCommentMapper.insertRow(dto);
+                commentMapper.insertRow(dto);
             }
         }
     }
@@ -169,11 +169,11 @@ public class GitService {
      */
     public void insertEvent(List<GhEventDTO> eventDTOList) {
         for (GhEventDTO dto : eventDTOList) {
-            boolean isExistEvent = projectEventMapper.isExistRow(dto);
+            boolean isExistEvent = eventMapper.isExistRow(dto);
             if (isExistEvent) {
-                projectEventMapper.updateRow(dto);
+                eventMapper.updateRow(dto);
             } else {
-                projectEventMapper.insertRow(dto);
+                eventMapper.insertRow(dto);
             }
         }
     }
@@ -189,12 +189,12 @@ public class GitService {
      */
     public void insertCommit(List<GhCommitDTO> commitDTOList) {
         for (GhCommitDTO dto : commitDTOList) {
-            boolean isExistcommit = projectCommitMapper.isExistRow(dto);
+            boolean isExistcommit = commitMapper.isExistRow(dto);
             if (isExistcommit) {
-                projectCommitMapper.updateRow(dto);
+                commitMapper.updateRow(dto);
                 log.info("update >> sha : {}", dto.getSha());
             } else {
-                projectCommitMapper.insertRow(dto);
+                commitMapper.insertRow(dto);
                 log.info("insert >> sha : {}", dto.getSha());
             }
         }

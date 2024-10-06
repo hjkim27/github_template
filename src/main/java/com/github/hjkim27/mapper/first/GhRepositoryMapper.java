@@ -13,7 +13,7 @@ import java.util.List;
  * @since 24.07.30
  */
 @Mapper
-public interface ProjectRepositoryMapper {
+public interface GhRepositoryMapper {
 
     /**
      * <pre>

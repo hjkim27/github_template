@@ -14,7 +14,7 @@ import java.util.List;
  * @since 24.08.02
  */
 @Mapper
-public interface ProjectIssueMapper {
+public interface GhIssueMapper {
 
     /**
      * <pre>

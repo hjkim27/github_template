@@ -10,7 +10,7 @@ import org.apache.ibatis.annotations.Mapper;
  * @since 24.10.04
  */
 @Mapper
-public interface ProjectEventMapper {
+public interface GhEventMapper {
 
     /**
      * <pre>
