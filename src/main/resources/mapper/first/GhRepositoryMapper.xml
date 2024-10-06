@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?><!--Converted at: Mon May 02 17:59:21 KST 2022-->
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.github.hjkim27.mapper.first.ProjectRepositoryMapper">
+<mapper namespace="com.github.hjkim27.mapper.first.GhRepositoryMapper">
 
     <!-- repository 정보 추가 -->
     <insert id="insertRow" parameterType="com.github.hjkim27.bean.dto.project.GhRepositoryDTO"
@@ -51,13 +51,7 @@
     <select id="isExistRow" parameterType="com.github.hjkim27.bean.dto.project.GhRepositoryDTO" resultType="Integer">
         select sid
         from gh_repository
-        <where>
-            <choose>
-                <when test="ghId != null">gh_id = #{ghId}</when>
-                <when test="fullName != null">full_name = #{fullName}</when>
-                <when test="name != null">name = #{name}</when>
-            </choose>
-        </where>
+        where gh_id = #{ghId}
     </select>
 
     <select id="getList" parameterType="com.github.hjkim27.bean.search.ProjectSearch"

@@ -10,7 +10,7 @@ import org.apache.ibatis.annotations.Mapper;
  * @since 24.08.02
  */
 @Mapper
-public interface ProjectCommentMapper {
+ public interface GhCommentMapper {
 
     /**
      * <pre>

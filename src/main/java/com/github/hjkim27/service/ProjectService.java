@@ -4,9 +4,9 @@ import com.github.hjkim27.bean.dto.project.GhIssueDTO;
 import com.github.hjkim27.bean.dto.project.GhLabelDTO;
 import com.github.hjkim27.bean.dto.project.GhRepositoryDTO;
 import com.github.hjkim27.bean.search.ProjectSearch;
-import com.github.hjkim27.mapper.first.ProjectIssueMapper;
-import com.github.hjkim27.mapper.first.ProjectLabelMapper;
-import com.github.hjkim27.mapper.first.ProjectRepositoryMapper;
+import com.github.hjkim27.mapper.first.GhIssueMapper;
+import com.github.hjkim27.mapper.first.GhLabelMapper;
+import com.github.hjkim27.mapper.first.GhRepositoryMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -21,9 +21,9 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class ProjectService {
 
-    private final ProjectRepositoryMapper repositoryMapper;
-    private final ProjectIssueMapper issueMapper;
-    private final ProjectLabelMapper labelMapper;
+    private final GhRepositoryMapper repositoryMapper;
+    private final GhIssueMapper issueMapper;
+    private final GhLabelMapper labelMapper;
 
     public List<GhRepositoryDTO> getRepoList(ProjectSearch search) {
         List<GhRepositoryDTO> list = repositoryMapper.getList(search);

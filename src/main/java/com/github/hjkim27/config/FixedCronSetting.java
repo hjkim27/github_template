@@ -49,6 +49,7 @@ public class FixedCronSetting {
     public void insertLabelRepo() throws IOException {
         try {
 
+            // insert owner
             // insert repository
             List<GhRepositoryDTO> repoList = gitUtil.getRepositories();
             projectService.insertRepos(repoList);
