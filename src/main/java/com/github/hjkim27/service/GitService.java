@@ -189,13 +189,11 @@ public class GitService {
      */
     public void insertCommit(List<GhCommitDTO> commitDTOList) {
         for (GhCommitDTO dto : commitDTOList) {
-            boolean isExistcommit = commitMapper.isExistRow(dto);
-            if (isExistcommit) {
+            boolean isExistCommit = commitMapper.isExistRow(dto);
+            if (isExistCommit) {
                 commitMapper.updateRow(dto);
-                log.info("update >> sha : {}", dto.getSha());
             } else {
                 commitMapper.insertRow(dto);
-                log.info("insert >> sha : {}", dto.getSha());
             }
         }
     }
