@@ -51,8 +51,8 @@
 
     <!-- issue 목록 조회 -->
     <select id="getList" parameterType="com.github.hjkim27.bean.search.ProjectSearch" resultType="com.github.hjkim27.bean.dto.project.GhLabelDTO">
-        select *
-        from gh_label
+        select label.*, (select count(*) from gh_issue where label_ids like '%'||label.gh_id||'%') as total_count
+        from gh_label label
         <trim prefix="where" prefixOverrides="and|or">
             repository_sid = #{repositorySid}
             <!-- [2024-09-19] label 검색 추가 : 대소문자 구분 X -->
@@ -60,6 +60,13 @@
                 and (name ilike '%'||#{searchValue}||'%' or description ilike '%'||#{searchValue}||'%')
             </if>
         </trim>
-        order by name;
+        <if test="sortColumn != null and sortColumn != -1">
+            order by
+            <choose>
+                <when test="sortColumn == 1">name</when>
+                <when test="sortColumn == 4">total_count</when>
+            </choose>
+            <if test="desc">desc</if>
+        </if>
     </select>
 </mapper>

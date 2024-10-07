@@ -26,4 +26,7 @@ public class GhLabelDTO {
 
     private Long ghRepositoryId;
     private Integer repositorySid;
+
+    // label 사용 빈도 추가
+    private Integer totalCount;
 }
