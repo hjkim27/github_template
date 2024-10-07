@@ -66,17 +66,17 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div name="sortColumn" class="modal-search-btn" data-value="8" data-desc="true">
+                    <div name="sortColumn" class="modal-search-btn" data-value="2" data-desc="true">
                         <i class="fas fa-check selectChecksortColumn"></i>
-                        Newest
+                        <div>Newest</div>
                     </div>
-                    <div name="sortColumn" class="modal-search-btn" data-value="8">
+                    <div name="sortColumn" class="modal-search-btn" data-value="2">
                         <div>Oldest</div>
                     </div>
-                    <div name="sortColumn" class="modal-search-btn" data-value="9">
+                    <div name="sortColumn" class="modal-search-btn" data-value="3">
                         <div>Last Updated</div>
                     </div>
-                    <div name="sortColumn" class="modal-search-btn" data-value="9" data-desc="true">
+                    <div name="sortColumn" class="modal-search-btn" data-value="3" data-desc="true">
                         <div>Recently Updated</div>
                     </div>
                 </div>

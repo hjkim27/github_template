@@ -1,8 +1,6 @@
 package com.github.hjkim27.bean.search;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.util.List;
 
@@ -13,6 +11,8 @@ import java.util.List;
  */
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @ToString(callSuper = true)
 public class ProjectSearch extends DefaultSearch {
 
@@ -25,4 +25,8 @@ public class ProjectSearch extends DefaultSearch {
 
     // [2024-09-16] issue, label, setting 을 repo별로 확인하기 위함
     private Integer repositorySid;
+
+    public ProjectSearch(Integer repositorySid) {
+        this.repositorySid = repositorySid;
+    }
 }

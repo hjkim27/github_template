@@ -42,6 +42,10 @@ public class ProjectService {
 
     public Map<Long, GhLabelDTO> getLabelMap(ProjectSearch search) {
         List<GhLabelDTO> list = getLabelList(search);
+        return getLabelMap(list);
+    }
+
+    public Map<Long, GhLabelDTO> getLabelMap(List<GhLabelDTO> list){
         Map<Long, GhLabelDTO> map = new HashMap<>();
         for (GhLabelDTO dto : list) {
             map.put(dto.getGhId(), dto);

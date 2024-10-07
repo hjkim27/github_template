@@ -48,7 +48,8 @@ $('.modal-search-btn-multi').click(function () {
         htmlVar = '<i class="fas fa-check selectCheck' + dValue + '"></i>' + htmlVar;
         $(this).html(htmlVar);
     }
-    $('#desc').val($(this).data('desc') !== undefined);
+    // label에서 type 검색 시 정렬이 변경되는 에러가 있었음.
+    // $('#desc').val($(this).data('desc') !== undefined);
     search();
 })
 

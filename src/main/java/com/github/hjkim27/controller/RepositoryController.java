@@ -1,5 +1,6 @@
 package com.github.hjkim27.controller;
 
+import com.github.hjkim27.bean.dto.project.GhLabelDTO;
 import com.github.hjkim27.bean.search.ProjectSearch;
 import com.github.hjkim27.config.GeneralConfig;
 import com.github.hjkim27.service.ProjectService;
@@ -15,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Slf4j
@@ -47,15 +49,16 @@ public class RepositoryController {
                 mav.addAllObjects(home());
                 break;
             case "repositories":
-                search.setSortColumn(2);
+                search.setSortColumn(1);
                 mav.addAllObjects(repositories(search));
                 break;
             case "issues":
                 search.setDesc(true);
-                search.setSortColumn(8);
+                search.setSortColumn(2);
                 mav.addAllObjects(issues(search));
                 break;
             case "labels":
+                search.setSortColumn(4);
                 mav.addAllObjects(labels(search));
                 break;
             case "settings":
@@ -147,8 +150,13 @@ public class RepositoryController {
     public Map<String, Object> issues(ProjectSearch search) {
         Map<String, Object> map = new HashMap<>();
         map.put("list", projectService.getIssueList(search));
-        map.put("labels", projectService.getLabelMap(search));
-        map.put("labelList", projectService.getLabelList(search));
+
+        // sortColumn 값을 issue, label 조회 시 동일하게 사용하면서 에러 발생.
+        // 별도 search 객체를 사용하도록 수정
+        List<GhLabelDTO> labelList = projectService.getLabelList(new ProjectSearch(search.getRepositorySid()));
+        map.put("labelList", labelList);
+        map.put("labels", projectService.getLabelMap(labelList));
+
         map.put("multiType", true); // 다중검색 기능을 사용하고자 할 경우 추가
         return map;
     }
