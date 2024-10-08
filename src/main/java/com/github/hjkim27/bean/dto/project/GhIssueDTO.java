@@ -27,6 +27,8 @@ public class GhIssueDTO {
     private String title;
     private String body;
     private String state;
+    private Boolean pullRequest;    // 병합된 issue 일 경우 true
+    private Boolean locked;
     private String htmlUrl;
     private String url;
     private Date createdAt;

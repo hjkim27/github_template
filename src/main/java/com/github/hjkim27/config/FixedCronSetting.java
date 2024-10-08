@@ -45,8 +45,9 @@ public class FixedCronSetting {
      * 초(0-59)   분(0-59)　　시간(0-23)　　일(1-31)　　월(1-12)　　요일(0-7)
      */
 //    @Scheduled(cron = "0 0 0 * * *")
-    @Scheduled(cron = "0 */5 * * * *")
+    @Scheduled(cron = "0 0/5 * * * ?")
     public void insertLabelRepo() throws IOException {
+        log.info(GeneralConfig.START);
         try {
 
             // insert owner

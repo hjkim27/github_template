@@ -6,11 +6,13 @@
     <!-- issue 정보 추가 -->
     <insert id="insertRow" parameterType="com.github.hjkim27.bean.dto.project.GhIssueDTO">
         insert into gh_issue ( gh_id, issue_number, title, body, state
+                             , pull_request, locked
                              , html_url, url
                              , created_at, updated_at, closed_at
                              , repository_sid
                              , label_ids)
         values ( #{ghId}, #{issueNumber}, #{title}, #{body}, #{state}
+               , #{pullRequest}, #{locked}
                , #{htmlUrl}, #{url}
                , #{createdAt}, #{updatedAt}, #{closedAt}
                , (select sid from gh_repository where gh_id = #{ghRepositoryId})
@@ -24,6 +26,8 @@
             <if test="title != null and title != ''">, title = #{title}</if>
             <if test="body != null and body != ''">, body = #{body}</if>
             <if test="state != null and state != ''">, state = #{state}</if>
+            <if test="pullRequest != null">, pull_request = #{pullRequest}</if>
+            <if test="locked != null">, locked = #{locked}</if>
             <if test="htmlUrl != null and htmlUrl != ''">, html_url = #{htmlUrl}</if>
             <if test="url != null and url != ''">, url = #{url}</if>
             <if test="createdAt != null">, created_at = #{createdAt}</if>
@@ -48,7 +52,7 @@
 
     <!-- issue 목록 조회 -->
     <select id="getList" parameterType="com.github.hjkim27.bean.search.ProjectSearch" resultType="com.github.hjkim27.bean.dto.project.GhIssueDTO">
-        select i.issue_number, i.title, i.body, i.state, i.created_at, i.updated_at, i.label_ids
+        select i.issue_number, i.title, i.body, i.state, i.pull_request, i.locked , i.created_at, i.updated_at, i.label_ids
              , r.full_name as repositry_full_name
         from gh_issue i left join ( select sid, full_name from gh_repository ) r on i.repository_sid = r.sid
         <trim prefix="where" prefixOverrides="and|or">
