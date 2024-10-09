@@ -77,4 +77,21 @@
             <if test="desc">desc</if>
         </if>
     </select>
+
+    <!-- issue count -->
+    <select id="issueStateCount" parameterType="Integer" resultType="map">
+        select
+            case
+                when pull_request = false and state = 'CLOSED' then 'closed'
+                when pull_request = false and state = 'OPEN' then 'open'
+                when pull_request = true  then 'pullRequest'
+                else ''
+                end as key, count as value
+        from (
+            select pull_request, state, count(*)
+            from gh_issue
+            where repository_sid = #{repositorySid}
+            group by pull_request, state
+            ) aa
+    </select>
 </mapper>

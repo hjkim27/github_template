@@ -157,6 +157,9 @@ public class RepositoryController {
         map.put("labelList", labelList);
         map.put("labels", projectService.getLabelMap(labelList));
 
+        // [2024-10-09] issue 상태에 따른 count 출력
+        map.put("issueCount", projectService.issueStateCount(search.getRepositorySid()));
+
         map.put("multiType", true); // 다중검색 기능을 사용하고자 할 경우 추가
         return map;
     }
