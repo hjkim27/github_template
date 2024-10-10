@@ -16,12 +16,11 @@
 
     <!-- event 정보 수정 -->
     <update id="updateRow" parameterType="com.github.hjkim27.bean.dto.project.GhEventDTO">
-        update gh_comment
+        update gh_event
         <trim prefix="set" prefixOverrides=",">
-            active = true
             <if test="ghActorLogin != null and ghActorLogin != ''">, gh_actor_login = #{ghActorLogin}</if>
             <if test="event != null and event != ''">, event = #{event}</if>
-            <if test="commitId != nulland commitId != ''">, commit_id = #{commitId}</if>
+            <if test="commitId != null and commitId != ''">, commit_id = #{commitId}</if>
             <if test="commitUrl != null and commitUrl != ''">, commit_url = #{commitUrl}</if>
             <if test="url != null and url != ''">, url = #{url}</if>
             <if test="createdAt != null">, created_at = #{createdAt}</if>

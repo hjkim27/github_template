@@ -42,10 +42,25 @@ public class ProjectService {
 
     public Map<Long, GhLabelDTO> getLabelMap(ProjectSearch search) {
         List<GhLabelDTO> list = getLabelList(search);
+        return getLabelMap(list);
+    }
+
+    public Map<Long, GhLabelDTO> getLabelMap(List<GhLabelDTO> list) {
         Map<Long, GhLabelDTO> map = new HashMap<>();
         for (GhLabelDTO dto : list) {
             map.put(dto.getGhId(), dto);
         }
         return map;
     }
+
+    public Map<String, Object> issueStateCount(Integer repositorySid) {
+        Map<String, Object> map = new HashMap<>();
+        List<Map<String, Integer>> list = issueMapper.issueStateCount(repositorySid);
+
+        for (Map<String, Integer> m : list) {
+            map.put(String.valueOf(m.get("key")), m.get("value"));
+        }
+        return map;
+    }
+
 }

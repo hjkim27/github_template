@@ -15,6 +15,7 @@
     <input type="hidden" id="filterType" name="filterType" value="${search.filterType}">
     <input type="hidden" id="sortColumn" name="sortColumn" value="${search.sortColumn}">
     <input type="hidden" id="desc" name="desc" value="${search.desc}">
+    <input type="hidden" id="searchKey" name="searchKey" value="${search.searchKey}">
     <%-- ----------- --%>
     <input type="text" id="searchValue" name="searchValue" class="min-size" value="${search.searchValue}">
     <%-- ----------- --%>
@@ -66,17 +67,17 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div name="sortColumn" class="modal-search-btn" data-value="8" data-desc="true">
+                    <div name="sortColumn" class="modal-search-btn" data-value="2" data-desc="true">
                         <i class="fas fa-check selectChecksortColumn"></i>
-                        Newest
+                        <div>Newest</div>
                     </div>
-                    <div name="sortColumn" class="modal-search-btn" data-value="8">
+                    <div name="sortColumn" class="modal-search-btn" data-value="2">
                         <div>Oldest</div>
                     </div>
-                    <div name="sortColumn" class="modal-search-btn" data-value="9">
+                    <div name="sortColumn" class="modal-search-btn" data-value="3">
                         <div>Last Updated</div>
                     </div>
-                    <div name="sortColumn" class="modal-search-btn" data-value="9" data-desc="true">
+                    <div name="sortColumn" class="modal-search-btn" data-value="3" data-desc="true">
                         <div>Recently Updated</div>
                     </div>
                 </div>
@@ -84,24 +85,53 @@
         </div>
     </div>
     <%-- ----------- --%>
+    <%-- [2024-10-09] issue 검색에서만 사용할 issue 상태값 추가 --%>
+    <c:if test="${path eq 'issues'}">
+        <div style="display: flex; grid-column: 1/4; color: var(--gray-scale-8)">
+            <div style="padding-left: 15px" name="issue-state" data-value="is:open">
+                <i class="far fa-dot-circle"></i>
+                    ${issueCount["open"]}
+                Open
+            </div>
+            <div style="padding-left: 15px" name="issue-state" data-value="is:closed">
+                <i class="fas fa-check"></i>
+                    ${issueCount["closed"]}
+                Closed
+            </div>
+            <div style="padding-left: 15px" name="issue-state" data-value="is:pr">
+                <i class="fas fa-project-diagram"></i>
+                    ${issueCount["pullRequest"]}
+                pull Request
+            </div>
+        </div>
+    </c:if>
 </div>
 <script>
     // filterType 다중 검색을 위한 변수
     // 중복 제거를 위해 set 으로 작업 후 ajax 시 list 로 전달 진행
     let filterTypeSet = new Set();
 
-    $('#searchValue').on('keyup', (e) => {
-        search();
+    // multiSearch에서 미사용
+    // $('#searchValue').on('keyup', (e) => {
+    //     search();
+    // })
+
+    /* [2024-10-11] enter 입력 시 검색이 동작하도록 수정 */
+    window.addEventListener('keypress', (e) => {
+        /* cf:https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/code */
+        if (e.key === 'Enter') {
+            search();
+        }
     })
 
     function search() {
-        var search = {
+        let search = {
             searchValue: $('#searchValue').val(),
             sortColumn: $('#sortColumn').val() * 1,
             filterTypeList: Array.from(filterTypeSet),   // 다중 검색을 위한 list 전달
             desc: $('#desc').val(),
             repositorySid: getStorage('repositorySid')
-        }
+        };
 
         $.ajax({
             type: "post",

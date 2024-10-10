@@ -48,7 +48,8 @@ $('.modal-search-btn-multi').click(function () {
         htmlVar = '<i class="fas fa-check selectCheck' + dValue + '"></i>' + htmlVar;
         $(this).html(htmlVar);
     }
-    $('#desc').val($(this).data('desc') !== undefined);
+    // label에서 type 검색 시 정렬이 변경되는 에러가 있었음.
+    // $('#desc').val($(this).data('desc') !== undefined);
     search();
 })
 
@@ -62,4 +63,20 @@ $('.modal-search-btn-multi').mouseover(function () {
 $('.modal-search-btn-multi').mouseout(function () {
     var div = $(this);
     div.css('background-color', 'var(--gray-scale-9)');
+})
+
+// issue state 검색 추가
+// state 검색 시 searchValue 값에 해당 state 의 value 가 입력되도록 함
+$('div[name="issue-state"]').click(function () {
+    let val = $('#searchValue').val();
+    let stateVal = $(this).data('value');
+    if (val.indexOf(stateVal) > -1) {
+        val = val.replace(' ' + stateVal, '');
+        $(this).css('color', 'var(--gray-scale-8)');
+    } else {
+        val += ' ' + stateVal;
+        $(this).css('color', 'var(--gray-scale-0)');
+    }
+    $('#searchValue').val(val);
+    search();
 })

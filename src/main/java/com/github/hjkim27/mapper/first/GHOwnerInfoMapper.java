@@ -35,6 +35,6 @@ public interface GHOwnerInfoMapper {
      * @param ghOwnerInfoDTO ghOwnerInfo 정보
      * @return check Exist
      */
-    int isExistRow(GhOwnerInfoDTO ghOwnerInfoDTO);
+    Integer isExistRow(GhOwnerInfoDTO ghOwnerInfoDTO);
 
 }

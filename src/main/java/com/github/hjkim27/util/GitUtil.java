@@ -2,6 +2,7 @@ package com.github.hjkim27.util;
 
 import com.github.hjkim27.bean.dto.project.*;
 import com.github.hjkim27.bean.type.CompareSignEnum;
+import com.github.hjkim27.config.GeneralConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.kohsuke.github.*;
 import org.springframework.stereotype.Component;
@@ -105,6 +106,7 @@ public class GitUtil {
      * @throws IOException
      */
     public List<GhLabelDTO> getLabels() throws IOException {
+        log.info(GeneralConfig.START);
         Iterator<GHCommit> it = commits.iterator();
 
         List<GhLabelDTO> list = new ArrayList<>();
@@ -144,6 +146,7 @@ public class GitUtil {
      * @since 2024-10-04
      */
     public List<GhIssueDTO> getIssues() throws IOException {
+        log.info(GeneralConfig.START);
         Iterator<GHCommit> it = commits.iterator();
 
         List<GhIssueDTO> list = new ArrayList<>();
@@ -162,6 +165,8 @@ public class GitUtil {
                 issueDTO.setTitle(issue.getTitle());
                 issueDTO.setBody(issue.getBody());
                 issueDTO.setState(issue.getState().name());
+                issueDTO.setPullRequest(issue.isPullRequest());
+                issueDTO.setLocked(issue.isLocked());
                 issueDTO.setHtmlUrl(issue.getHtmlUrl().toString());
                 issueDTO.setUrl(issue.getUrl().toString());
                 issueDTO.setCreatedAt(issue.getCreatedAt());
@@ -224,6 +229,7 @@ public class GitUtil {
      * @throws IOException
      */
     public List<GhRepositoryDTO> getRepositories() throws IOException {
+        log.info(GeneralConfig.START);
         Iterator<GHCommit> it = commits.iterator();
         List<GhRepositoryDTO> list = new ArrayList<>();
 
@@ -274,11 +280,9 @@ public class GitUtil {
     }
 
     public List<GhCommitDTO> getCommit() throws IOException {
+        log.info(GeneralConfig.START);
         Iterator<GHCommit> it = commits.iterator();
-
         List<GhCommitDTO> list = new ArrayList<>();
-
-        log.info("== gh_commit ==========");
         while (it.hasNext()) {
             GHCommit commit = it.next();
 

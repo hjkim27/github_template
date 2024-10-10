@@ -76,6 +76,8 @@ create table gh_issue
     title          character varying,        -- > title
     body           character varying,        -- > body
     state          character varying,        -- > state
+    pull_request   boolean default false,    -- > pullRequest
+    locked         boolean default false,    -- > locked
     html_url       character varying,        -- > htmlUrl.toString
     url            character varying,        -- > url.toString
     created_at     timestamp with time zone, -- > createdAt
