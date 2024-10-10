@@ -15,6 +15,7 @@
     <input type="hidden" id="filterType" name="filterType" value="${search.filterType}">
     <input type="hidden" id="sortColumn" name="sortColumn" value="${search.sortColumn}">
     <input type="hidden" id="desc" name="desc" value="${search.desc}">
+    <input type="hidden" id="searchKey" name="searchKey" value="${search.searchKey}">
     <%-- ----------- --%>
     <input type="text" id="searchValue" name="searchValue" class="min-size" value="${search.searchValue}">
     <%-- ----------- --%>
@@ -110,8 +111,17 @@
     // 중복 제거를 위해 set 으로 작업 후 ajax 시 list 로 전달 진행
     let filterTypeSet = new Set();
 
-    $('#searchValue').on('keyup', (e) => {
-        search();
+    // multiSearch에서 미사용
+    // $('#searchValue').on('keyup', (e) => {
+    //     search();
+    // })
+
+    /* [2024-10-11] enter 입력 시 검색이 동작하도록 수정 */
+    window.addEventListener('keypress', (e) => {
+        /* cf:https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/code */
+        if (e.key === 'Enter') {
+            search();
+        }
     })
 
     function search() {

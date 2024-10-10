@@ -2,6 +2,7 @@ package com.github.hjkim27.bean.search;
 
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -29,4 +30,8 @@ public class ProjectSearch extends DefaultSearch {
     public ProjectSearch(Integer repositorySid) {
         this.repositorySid = repositorySid;
     }
+
+    // [2024-10-11] 서로 다른 column에서 searchValue 를 추가 검색하고자 할 경우 사용
+    private List<String> searchValueList = new ArrayList<>();
+
 }

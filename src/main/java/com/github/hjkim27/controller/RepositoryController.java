@@ -15,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -148,6 +149,25 @@ public class RepositoryController {
      * @return
      */
     public Map<String, Object> issues(ProjectSearch search) {
+
+        // [2024-10-11] state 검색관련 추가
+        // issue state, pull_request 여부를 추가 확인하기 위해 searchValue 가공
+        String value = search.getSearchValue();
+        if (value != null) {
+            String[] arr = value.split(" ");
+            String valueNew = "";
+            List<String> list = new ArrayList<>();
+            for (String s : arr) {
+                if (s.contains("is:")) {
+                    list.add(s);
+                } else {
+                    valueNew = s;
+                }
+            }
+            search.setSearchValueList(list);
+            search.setSearchValue(valueNew);
+        }
+
         Map<String, Object> map = new HashMap<>();
         map.put("list", projectService.getIssueList(search));
 
