@@ -43,7 +43,7 @@ public class RepositoryController {
             , @ModelAttribute(name = "search") ProjectSearch search) throws Exception {
         log.info(GeneralConfig.START);
         log.debug("search : {}", search);
-        ModelAndView mav = new ModelAndView("projectRepository/main");
+        ModelAndView mav = new ModelAndView("projectRepository/" + path + "/main");
 
         switch (path) {
             case "home":
@@ -59,7 +59,7 @@ public class RepositoryController {
                 mav.addAllObjects(issues(search));
                 break;
             case "labels":
-                search.setSortColumn(4);
+                search.setSortColumn(1);
                 mav.addAllObjects(labels(search));
                 break;
             case "settings":
@@ -181,6 +181,9 @@ public class RepositoryController {
         map.put("issueCount", projectService.issueStateCount(search.getRepositorySid()));
 
         map.put("multiType", true); // 다중검색 기능을 사용하고자 할 경우 추가
+
+        search.setSearchValue(value);
+        map.put("search", search);
         return map;
     }
 

@@ -75,6 +75,7 @@
                     <c:choose>
                         <c:when test="${path eq 'labels'}">
                             <div name="sortColumn" class="modal-search-btn" data-value="1">
+                                <i class="fas fa-check selectChecksortColumn"></i>
                                 <div>Alphabetically</div>
                             </div>
                             <div name="sortColumn" class="modal-search-btn" data-value="1" data-desc="true">
@@ -84,7 +85,6 @@
                                 <div>Most Issues</div>
                             </div>
                             <div name="sortColumn" class="modal-search-btn" data-value="4">
-                                <i class="fas fa-check selectChecksortColumn"></i>
                                 <div>Fewest Issues</div>
                             </div>
                         </c:when>
