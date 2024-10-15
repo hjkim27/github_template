@@ -1,5 +1,6 @@
 package com.github.hjkim27.config;
 
+import com.github.hjkim27.bean.dto.project.GhCommitDTO;
 import com.github.hjkim27.bean.dto.project.GhIssueDTO;
 import com.github.hjkim27.bean.dto.project.GhLabelDTO;
 import com.github.hjkim27.bean.dto.project.GhRepositoryDTO;
@@ -28,24 +29,24 @@ public class FixedCronSetting {
 //    }
 
     // 매일 0시 5분에
-    @Scheduled(cron = "0 5 0 */1 * *")
-    public void setCommitInterval1Day() {
-        gitUtil.getCommits();
-        projectService.updateActiveFalse();
-    }
+//    @Scheduled(cron = "0 5 0 */1 * *")
+//    public void setCommitInterval1Day() {
+//        gitUtil.getCommits();
+//        projectService.updateActiveFalse();
+//    }
 
     // 매 시간마다
-    @Scheduled(cron = "0 0 */1 * * *")
-    public void commits() {
-        gitUtil.getCommits(DateFormatUtil.getBeforeNDays(DateFormatUtil.DateFormat.yyyy_MM_dd, -1));
-    }
+//    @Scheduled(cron = "0 0 */1 * * *")
+//    public void commits() {
+//        gitUtil.getCommits(DateFormatUtil.getBeforeNDays(DateFormatUtil.DateFormat.yyyy_MM_dd, -1));
+//    }
 
     /**
      * 매일 자정에 확인하도록 cron 등록
      * 초(0-59)   분(0-59)　　시간(0-23)　　일(1-31)　　월(1-12)　　요일(0-7)
      */
 //    @Scheduled(cron = "0 0 0 * * *")
-    @Scheduled(cron = "0 0/5 * * * ?")
+    @Scheduled(cron = "0 0 0/1 * * ?")
     public void insertLabelRepo() throws IOException {
         log.info(GeneralConfig.START);
         try {
@@ -69,4 +70,23 @@ public class FixedCronSetting {
         }
     }
 
+    // 첫번째 연동인지 확인 값
+    private boolean isFirst = true;
+
+    @Scheduled(cron = "10 0/5 * * * ?")
+    public void insertCommit() throws IOException {
+        log.info(GeneralConfig.START);
+        try {
+            List<GhCommitDTO> commitList = gitUtil.getCommit();
+            projectService.insertCommit(commitList);
+
+            // 첫번째 연동일 경우 commits 기준을 수정
+            if (isFirst) {
+                gitUtil.getCommits(DateFormatUtil.getBeforeNDays(DateFormatUtil.DateFormat.yyyy_MM_dd, -1));
+                isFirst = !isFirst;
+            }
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+        }
+    }
 }
