@@ -1,9 +1,11 @@
 package com.github.hjkim27.service;
 
+import com.github.hjkim27.bean.dto.project.GhCommitDTO;
 import com.github.hjkim27.bean.dto.project.GhIssueDTO;
 import com.github.hjkim27.bean.dto.project.GhLabelDTO;
 import com.github.hjkim27.bean.dto.project.GhRepositoryDTO;
 import com.github.hjkim27.bean.search.ProjectSearch;
+import com.github.hjkim27.mapper.first.GhCommitMapper;
 import com.github.hjkim27.mapper.first.GhIssueMapper;
 import com.github.hjkim27.mapper.first.GhLabelMapper;
 import com.github.hjkim27.mapper.first.GhRepositoryMapper;
@@ -24,6 +26,7 @@ public class ProjectService {
     private final GhRepositoryMapper repositoryMapper;
     private final GhIssueMapper issueMapper;
     private final GhLabelMapper labelMapper;
+    private final GhCommitMapper commitMapper;
 
     public List<GhRepositoryDTO> getRepoList(ProjectSearch search) {
         List<GhRepositoryDTO> list = repositoryMapper.getList(search);
@@ -61,6 +64,11 @@ public class ProjectService {
             map.put(String.valueOf(m.get("key")), m.get("value"));
         }
         return map;
+    }
+
+    public List<GhCommitDTO> getCommits(ProjectSearch search) {
+        List<GhCommitDTO> list = commitMapper.getList(search);
+        return (list.size() == 0) ? Collections.emptyList() : list;
     }
 
 }

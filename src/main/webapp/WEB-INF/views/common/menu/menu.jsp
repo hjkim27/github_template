@@ -19,6 +19,10 @@
             data-path="repositories" data-type="main">
         Repositories
     </button>
+    <button id="menu-commits" class="bg-white-hover-blue border-none menu-button"
+            data-path="commits" data-type="sub">
+        Commits
+    </button>
     <button id="menu-issues" class="bg-white-hover-blue border-none menu-button"
             data-path="issues" data-type="sub">
         Issues

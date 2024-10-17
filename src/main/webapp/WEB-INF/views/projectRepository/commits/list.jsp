@@ -20,9 +20,8 @@
 </c:if>
 <c:if test="${list ne null}">
     <c:forEach var="item" items="${list}">
-        <div class="repo item grid-gap-10" style="margin-bottom: 10px; grid-template-columns: 180px auto; margin: 0" >
-            <span class="repo round-box" style="width: fit-content; height: fit-content" name="label" id="label-${item.ghId}" data-color="${item.color}">${item.name}</span>
-            <div class="repo descript" style="grid-column: 2/4">${item.description}</div>
+        <div class="repo item grid-gap-10" style="margin-bottom: 10px; margin: 0" >
+            <div class="repo ">${item.title}</div>
         </div>
     </c:forEach>
 </c:if>

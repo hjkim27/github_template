@@ -62,6 +62,9 @@ public class RepositoryController {
                 search.setSortColumn(1);
                 mav.addAllObjects(labels(search));
                 break;
+            case "commits":
+                mav.addAllObjects(commits(search));
+                break;
             case "settings":
                 mav.addAllObjects(settings());
                 break;
@@ -187,9 +190,32 @@ public class RepositoryController {
         return map;
     }
 
+    /**
+     * <pre>
+     *     label 검색 결과
+     * </pre>
+     *
+     * @param search
+     * @return
+     */
     public Map<String, Object> labels(ProjectSearch search) {
         Map<String, Object> map = new HashMap<>();
         map.put("list", projectService.getLabelList(search));
+        return map;
+    }
+
+    /**
+     * <pre>
+     *     commit 목록 조회
+     *     FIXME 정렬기능 제거(정렬은 시간순으로 고정, 검색 유지)
+     * </pre>
+     *
+     * @param search
+     * @return
+     */
+    public Map<String, Object> commits(ProjectSearch search) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("list", projectService.getCommits(search));
         return map;
     }
 

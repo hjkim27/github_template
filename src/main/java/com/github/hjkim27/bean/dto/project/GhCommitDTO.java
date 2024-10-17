@@ -30,6 +30,31 @@ public class GhCommitDTO {
     private Long ghRepositoryId;
     private Committer committer = new Committer();
 
+    // commit message 제목
+    private String title;
+
+    // commit message 본문
+    private String body;
+
+    public String getTitle() {
+        if (this.message != null) {
+            return this.message.split("\\n\\n")[0];
+        } else {
+            return "";
+        }
+    }
+
+    public String getBody() {
+        if (this.message != null) {
+            String[] arr = this.message.split("\\n\\n");
+            if (arr.length > 1) {
+                this.body = arr[1].replaceAll("\\n", "<br>");
+                return this.body;
+            }
+        }
+        return "";
+    }
+
     @Getter
     @Setter
     @ToString
