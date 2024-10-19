@@ -141,9 +141,9 @@
         })
     }
 
-    function showDetail() {
+    function openItem(obj) {
         var search = {
-            ghId: $('#ghId').val(),
+            sid: obj,
             repositorySid: getStorage('repositorySid')
         }
         $.ajax({

@@ -41,6 +41,6 @@
     // [2024-09-16] repository 에 해당하는 issue 만 보여지도록 하는 함수
     function openRepo(sid){
         setStorage('repositorySid', sid);
-        location.href = '${contextPath}/ghRepository/issues?repositorySid='+sid;
+        location.href = '${contextPath}/ghRepository/commits?repositorySid='+sid;
     }
 </script>

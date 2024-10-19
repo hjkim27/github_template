@@ -9,19 +9,12 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%-- 검색 결과가 없을 경우 --%>
-<c:if test="${list eq null}">
-    <div id="clear-filter" class="repo item" style="text-align: right; padding: 15px 0;"
-         onclick="location.reload()">
-        <i class="far fa-times-circle"> Clear Filter</i>
-    </div>
-    <div class="no-match-search">
-        No results matched your search
-    </div>
+<c:if test="${item eq null}">
+    !
 </c:if>
-<c:if test="${list ne null}">
-    <c:forEach var="item" items="${list}">
+<c:if test="${item ne null}">
         <div class="repo item grid-gap-10" style="margin-bottom: 10px; margin: 0" >
-            <div class="repo " onclick="openItem(${item.sid})">${item.title}</div>
+            <div class="repo ">${item.title}</div>
+            <div class="repo ">${item.body}</div>
         </div>
-    </c:forEach>
 </c:if>

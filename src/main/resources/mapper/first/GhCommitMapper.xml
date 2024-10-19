@@ -50,4 +50,8 @@
         <if test="limit != null">limit #{limit}</if>
         <if test="offset != null">offset #{offset}</if>
     </select>
+
+    <select id="getItem" parameterType="com.github.hjkim27.bean.search.GhDetailSearch" resultType="com.github.hjkim27.bean.dto.project.GhCommitDTO">
+        select * from gh_commit where sid = #{sid}
+    </select>
 </mapper>

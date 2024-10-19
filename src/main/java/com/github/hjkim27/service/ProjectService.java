@@ -4,6 +4,7 @@ import com.github.hjkim27.bean.dto.project.GhCommitDTO;
 import com.github.hjkim27.bean.dto.project.GhIssueDTO;
 import com.github.hjkim27.bean.dto.project.GhLabelDTO;
 import com.github.hjkim27.bean.dto.project.GhRepositoryDTO;
+import com.github.hjkim27.bean.search.GhDetailSearch;
 import com.github.hjkim27.bean.search.GhSearch;
 import com.github.hjkim27.mapper.first.GhCommitMapper;
 import com.github.hjkim27.mapper.first.GhIssueMapper;
@@ -69,6 +70,10 @@ public class ProjectService {
     public List<GhCommitDTO> getCommits(GhSearch search) {
         List<GhCommitDTO> list = commitMapper.getList(search);
         return (list.size() == 0) ? Collections.emptyList() : list;
+    }
+
+    public GhCommitDTO getCommit(GhDetailSearch search) {
+        return commitMapper.getItem(search);
     }
 
 }
