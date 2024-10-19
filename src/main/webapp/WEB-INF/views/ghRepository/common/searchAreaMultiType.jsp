@@ -135,7 +135,7 @@
 
         $.ajax({
             type: "post",
-            url: '${contextPath}/projectRepository/ajax/${path}',
+            url: '${contextPath}/ghRepository/ajax/${path}',
             data: search,
             success: function (result) {
                 $('#ajax-container').html(result);

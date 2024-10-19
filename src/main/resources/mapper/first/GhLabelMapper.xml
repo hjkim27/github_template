@@ -50,7 +50,7 @@
     </select>
 
     <!-- issue 목록 조회 -->
-    <select id="getList" parameterType="com.github.hjkim27.bean.search.ProjectSearch" resultType="com.github.hjkim27.bean.dto.project.GhLabelDTO">
+    <select id="getList" parameterType="com.github.hjkim27.bean.search.GhSearch" resultType="com.github.hjkim27.bean.dto.project.GhLabelDTO">
         select label.*, (select count(*) from gh_issue where label_ids like '%'||label.gh_id||'%') as total_count
         from gh_label label
         <trim prefix="where" prefixOverrides="and|or">

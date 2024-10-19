@@ -55,7 +55,7 @@
     $('button').on('click', function () {
         var path = $(this).data('path');
         // [2024-09-23] data-type 이 sub 일 경우에만 repositorySid 를 넘기도록 추가
-        var url = '${contextPath}/projectRepository/' + path;
+        var url = '${contextPath}/ghRepository/' + path;
         if($(this).data('type') === 'sub'){
             var repositorySid = getStorage('repositorySid');
             url += '?repositorySid=' + repositorySid;

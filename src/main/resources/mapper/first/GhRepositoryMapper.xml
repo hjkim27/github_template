@@ -54,7 +54,7 @@
         where gh_id = #{ghId}
     </select>
 
-    <select id="getList" parameterType="com.github.hjkim27.bean.search.ProjectSearch"
+    <select id="getList" parameterType="com.github.hjkim27.bean.search.GhSearch"
             resultType="com.github.hjkim27.bean.dto.project.GhRepositoryDTO">
         select *
         from gh_repository

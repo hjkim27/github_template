@@ -128,12 +128,30 @@
         }
         $.ajax({
             type: "post",
-            url: '${contextPath}/projectRepository/ajax/${path}',
+            url: '${contextPath}/ghRepository/ajax/${path}',
             data: search,
             success: function (result) {
                 $('#ajax-container').html(result);
                 // type, sort 검색 후 modal 을 닫기위함
                 $('.close').click();
+            },
+            error: function (e) {
+                console.log(e);
+            }
+        })
+    }
+
+    function showDetail() {
+        var search = {
+            ghId: $('#ghId').val(),
+            repositorySid: getStorage('repositorySid')
+        }
+        $.ajax({
+            type: "post",
+            url: '${contextPath}/ghRepository/detail/${path}',
+            data: search,
+            success: function (result) {
+                $('#ajax-container').html(result);
             },
             error: function (e) {
                 console.log(e);

@@ -1,7 +1,7 @@
 package com.github.hjkim27.mapper.first;
 
 import com.github.hjkim27.bean.dto.project.GhLabelDTO;
-import com.github.hjkim27.bean.search.ProjectSearch;
+import com.github.hjkim27.bean.search.GhSearch;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -72,5 +72,5 @@ public interface GhLabelMapper {
      *
      * @return ghLabel 목록
      */
-    List<GhLabelDTO> getList(ProjectSearch search);
+    List<GhLabelDTO> getList(GhSearch search);
 }

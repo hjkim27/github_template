@@ -1,7 +1,7 @@
 package com.github.hjkim27.mapper.first;
 
 import com.github.hjkim27.bean.dto.project.GhCommitDTO;
-import com.github.hjkim27.bean.search.ProjectSearch;
+import com.github.hjkim27.bean.search.GhSearch;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -47,5 +47,5 @@ public interface GhCommitMapper {
      *
      * @return ghCommit 목록
      */
-    List<GhCommitDTO> getList(ProjectSearch search);
+    List<GhCommitDTO> getList(GhSearch search);
 }

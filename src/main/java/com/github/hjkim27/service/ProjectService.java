@@ -4,7 +4,7 @@ import com.github.hjkim27.bean.dto.project.GhCommitDTO;
 import com.github.hjkim27.bean.dto.project.GhIssueDTO;
 import com.github.hjkim27.bean.dto.project.GhLabelDTO;
 import com.github.hjkim27.bean.dto.project.GhRepositoryDTO;
-import com.github.hjkim27.bean.search.ProjectSearch;
+import com.github.hjkim27.bean.search.GhSearch;
 import com.github.hjkim27.mapper.first.GhCommitMapper;
 import com.github.hjkim27.mapper.first.GhIssueMapper;
 import com.github.hjkim27.mapper.first.GhLabelMapper;
@@ -28,22 +28,22 @@ public class ProjectService {
     private final GhLabelMapper labelMapper;
     private final GhCommitMapper commitMapper;
 
-    public List<GhRepositoryDTO> getRepoList(ProjectSearch search) {
+    public List<GhRepositoryDTO> getRepoList(GhSearch search) {
         List<GhRepositoryDTO> list = repositoryMapper.getList(search);
         return (list.size() == 0) ? null : list;
     }
 
-    public List<GhIssueDTO> getIssueList(ProjectSearch search) {
+    public List<GhIssueDTO> getIssueList(GhSearch search) {
         List<GhIssueDTO> list = issueMapper.getList(search);
         return (list.size() == 0) ? null : list;
     }
 
-    public List<GhLabelDTO> getLabelList(ProjectSearch search) {
+    public List<GhLabelDTO> getLabelList(GhSearch search) {
         List<GhLabelDTO> list = labelMapper.getList(search);
         return (list.size() == 0) ? Collections.emptyList() : list;
     }
 
-    public Map<Long, GhLabelDTO> getLabelMap(ProjectSearch search) {
+    public Map<Long, GhLabelDTO> getLabelMap(GhSearch search) {
         List<GhLabelDTO> list = getLabelList(search);
         return getLabelMap(list);
     }
@@ -66,7 +66,7 @@ public class ProjectService {
         return map;
     }
 
-    public List<GhCommitDTO> getCommits(ProjectSearch search) {
+    public List<GhCommitDTO> getCommits(GhSearch search) {
         List<GhCommitDTO> list = commitMapper.getList(search);
         return (list.size() == 0) ? Collections.emptyList() : list;
     }

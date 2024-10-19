@@ -1,7 +1,7 @@
 package com.github.hjkim27.controller;
 
 import com.github.hjkim27.bean.dto.project.GhLabelDTO;
-import com.github.hjkim27.bean.search.ProjectSearch;
+import com.github.hjkim27.bean.search.GhSearch;
 import com.github.hjkim27.config.GeneralConfig;
 import com.github.hjkim27.service.ProjectService;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +23,7 @@ import java.util.Map;
 @Slf4j
 @Controller
 @RequiredArgsConstructor
-public class RepositoryController {
+public class GhController {
 
     private final ProjectService projectService;
 
@@ -37,13 +37,13 @@ public class RepositoryController {
      * @param path
      * @return
      */
-    @RequestMapping(value = "/projectRepository/{path}")
+    @RequestMapping(value = "/ghRepository/{path}")
     public ModelAndView projectSelectMenu(HttpServletRequest request, HttpServletResponse response
             , @PathVariable(required = false) String path
-            , @ModelAttribute(name = "search") ProjectSearch search) throws Exception {
+            , @ModelAttribute(name = "search") GhSearch search) throws Exception {
         log.info(GeneralConfig.START);
         log.debug("search : {}", search);
-        ModelAndView mav = new ModelAndView("projectRepository/" + path + "/main");
+        ModelAndView mav = new ModelAndView("ghRepository/" + path + "/main");
 
         switch (path) {
             case "home":
@@ -90,13 +90,13 @@ public class RepositoryController {
      * @throws Exception
      */
     @ResponseBody
-    @RequestMapping(value = "/projectRepository/ajax/{path}")
+    @RequestMapping(value = "/ghRepository/ajax/{path}")
     public ModelAndView projectAjax(HttpServletRequest request, HttpServletResponse response
             , @PathVariable(required = false) String path
-            , @ModelAttribute(name = "search") ProjectSearch search) throws Exception {
+            , @ModelAttribute(name = "search") GhSearch search) throws Exception {
         log.info(GeneralConfig.START);
         log.debug("search : {}", search);
-        ModelAndView mav = new ModelAndView("projectRepository/ajax/" + path);
+        ModelAndView mav = new ModelAndView("ghRepository/" + path + "/list");
 
         switch (path) {
             case "home":
@@ -136,7 +136,7 @@ public class RepositoryController {
      * @param search
      * @return
      */
-    public Map<String, Object> repositories(ProjectSearch search) {
+    public Map<String, Object> repositories(GhSearch search) {
         Map<String, Object> map = new HashMap<>();
         map.put("list", projectService.getRepoList(search));
         map.put("filterType", true);    // [2024-09-19] filterType 검색 사용여부 추가
@@ -151,7 +151,7 @@ public class RepositoryController {
      * @param search
      * @return
      */
-    public Map<String, Object> issues(ProjectSearch search) {
+    public Map<String, Object> issues(GhSearch search) {
 
         // [2024-10-11] state 검색관련 추가
         // issue state, pull_request 여부를 추가 확인하기 위해 searchValue 가공
@@ -176,7 +176,7 @@ public class RepositoryController {
 
         // sortColumn 값을 issue, label 조회 시 동일하게 사용하면서 에러 발생.
         // 별도 search 객체를 사용하도록 수정
-        List<GhLabelDTO> labelList = projectService.getLabelList(new ProjectSearch(search.getRepositorySid()));
+        List<GhLabelDTO> labelList = projectService.getLabelList(new GhSearch(search.getRepositorySid()));
         map.put("labelList", labelList);
         map.put("labels", projectService.getLabelMap(labelList));
 
@@ -198,7 +198,7 @@ public class RepositoryController {
      * @param search
      * @return
      */
-    public Map<String, Object> labels(ProjectSearch search) {
+    public Map<String, Object> labels(GhSearch search) {
         Map<String, Object> map = new HashMap<>();
         map.put("list", projectService.getLabelList(search));
         return map;
@@ -213,7 +213,7 @@ public class RepositoryController {
      * @param search
      * @return
      */
-    public Map<String, Object> commits(ProjectSearch search) {
+    public Map<String, Object> commits(GhSearch search) {
         Map<String, Object> map = new HashMap<>();
         map.put("list", projectService.getCommits(search));
         return map;

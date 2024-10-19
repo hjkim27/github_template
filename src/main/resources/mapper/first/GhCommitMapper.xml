@@ -45,7 +45,7 @@
     </select>
 
     <!-- commit list -->
-    <select id="getList" parameterType="com.github.hjkim27.bean.search.ProjectSearch" resultType="com.github.hjkim27.bean.dto.project.GhCommitDTO">
+    <select id="getList" parameterType="com.github.hjkim27.bean.search.GhSearch" resultType="com.github.hjkim27.bean.dto.project.GhCommitDTO">
         select * from gh_commit
         <if test="limit != null">limit #{limit}</if>
         <if test="offset != null">offset #{offset}</if>

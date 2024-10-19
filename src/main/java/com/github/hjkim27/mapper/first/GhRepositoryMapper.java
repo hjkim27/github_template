@@ -1,7 +1,7 @@
 package com.github.hjkim27.mapper.first;
 
 import com.github.hjkim27.bean.dto.project.GhRepositoryDTO;
-import com.github.hjkim27.bean.search.ProjectSearch;
+import com.github.hjkim27.bean.search.GhSearch;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -62,5 +62,5 @@ public interface GhRepositoryMapper {
      *
      * @return repository 정보 목록
      */
-    List<GhRepositoryDTO> getList(ProjectSearch search);
+    List<GhRepositoryDTO> getList(GhSearch search);
 }
