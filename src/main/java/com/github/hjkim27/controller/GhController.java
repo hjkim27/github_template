@@ -111,6 +111,9 @@ public class GhController {
             case "labels":
                 mav.addAllObjects(labels(search));
                 break;
+            case "commits":
+                mav.addAllObjects(commits(search));
+                break;
             case "settings":
                 mav.addAllObjects(settings());
                 break;

@@ -15,7 +15,9 @@
     <input type="hidden" id="sortColumn" name="sortColumn" value="${search.sortColumn}">
     <input type="hidden" id="desc" name="desc" value="${search.desc}">
     <%-- ----------- --%>
-    <input type="text" id="searchValue" name="searchValue" class="min-size" value="${search.searchValue}">
+    <input type="text" id="searchValue" name="searchValue" class="min-size" value="${search.searchValue}"
+           style="<c:if test="${!filterType}">grid-column:1/3</c:if>"
+    >
     <%-- ----------- --%>
     <!-- Button trigger modal -->
     <%-- filterType 이 true 일 경우에만 filterType 검색 사용 --%>
@@ -25,36 +27,36 @@
                 data-target="#filterTypeModal">
             Type
         </button>
-    </c:if>
 
-    <!-- Modal -->
-    <div id="filterTypeModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="filterTypeModalLabel">
-        <div class="modal-dialog filterType" role="document">
-            <div id="filterTypeModalContent" class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Select Type</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <c:choose>
-                        <c:when test="${path eq 'repositories'}">
-                            <div name="filterType" class="modal-search-btn" data-value="">
-                                <div>All</div>
-                            </div>
-                            <div name="filterType" class="modal-search-btn" data-value="private">
-                                <div>private</div>
-                            </div>
-                            <div name="filterType" class="modal-search-btn" data-value="public">
-                                <div>public</div>
-                            </div>
-                        </c:when>
-                    </c:choose>
+        <!-- Modal -->
+        <div id="filterTypeModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="filterTypeModalLabel">
+            <div class="modal-dialog filterType" role="document">
+                <div id="filterTypeModalContent" class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Select Type</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <c:choose>
+                            <c:when test="${path eq 'repositories'}">
+                                <div name="filterType" class="modal-search-btn" data-value="">
+                                    <div>All</div>
+                                </div>
+                                <div name="filterType" class="modal-search-btn" data-value="private">
+                                    <div>private</div>
+                                </div>
+                                <div name="filterType" class="modal-search-btn" data-value="public">
+                                    <div>public</div>
+                                </div>
+                            </c:when>
+                        </c:choose>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    </c:if>
     <%-- ----------- --%>
     <!-- Button trigger modal -->
     <button id="sortColumn-btn" type="button" class="btn bg-white-hover-blue br-dark-blue min-size" data-toggle="modal"
