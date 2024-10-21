@@ -143,24 +143,6 @@
         })
     }
 
-    function openItem(obj) {
-        var search = {
-            sid: obj,
-            repositorySid: getStorage('repositorySid')
-        }
-        $.ajax({
-            type: "post",
-            url: '${contextPath}/ghRepository/detail/${path}',
-            data: search,
-            success: function (result) {
-                $('#ajax-container').html(result);
-            },
-            error: function (e) {
-                console.log(e);
-            }
-        })
-    }
-
     // UI 화면이 변경되었을 경우에도 modal 을 제위치에 출력하기 위해...
     setInterval(() => {
         setModalPosition('filterType');

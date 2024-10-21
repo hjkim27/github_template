@@ -76,4 +76,8 @@ public class ProjectService {
         return commitMapper.getItem(search);
     }
 
+    public GhIssueDTO getIssue(GhDetailSearch search) {
+        return issueMapper.getItem(search);
+    }
+
 }

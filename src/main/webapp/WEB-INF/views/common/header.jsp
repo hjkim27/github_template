@@ -29,3 +29,24 @@
         <button class="default br-dark-blue bg-white" onclick="location.href='${contextPath}/sign/logout'">Profile</button>
     </div>
 </div>
+
+<script>
+    // 상세조회
+    function openItem(obj) {
+        var search = {
+            sid: obj,
+            repositorySid: getStorage('repositorySid')
+        }
+        $.ajax({
+            type: "post",
+            url: '${contextPath}/ghRepository/detail/${path}',
+            data: search,
+            success: function (result) {
+                $('#ajax-container').html(result);
+            },
+            error: function (e) {
+                console.log(e);
+            }
+        })
+    }
+</script>

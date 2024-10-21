@@ -49,6 +49,7 @@ public class GhDetailController {
 
     public Map<String, Object> issues(GhDetailSearch search) {
         Map<String, Object> map = new HashMap<>();
+        map.put("item", projectService.getIssue(search));
         return map;
     }
 

@@ -45,8 +45,9 @@ public class GhIssueDTO {
 
     // 특정 issue 의 comment 목록
     private List<GhCommentDTO> commentList = new ArrayList<>();
-    public void addComment(GhCommentDTO comment){
-        if(commentList == null){
+
+    public void addComment(GhCommentDTO comment) {
+        if (commentList == null) {
             commentList = new ArrayList<>();
         }
         commentList.add(comment);
@@ -67,10 +68,29 @@ public class GhIssueDTO {
 
     // 특정 issue 의 event 목록
     private List<GhEventDTO> eventList = new ArrayList<>();
-    public void addEvent(GhEventDTO event){
-        if(eventList == null){
+
+    public void addEvent(GhEventDTO event) {
+        if (eventList == null) {
             eventList = new ArrayList<>();
         }
         eventList.add(event);
+    }
+
+    // issue body 개행 확인로직 추가
+    public String getBody() {
+        if (this.body != null) {
+            this.body = this.body.replaceAll("\\n", "<br>");
+            return this.body;
+        }
+        return "";
+    }
+
+    // pullRequest, open, closed 구분 확인을 위함
+    public String getType() {
+        if (this.pullRequest) {
+            return "Merged";
+        } else {
+            return this.state;
+        }
     }
 }

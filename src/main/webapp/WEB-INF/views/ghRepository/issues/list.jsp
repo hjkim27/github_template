@@ -22,7 +22,7 @@
     <c:forEach var="item" items="${list}">
         <div class="repo item">
             <div style="display: flex">
-                <div style="margin-right: 10px;">#${item.issueNumber} ${item.title}</div>
+                <div style="margin-right: 10px;" onclick="openItem(${item.sid})">[${item.type}] #${item.issueNumber} ${item.title}</div>
                 <div>
                     <c:forEach var="labelId" items="${item.labelIdList}">
                         <c:set var="label" value="${labels[labelId]}"/>

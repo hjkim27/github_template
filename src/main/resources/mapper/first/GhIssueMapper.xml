@@ -52,7 +52,7 @@
 
     <!-- issue 목록 조회 -->
     <select id="getList" parameterType="com.github.hjkim27.bean.search.GhSearch" resultType="com.github.hjkim27.bean.dto.project.GhIssueDTO">
-        select i.issue_number, i.title, i.body, i.state, i.pull_request, i.locked , i.created_at, i.updated_at, i.label_ids
+        select i.sid, i.issue_number, i.title, i.body, i.state, i.pull_request, i.locked , i.created_at, i.updated_at, i.label_ids
              , r.full_name as repositry_full_name
         from gh_issue i left join ( select sid, full_name from gh_repository ) r on i.repository_sid = r.sid
         <trim prefix="where" prefixOverrides="and|or">
@@ -107,5 +107,9 @@
             where repository_sid = #{repositorySid}
             group by pull_request, state
             ) aa
+    </select>
+
+    <select id="getItem" parameterType="com.github.hjkim27.bean.search.GhDetailSearch" resultType="com.github.hjkim27.bean.dto.project.GhIssueDTO">
+        select * from gh_issue where sid = #{sid}
     </select>
 </mapper>
