@@ -90,17 +90,22 @@
         <input type="hidden" name="path" value="is:${path}">
         <div style="display: flex; grid-column: 1/4; color: var(--gray-scale-8)">
             <div style="margin-left: 15px" name="issue-state" data-value="is:open">
-                <i class="far fa-dot-circle"></i>
+                <c:if test="${path eq 'issues'}">
+                    <i class="far fa-dot-circle"></i>
+                </c:if>
+                <c:if test="${path eq 'pulls'}">
+                    <i class="fas fa-code-branch"></i>
+                </c:if>
                     ${issueCount["open"]}
                 Open
             </div>
             <div style="margin-left: 15px" name="issue-state" data-value="is:closed">
-                <i class="fas fa-check"></i>
+                <i class="far fa-check-circle"></i>
                     ${issueCount["closed"]}
                 Closed
             </div>
             <%--<div style="margin-left: 15px" name="issue-state" data-value="is:pr">
-                <i class="fas fa-project-diagram"></i>
+                <i class="fas fa-code-branch"></i>
                     ${issueCount["pullRequest"]}
                 pull Request
             </div>--%>

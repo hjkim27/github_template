@@ -90,7 +90,13 @@ public class GhIssueDTO {
         if (this.pullRequest) {
             return "Merged";
         } else {
-            return this.state;
+            if (this.state != null) {
+                String upper = this.state.substring(0, 1);
+                String lower = this.state.substring(1).toLowerCase();
+                return upper + lower;
+            } else {
+                return "";
+            }
         }
     }
 }

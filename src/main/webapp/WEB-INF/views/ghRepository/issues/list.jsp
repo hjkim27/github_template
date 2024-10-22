@@ -22,7 +22,21 @@
     <c:forEach var="item" items="${list}">
         <div class="repo item">
             <div style="display: flex">
-                <div style="margin-right: 10px;" onclick="openItem(${item.sid})">[${item.type}] #${item.issueNumber} ${item.title}</div>
+                <div style="margin-right: 10px;" onclick="openItem(${item.sid})">
+                    <c:choose>
+                        <c:when test="${item.type eq 'Open'}">
+                            <i class="far fa-dot-circle is-open"></i>
+                        </c:when>
+                        <c:when test="${item.type eq 'Closed'}">
+                            <i class="far fa-check-circle is-closed"></i>
+                        </c:when>
+                        <c:when test="${item.type eq 'Merged'}">
+                            <i class="fas fa-code-branch is-merged"></i>
+                        </c:when>
+                    </c:choose>
+                    <%--[${item.type}]--%>
+                    ${item.title}
+                </div>
                 <div>
                     <c:forEach var="labelId" items="${item.labelIdList}">
                         <c:set var="label" value="${labels[labelId]}"/>
@@ -35,7 +49,7 @@
             </div>
             <div style="font-size: 12px; color: var(--gray-scale-8)">
                 <c:if test="${item.createdAt ne null}">
-                    CreatedAt : <fmt:formatDate value="${item.createdAt}" pattern="yyyy-MM-dd hh:mm"/>
+                    #${item.issueNumber} CreatedAt : <fmt:formatDate value="${item.createdAt}" pattern="yyyy-MM-dd hh:mm"/>
                 </c:if>
             </div>
         </div>
