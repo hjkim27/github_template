@@ -34,4 +34,9 @@ public class GhSearch extends DefaultSearch {
     // [2024-10-11] 서로 다른 column에서 searchValue 를 추가 검색하고자 할 경우 사용
     private List<String> searchValueList = new ArrayList<>();
 
+    // -1 : 해당없음
+    // 0 : issues
+    // 1 : pullRequest
+    private Integer searchType = -1;
+
 }

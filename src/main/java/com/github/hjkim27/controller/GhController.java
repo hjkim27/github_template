@@ -44,36 +44,10 @@ public class GhController {
         log.info(GeneralConfig.START);
         log.debug("search : {}", search);
         ModelAndView mav = new ModelAndView("ghRepository/" + path + "/main");
-
-        switch (path) {
-            case "home":
-                mav.addAllObjects(home());
-                break;
-            case "repositories":
-                search.setSortColumn(1);
-                mav.addAllObjects(repositories(search));
-                break;
-            case "issues":
-                search.setDesc(true);
-                search.setSortColumn(2);
-                mav.addAllObjects(issues(search));
-                break;
-            case "labels":
-                search.setSortColumn(1);
-                mav.addAllObjects(labels(search));
-                break;
-            case "commits":
-                mav.addAllObjects(commits(search));
-                break;
-            case "settings":
-                mav.addAllObjects(settings());
-                break;
-            default:
-                throw new Exception("does not exist path!!!");
+        if (path.equals("pulls")) {
+            mav = new ModelAndView("ghRepository/issues/main");
         }
-
-        mav.addObject("path", path);
-        mav.addObject("search", search);
+        mav.addAllObjects(projectAjax(request, response, path, search).getModel());
         return mav;
     }
 
@@ -103,12 +77,18 @@ public class GhController {
                 mav.addAllObjects(home());
                 break;
             case "repositories":
+                search.setSortColumn(1);
                 mav.addAllObjects(repositories(search));
                 break;
             case "issues":
+            case "pulls":
+                mav = new ModelAndView("ghRepository/issues/list");
+                search.setDesc(true);
+                search.setSortColumn(2);
                 mav.addAllObjects(issues(search));
                 break;
             case "labels":
+                search.setSortColumn(1);
                 mav.addAllObjects(labels(search));
                 break;
             case "commits":
@@ -165,7 +145,13 @@ public class GhController {
             List<String> list = new ArrayList<>();
             for (String s : arr) {
                 if (s.contains("is:")) {
-                    list.add(s);
+                    if (s.contains("pulls")) {
+                        search.setSearchType(1);
+                    } else if (s.contains("issues")) {
+                        search.setSearchType(0);
+                    } else {
+                        list.add(s);
+                    }
                 } else {
                     valueNew = s;
                 }

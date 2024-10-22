@@ -60,17 +60,18 @@
             <if test="searchValue != null and searchValue != ''">
                 and title like '%'||#{searchValue}||'%'
             </if>
+            <if test="searchType != null and searchType != -1">
+                <if test="searchType == 0">and pull_request = false</if>
+                <if test="searchType == 1">and pull_request = true</if>
+            </if>
             <!-- 검색 조건 추가: issue 상태값 조회(open, closed, pull_request) -->
             <trim>
                 <foreach collection="searchValueList" item="item" open="and (" separator="or" close=")">
-                    <if test="item == 'is:pr'">
-                        pull_request = true
-                    </if>
                     <if test="item == 'is:open'">
-                        (pull_request = false and state = 'OPEN')
+                        state = 'OPEN'
                     </if>
                     <if test="item == 'is:closed'">
-                        (pull_request = false and state = 'CLOSED')
+                        state = 'CLOSED'
                     </if>
                 </foreach>
             </trim>

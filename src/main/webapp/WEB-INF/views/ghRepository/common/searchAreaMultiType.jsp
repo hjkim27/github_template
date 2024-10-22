@@ -86,23 +86,24 @@
     </div>
     <%-- ----------- --%>
     <%-- [2024-10-09] issue 검색에서만 사용할 issue 상태값 추가 --%>
-    <c:if test="${path eq 'issues'}">
+    <c:if test="${path eq 'issues' || path eq 'pulls'}">
+        <input type="hidden" name="path" value="is:${path}">
         <div style="display: flex; grid-column: 1/4; color: var(--gray-scale-8)">
-            <div style="padding-left: 15px" name="issue-state" data-value="is:open">
+            <div style="margin-left: 15px" name="issue-state" data-value="is:open">
                 <i class="far fa-dot-circle"></i>
                     ${issueCount["open"]}
                 Open
             </div>
-            <div style="padding-left: 15px" name="issue-state" data-value="is:closed">
+            <div style="margin-left: 15px" name="issue-state" data-value="is:closed">
                 <i class="fas fa-check"></i>
                     ${issueCount["closed"]}
                 Closed
             </div>
-            <div style="padding-left: 15px" name="issue-state" data-value="is:pr">
+            <%--<div style="margin-left: 15px" name="issue-state" data-value="is:pr">
                 <i class="fas fa-project-diagram"></i>
                     ${issueCount["pullRequest"]}
                 pull Request
-            </div>
+            </div>--%>
         </div>
     </c:if>
 </div>

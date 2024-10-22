@@ -77,6 +77,10 @@ $('div[name="issue-state"]').click(function () {
         val += ' ' + stateVal;
         $(this).css('color', 'var(--gray-scale-0)');
     }
+    let path = $('input[name="path"]').val();
+    if(val.indexOf(path) == -1){
+        val += ' ' + path;
+    }
     $('#searchValue').val(val);
     search();
 })

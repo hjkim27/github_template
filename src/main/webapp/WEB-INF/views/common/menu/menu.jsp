@@ -27,6 +27,10 @@
             data-path="issues" data-type="sub">
         Issues
     </button>
+    <button id="menu-pulls" class="bg-white-hover-blue border-none menu-button"
+            data-path="pulls" data-type="sub">
+        Pull requests
+    </button>
     <button id="menu-labels" class="bg-white-hover-blue border-none menu-button"
             data-path="labels" data-type="sub">
         Labels
