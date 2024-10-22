@@ -14,17 +14,11 @@
 </c:if>
 <c:if test="${item ne null}">
         <div class="repo item grid-gap-10" style="margin-bottom: 10px; margin: 0" >
-            ${item}
             <div class="repo ">${item.title} #${item.issueNumber}</div>
-                <c:if test="${item.pullRequest}">
-                    [Merged]
-                </c:if>
-                <c:if test="${!item.pullRequest}">
-                    [${item.state}]
-                    <c:if test="${item.createdAt ne null}">
-                        CreatedAt : <fmt:formatDate value="${item.createdAt}" pattern="yyyy-MM-dd hh:mm"/>
-                    </c:if>
-                </c:if>
+            ${item.type}
+            <c:if test="${item.createdAt ne null}">
+                CreatedAt : <fmt:formatDate value="${item.createdAt}" pattern="yyyy-MM-dd hh:mm"/>
+            </c:if>
             <div class="repo ">${item.body}</div>
         </div>
 </c:if>

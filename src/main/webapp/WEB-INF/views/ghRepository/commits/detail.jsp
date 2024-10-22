@@ -18,3 +18,6 @@
             <div class="repo ">${item.body}</div>
         </div>
 </c:if>
+
+<%-- 뒤로가기 버튼 --%>
+<button type="button" class="btn bg-white-hover-blue br-dark-blue min-size" onclick="search()">toList</button>
