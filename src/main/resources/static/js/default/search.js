@@ -68,19 +68,23 @@ $('.modal-search-btn-multi').mouseout(function () {
 // issue state 검색 추가
 // state 검색 시 searchValue 값에 해당 state 의 value 가 입력되도록 함
 $('div[name="issue-state"]').click(function () {
+    let searchVal = '';
+    let path = $('input[name="path"]').val();
     let val = $('#searchValue').val();
+    if(val.indexOf(path) == -1){
+        searchVal += path + " ";
+    }
+    searchVal += val;
     let stateVal = $(this).data('value');
     if (val.indexOf(stateVal) > -1) {
-        val = val.replace(' ' + stateVal, '');
+        searchVal = val.replace(' ' + stateVal, '');
         $(this).css('color', 'var(--gray-scale-8)');
     } else {
-        val += ' ' + stateVal;
+        searchVal += ' ' + stateVal;
         $(this).css('color', 'var(--gray-scale-0)');
     }
-    let path = $('input[name="path"]').val();
-    if(val.indexOf(path) == -1){
-        val += ' ' + path;
-    }
-    $('#searchValue').val(val);
+
+
+    $('#searchValue').val(searchVal);
     search();
 })
