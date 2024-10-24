@@ -21,7 +21,33 @@
 <c:if test="${list ne null}">
     <c:forEach var="item" items="${list}">
         <div class="repo item grid-gap-10" style="margin-bottom: 10px; margin: 0" >
-            <div class="repo " onclick="openItem(${item.sid})">${item.title}</div>
+            <div name="commit-title" data-id="${item.sid}" class="repo">
+                    ${item.title}
+                <c:if test="${item.body ne ''}">
+                    <i class="far fa-comment-dots"></i>
+                </c:if>
+            </div>
+
+            <c:if test="${item.body ne ''}">
+                <div div id="commit-body-${item.sid}" style="display: none" data-show="false">
+                        ${item.body}
+                </div>
+            </c:if>
         </div>
     </c:forEach>
 </c:if>
+
+<script>
+    // commit title 클릭 시 body 를 show/hide 처리
+    $('div[name="commit-title"]').click(function (){
+        let dataId = $(this).data('id');
+        let target = $('#commit-body-'+dataId);
+        let isShow = target.data('show');
+        if(isShow){
+            target.hide();
+        } else {
+            target.show();
+        }
+        target.data('show', !isShow);
+    })
+</script>
