@@ -50,12 +50,4 @@ public interface GhCommitMapper {
      */
     List<GhCommitDTO> getList(GhSearch search);
 
-    /**
-     * <pre>
-     *     commit 조회
-     * </pre>
-     *
-     * @return
-     */
-    GhCommitDTO getItem(GhDetailSearch search);
 }

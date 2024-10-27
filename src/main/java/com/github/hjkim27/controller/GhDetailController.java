@@ -36,9 +36,6 @@ public class GhDetailController {
             case "issues":
                 mav.addAllObjects(issues(search));
                 break;
-            case "commits":
-                mav.addAllObjects(commits(search));
-                break;
             default:
                 throw new Exception("does not exist path!!");
         }
@@ -53,9 +50,4 @@ public class GhDetailController {
         return map;
     }
 
-    public Map<String, Object> commits(GhDetailSearch search) {
-        Map<String, Object> map = new HashMap<>();
-        map.put("item", projectService.getCommit(search));
-        return map;
-    }
 }

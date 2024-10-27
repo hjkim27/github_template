@@ -30,8 +30,6 @@ public class DefaultSearch {
     private int sortColumn = -1;
     private boolean desc = false;
 
-    private Integer pageInterval = 10;
-
     public void setPageNum(Integer pageNum) {
         if (pageNum != null && pageNum > 1)
             this.pageNum = pageNum;
@@ -49,7 +47,7 @@ public class DefaultSearch {
     }
 
     public int getMinPage() {
-        return ((pageNum - 1) / pageInterval) * pageInterval + 1;
+        return ((pageNum - 1) / pageSize) * pageSize + 1;
     }
 
     public int getLastPage() {
