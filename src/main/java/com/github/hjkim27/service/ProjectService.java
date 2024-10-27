@@ -34,14 +34,26 @@ public class ProjectService {
         return (list.size() == 0) ? null : list;
     }
 
+    public int getRepoTotalCount(GhSearch search) {
+        return repositoryMapper.getTotalCount(search);
+    }
+
     public List<GhIssueDTO> getIssueList(GhSearch search) {
         List<GhIssueDTO> list = issueMapper.getList(search);
         return (list.size() == 0) ? null : list;
     }
 
+    public int getIssueTotalCount(GhSearch search) {
+        return issueMapper.getTotalCount(search);
+    }
+
     public List<GhLabelDTO> getLabelList(GhSearch search) {
         List<GhLabelDTO> list = labelMapper.getList(search);
         return (list.size() == 0) ? Collections.emptyList() : list;
+    }
+
+    public int getLabelTotalCount(GhSearch search) {
+        return labelMapper.getTotalCount(search);
     }
 
     public Map<Long, GhLabelDTO> getLabelMap(GhSearch search) {
@@ -72,8 +84,8 @@ public class ProjectService {
         return (list.size() == 0) ? Collections.emptyList() : list;
     }
 
-    public GhCommitDTO getCommit(GhDetailSearch search) {
-        return commitMapper.getItem(search);
+    public int getCommitTotalCount(GhSearch search) {
+        return commitMapper.getTotalCount(search);
     }
 
     public GhIssueDTO getIssue(GhDetailSearch search) {

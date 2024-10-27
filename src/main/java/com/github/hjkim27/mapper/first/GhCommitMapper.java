@@ -50,4 +50,14 @@ public interface GhCommitMapper {
      */
     List<GhCommitDTO> getList(GhSearch search);
 
+    /**
+     * <pre>
+     *     검색 조건에 맞는 totalCount 조회
+     * </pre>
+     *
+     * @param search
+     * @return
+     */
+    int getTotalCount(GhSearch search);
+
 }

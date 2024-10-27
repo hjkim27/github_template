@@ -102,7 +102,6 @@ public class GhController {
         }
 
         mav.addObject("path", path);
-        mav.addObject("search", search);
         return mav;
     }
 
@@ -121,6 +120,8 @@ public class GhController {
      */
     public Map<String, Object> repositories(GhSearch search) {
         Map<String, Object> map = new HashMap<>();
+        search.setTotalSize(projectService.getRepoTotalCount(search));
+        map.put("search", search);
         map.put("list", projectService.getRepoList(search));
         map.put("filterType", true);    // [2024-09-19] filterType 검색 사용여부 추가
         return map;
@@ -161,6 +162,7 @@ public class GhController {
         }
 
         Map<String, Object> map = new HashMap<>();
+        search.setTotalSize(projectService.getIssueTotalCount(search));
         map.put("list", projectService.getIssueList(search));
 
         // sortColumn 값을 issue, label 조회 시 동일하게 사용하면서 에러 발생.
@@ -189,6 +191,8 @@ public class GhController {
      */
     public Map<String, Object> labels(GhSearch search) {
         Map<String, Object> map = new HashMap<>();
+        search.setTotalSize(projectService.getLabelTotalCount(search));
+        map.put("search", search);
         map.put("list", projectService.getLabelList(search));
         return map;
     }
@@ -204,6 +208,8 @@ public class GhController {
      */
     public Map<String, Object> commits(GhSearch search) {
         Map<String, Object> map = new HashMap<>();
+        search.setTotalSize(projectService.getCommitTotalCount(search));
+        map.put("search", search);
         map.put("list", projectService.getCommits(search));
         return map;
     }
