@@ -31,6 +31,7 @@
                 <div id="ajax-container">
                     <jsp:include page="./list.jsp"/>
                 </div>
+                <jsp:include page="../common/pagination.jsp"/>
             </div>
         </div>
         <!-- container End -->
@@ -41,7 +42,7 @@
     $('#menu-' + '${path}').css('border-bottom', '3px solid var(--point-color-light)');
 
     /* [2024-10-12] issue 검색 시 기본적으로 open 된 issue 만 조회하도록 추가 */
-    $(document).ready(function(){
+    $(document).ready(function () {
         $('div').find('[data-value="is:open"]').click();
     })
 </script>
