@@ -44,9 +44,10 @@
         where sha = #{sha}
     </select>
 
-    <!-- commit list -->
+    <!-- commit list: 정렬 고정 -->
     <select id="getList" parameterType="com.github.hjkim27.bean.search.GhSearch" resultType="com.github.hjkim27.bean.dto.project.GhCommitDTO">
         select * from gh_commit
+        order by commit_date desc
         <if test="limit != null">limit #{limit}</if>
         <if test="offset != null">offset #{offset}</if>
     </select>

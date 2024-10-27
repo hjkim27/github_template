@@ -16,7 +16,12 @@
     <input type="hidden" id="desc" name="desc" value="${search.desc}">
     <%-- ----------- --%>
     <input type="text" id="searchValue" name="searchValue" class="min-size" value="${search.searchValue}"
-           style="<c:if test="${!filterType}">grid-column:1/3</c:if>"
+           style="
+           <c:choose>
+           <c:when test="${path eq 'commits'}">grid-column:1/4</c:when>
+           <c:when test="${!filterType}">grid-column:1/3</c:when>
+           </c:choose>
+                   "
     >
     <%-- ----------- --%>
     <!-- Button trigger modal -->
@@ -58,61 +63,64 @@
         </div>
     </c:if>
     <%-- ----------- --%>
-    <!-- Button trigger modal -->
-    <button id="sortColumn-btn" type="button" class="btn bg-white-hover-blue br-dark-blue min-size" data-toggle="modal"
-            data-target="#sortColumnModal">
-        Sort
-    </button>
-    <!-- Modal -->
-    <div id="sortColumnModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="sortColumnModalLabel">
-        <div class="modal-dialog sortColumn" role="document">
-            <div id="sortColumnModalContent" class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Select Order</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <c:choose>
-                        <c:when test="${path eq 'labels'}">
-                            <div name="sortColumn" class="modal-search-btn" data-value="1">
-                                <i class="fas fa-check selectChecksortColumn"></i>
-                                <div>Alphabetically</div>
-                            </div>
-                            <div name="sortColumn" class="modal-search-btn" data-value="1" data-desc="true">
-                                <div>Reverse Alphabetically</div>
-                            </div>
-                            <div name="sortColumn" class="modal-search-btn" data-value="4" data-desc="true">
-                                <div>Most Issues</div>
-                            </div>
-                            <div name="sortColumn" class="modal-search-btn" data-value="4">
-                                <div>Fewest Issues</div>
-                            </div>
-                        </c:when>
-                        <c:otherwise>
-                            <div name="sortColumn" class="modal-search-btn" data-value="1">
-                                <i class="fas fa-check selectChecksortColumn"></i>
-                                <div>name</div>
-                            </div>
-                            <div name="sortColumn" class="modal-search-btn" data-value="2" data-desc="true">
-                                <div>Newest</div>
-                            </div>
-                            <div name="sortColumn" class="modal-search-btn" data-value="2">
-                                <div>Oldest</div>
-                            </div>
-                            <div name="sortColumn" class="modal-search-btn" data-value="3">
-                                <div>Last Updated</div>
-                            </div>
-                            <div name="sortColumn" class="modal-search-btn" data-value="3" data-desc="true">
-                                <div>Recently Updated</div>
-                            </div>
-                        </c:otherwise>
-                    </c:choose>
+    <c:if test="${path ne 'commits'}">
+        <!-- Button trigger modal -->
+        <button id="sortColumn-btn" type="button" class="btn bg-white-hover-blue br-dark-blue min-size"
+                data-toggle="modal"
+                data-target="#sortColumnModal">
+            Sort
+        </button>
+        <!-- Modal -->
+        <div id="sortColumnModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="sortColumnModalLabel">
+            <div class="modal-dialog sortColumn" role="document">
+                <div id="sortColumnModalContent" class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Select Order</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <c:choose>
+                            <c:when test="${path eq 'labels'}">
+                                <div name="sortColumn" class="modal-search-btn" data-value="1">
+                                    <i class="fas fa-check selectChecksortColumn"></i>
+                                    <div>Alphabetically</div>
+                                </div>
+                                <div name="sortColumn" class="modal-search-btn" data-value="1" data-desc="true">
+                                    <div>Reverse Alphabetically</div>
+                                </div>
+                                <div name="sortColumn" class="modal-search-btn" data-value="4" data-desc="true">
+                                    <div>Most Issues</div>
+                                </div>
+                                <div name="sortColumn" class="modal-search-btn" data-value="4">
+                                    <div>Fewest Issues</div>
+                                </div>
+                            </c:when>
+                            <c:otherwise>
+                                <div name="sortColumn" class="modal-search-btn" data-value="1">
+                                    <i class="fas fa-check selectChecksortColumn"></i>
+                                    <div>name</div>
+                                </div>
+                                <div name="sortColumn" class="modal-search-btn" data-value="2" data-desc="true">
+                                    <div>Newest</div>
+                                </div>
+                                <div name="sortColumn" class="modal-search-btn" data-value="2">
+                                    <div>Oldest</div>
+                                </div>
+                                <div name="sortColumn" class="modal-search-btn" data-value="3">
+                                    <div>Last Updated</div>
+                                </div>
+                                <div name="sortColumn" class="modal-search-btn" data-value="3" data-desc="true">
+                                    <div>Recently Updated</div>
+                                </div>
+                            </c:otherwise>
+                        </c:choose>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    </c:if>
     <%-- ----------- --%>
 </div>
 <script>
