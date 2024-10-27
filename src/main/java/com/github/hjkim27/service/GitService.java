@@ -27,7 +27,7 @@ public class GitService {
     private final GhCommentMapper commentMapper;
     private final GhCommitMapper commitMapper;
     private final GhEventMapper eventMapper;
-    private final GHOwnerInfoMapper ownerInfoMapper;
+    private final GhOwnerInfoMapper ownerInfoMapper;
 
     /**
      * <pre>

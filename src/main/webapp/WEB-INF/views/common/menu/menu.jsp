@@ -19,9 +19,17 @@
             data-path="repositories" data-type="main">
         Repositories
     </button>
+    <button id="menu-commits" class="bg-white-hover-blue border-none menu-button"
+            data-path="commits" data-type="sub">
+        Commits
+    </button>
     <button id="menu-issues" class="bg-white-hover-blue border-none menu-button"
             data-path="issues" data-type="sub">
         Issues
+    </button>
+    <button id="menu-pulls" class="bg-white-hover-blue border-none menu-button"
+            data-path="pulls" data-type="sub">
+        Pull requests
     </button>
     <button id="menu-labels" class="bg-white-hover-blue border-none menu-button"
             data-path="labels" data-type="sub">
@@ -51,7 +59,7 @@
     $('button').on('click', function () {
         var path = $(this).data('path');
         // [2024-09-23] data-type 이 sub 일 경우에만 repositorySid 를 넘기도록 추가
-        var url = '${contextPath}/projectRepository/' + path;
+        var url = '${contextPath}/ghRepository/' + path;
         if($(this).data('type') === 'sub'){
             var repositorySid = getStorage('repositorySid');
             url += '?repositorySid=' + repositorySid;

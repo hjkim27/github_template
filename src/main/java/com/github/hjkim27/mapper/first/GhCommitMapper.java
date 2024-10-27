@@ -1,7 +1,11 @@
 package com.github.hjkim27.mapper.first;
 
 import com.github.hjkim27.bean.dto.project.GhCommitDTO;
+import com.github.hjkim27.bean.search.GhDetailSearch;
+import com.github.hjkim27.bean.search.GhSearch;
 import org.apache.ibatis.annotations.Mapper;
+
+import java.util.List;
 
 @Mapper
 public interface GhCommitMapper {
@@ -37,4 +41,21 @@ public interface GhCommitMapper {
      */
     Boolean isExistRow(GhCommitDTO ghCommitDTO);
 
+    /**
+     * <pre>
+     *     commit list 조회
+     * </pre>
+     *
+     * @return ghCommit 목록
+     */
+    List<GhCommitDTO> getList(GhSearch search);
+
+    /**
+     * <pre>
+     *     commit 조회
+     * </pre>
+     *
+     * @return
+     */
+    GhCommitDTO getItem(GhDetailSearch search);
 }

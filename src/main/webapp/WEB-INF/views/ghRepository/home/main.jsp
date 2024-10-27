@@ -15,30 +15,20 @@
 <body>
 <div class="">
     <!-- header Start -->
-    <jsp:include page="../common/header.jsp"/>
+    <jsp:include page="../../common/header.jsp"/>
     <!-- header End -->
 
     <div class="grid-gap-10" style="grid-template-columns: 150px auto 150px;">
         <!-- menu Start  -->
-        <jsp:include page="../common/menu/menu.jsp"/>
+        <jsp:include page="../../common/menu/menu.jsp"/>
         <!-- menu End -->
 
         <!-- container Start -->
         <div id="container-body" class="wrapper">
             <div id="menuArea" class="list-area">
-                <c:if test="${path ne 'home'}">
-                    <c:choose>
-                        <c:when test="${multiType}">
-                            <jsp:include page="common/searchAreaMultiType.jsp"/>
-                        </c:when>
-                        <c:otherwise>
-                            <jsp:include page="common/searchArea.jsp"/>
-                        </c:otherwise>
-                    </c:choose>
-                </c:if>
                 <%-- ajax 검색 결과 --%>
                 <div id="ajax-container">
-                    <jsp:include page="ajax/${path}.jsp"/>
+                    <jsp:include page="./list.jsp"/>
                 </div>
             </div>
         </div>

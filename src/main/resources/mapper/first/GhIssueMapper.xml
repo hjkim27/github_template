@@ -51,8 +51,8 @@
     </select>
 
     <!-- issue 목록 조회 -->
-    <select id="getList" parameterType="com.github.hjkim27.bean.search.ProjectSearch" resultType="com.github.hjkim27.bean.dto.project.GhIssueDTO">
-        select i.issue_number, i.title, i.body, i.state, i.pull_request, i.locked , i.created_at, i.updated_at, i.label_ids
+    <select id="getList" parameterType="com.github.hjkim27.bean.search.GhSearch" resultType="com.github.hjkim27.bean.dto.project.GhIssueDTO">
+        select i.sid, i.issue_number, i.title, i.body, i.state, i.pull_request, i.locked , i.created_at, i.updated_at, i.label_ids
              , r.full_name as repositry_full_name
         from gh_issue i left join ( select sid, full_name from gh_repository ) r on i.repository_sid = r.sid
         <trim prefix="where" prefixOverrides="and|or">
@@ -60,17 +60,18 @@
             <if test="searchValue != null and searchValue != ''">
                 and title like '%'||#{searchValue}||'%'
             </if>
+            <if test="searchType != null and searchType != -1">
+                <if test="searchType == 0">and pull_request = false</if>
+                <if test="searchType == 1">and pull_request = true</if>
+            </if>
             <!-- 검색 조건 추가: issue 상태값 조회(open, closed, pull_request) -->
             <trim>
                 <foreach collection="searchValueList" item="item" open="and (" separator="or" close=")">
-                    <if test="item == 'is:pr'">
-                        pull_request = true
-                    </if>
                     <if test="item == 'is:open'">
-                        (pull_request = false and state = 'OPEN')
+                        state = 'OPEN'
                     </if>
                     <if test="item == 'is:closed'">
-                        (pull_request = false and state = 'CLOSED')
+                        state = 'CLOSED'
                     </if>
                 </foreach>
             </trim>
@@ -107,5 +108,9 @@
             where repository_sid = #{repositorySid}
             group by pull_request, state
             ) aa
+    </select>
+
+    <select id="getItem" parameterType="com.github.hjkim27.bean.search.GhDetailSearch" resultType="com.github.hjkim27.bean.dto.project.GhIssueDTO">
+        select * from gh_issue where sid = #{sid}
     </select>
 </mapper>

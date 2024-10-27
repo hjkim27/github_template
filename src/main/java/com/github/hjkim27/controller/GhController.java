@@ -1,7 +1,7 @@
 package com.github.hjkim27.controller;
 
 import com.github.hjkim27.bean.dto.project.GhLabelDTO;
-import com.github.hjkim27.bean.search.ProjectSearch;
+import com.github.hjkim27.bean.search.GhSearch;
 import com.github.hjkim27.config.GeneralConfig;
 import com.github.hjkim27.service.ProjectService;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +23,7 @@ import java.util.Map;
 @Slf4j
 @Controller
 @RequiredArgsConstructor
-public class RepositoryController {
+public class GhController {
 
     private final ProjectService projectService;
 
@@ -37,40 +37,17 @@ public class RepositoryController {
      * @param path
      * @return
      */
-    @RequestMapping(value = "/projectRepository/{path}")
+    @RequestMapping(value = "/ghRepository/{path}")
     public ModelAndView projectSelectMenu(HttpServletRequest request, HttpServletResponse response
             , @PathVariable(required = false) String path
-            , @ModelAttribute(name = "search") ProjectSearch search) throws Exception {
+            , @ModelAttribute(name = "search") GhSearch search) throws Exception {
         log.info(GeneralConfig.START);
         log.debug("search : {}", search);
-        ModelAndView mav = new ModelAndView("projectRepository/main");
-
-        switch (path) {
-            case "home":
-                mav.addAllObjects(home());
-                break;
-            case "repositories":
-                search.setSortColumn(1);
-                mav.addAllObjects(repositories(search));
-                break;
-            case "issues":
-                search.setDesc(true);
-                search.setSortColumn(2);
-                mav.addAllObjects(issues(search));
-                break;
-            case "labels":
-                search.setSortColumn(4);
-                mav.addAllObjects(labels(search));
-                break;
-            case "settings":
-                mav.addAllObjects(settings());
-                break;
-            default:
-                throw new Exception("does not exist path!!!");
+        ModelAndView mav = new ModelAndView("ghRepository/" + path + "/main");
+        if (path.equals("pulls")) {
+            mav = new ModelAndView("ghRepository/issues/main");
         }
-
-        mav.addObject("path", path);
-        mav.addObject("search", search);
+        mav.addAllObjects(projectAjax(request, response, path, search).getModel());
         return mav;
     }
 
@@ -87,26 +64,35 @@ public class RepositoryController {
      * @throws Exception
      */
     @ResponseBody
-    @RequestMapping(value = "/projectRepository/ajax/{path}")
+    @RequestMapping(value = "/ghRepository/ajax/{path}")
     public ModelAndView projectAjax(HttpServletRequest request, HttpServletResponse response
             , @PathVariable(required = false) String path
-            , @ModelAttribute(name = "search") ProjectSearch search) throws Exception {
+            , @ModelAttribute(name = "search") GhSearch search) throws Exception {
         log.info(GeneralConfig.START);
         log.debug("search : {}", search);
-        ModelAndView mav = new ModelAndView("projectRepository/ajax/" + path);
+        ModelAndView mav = new ModelAndView("ghRepository/" + path + "/list");
 
         switch (path) {
             case "home":
                 mav.addAllObjects(home());
                 break;
             case "repositories":
+                search.setSortColumn(1);
                 mav.addAllObjects(repositories(search));
                 break;
             case "issues":
+            case "pulls":
+                mav = new ModelAndView("ghRepository/issues/list");
+                search.setDesc(true);
+                search.setSortColumn(2);
                 mav.addAllObjects(issues(search));
                 break;
             case "labels":
+                search.setSortColumn(1);
                 mav.addAllObjects(labels(search));
+                break;
+            case "commits":
+                mav.addAllObjects(commits(search));
                 break;
             case "settings":
                 mav.addAllObjects(settings());
@@ -133,7 +119,7 @@ public class RepositoryController {
      * @param search
      * @return
      */
-    public Map<String, Object> repositories(ProjectSearch search) {
+    public Map<String, Object> repositories(GhSearch search) {
         Map<String, Object> map = new HashMap<>();
         map.put("list", projectService.getRepoList(search));
         map.put("filterType", true);    // [2024-09-19] filterType 검색 사용여부 추가
@@ -148,7 +134,7 @@ public class RepositoryController {
      * @param search
      * @return
      */
-    public Map<String, Object> issues(ProjectSearch search) {
+    public Map<String, Object> issues(GhSearch search) {
 
         // [2024-10-11] state 검색관련 추가
         // issue state, pull_request 여부를 추가 확인하기 위해 searchValue 가공
@@ -159,7 +145,13 @@ public class RepositoryController {
             List<String> list = new ArrayList<>();
             for (String s : arr) {
                 if (s.contains("is:")) {
-                    list.add(s);
+                    if (s.contains("pulls")) {
+                        search.setSearchType(1);
+                    } else if (s.contains("issues")) {
+                        search.setSearchType(0);
+                    } else {
+                        list.add(s);
+                    }
                 } else {
                     valueNew = s;
                 }
@@ -173,7 +165,7 @@ public class RepositoryController {
 
         // sortColumn 값을 issue, label 조회 시 동일하게 사용하면서 에러 발생.
         // 별도 search 객체를 사용하도록 수정
-        List<GhLabelDTO> labelList = projectService.getLabelList(new ProjectSearch(search.getRepositorySid()));
+        List<GhLabelDTO> labelList = projectService.getLabelList(new GhSearch(search.getRepositorySid()));
         map.put("labelList", labelList);
         map.put("labels", projectService.getLabelMap(labelList));
 
@@ -181,12 +173,38 @@ public class RepositoryController {
         map.put("issueCount", projectService.issueStateCount(search.getRepositorySid()));
 
         map.put("multiType", true); // 다중검색 기능을 사용하고자 할 경우 추가
+
+        search.setSearchValue(value);
+        map.put("search", search);
         return map;
     }
 
-    public Map<String, Object> labels(ProjectSearch search) {
+    /**
+     * <pre>
+     *     label 검색 결과
+     * </pre>
+     *
+     * @param search
+     * @return
+     */
+    public Map<String, Object> labels(GhSearch search) {
         Map<String, Object> map = new HashMap<>();
         map.put("list", projectService.getLabelList(search));
+        return map;
+    }
+
+    /**
+     * <pre>
+     *     commit 목록 조회
+     *     FIXME 정렬기능 제거(정렬은 시간순으로 고정, 검색 유지)
+     * </pre>
+     *
+     * @param search
+     * @return
+     */
+    public Map<String, Object> commits(GhSearch search) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("list", projectService.getCommits(search));
         return map;
     }
 

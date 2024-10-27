@@ -1,7 +1,8 @@
 package com.github.hjkim27.mapper.first;
 
 import com.github.hjkim27.bean.dto.project.GhIssueDTO;
-import com.github.hjkim27.bean.search.ProjectSearch;
+import com.github.hjkim27.bean.search.GhDetailSearch;
+import com.github.hjkim27.bean.search.GhSearch;
 import org.apache.ibatis.annotations.MapKey;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -55,7 +56,7 @@ public interface GhIssueMapper {
      *
      * @return 프로젝트에 속한 issue 목록
      */
-    List<GhIssueDTO> getList(ProjectSearch search);
+    List<GhIssueDTO> getList(GhSearch search);
 
 
     /**
@@ -69,4 +70,15 @@ public interface GhIssueMapper {
      */
     @MapKey("key")
     List<Map<String, Integer>> issueStateCount(Integer repositorySid);
+
+
+    /**
+     * <pre>
+     *     issue 조회
+     * </pre>
+     * @param search
+     * @return
+     */
+    GhIssueDTO getItem(GhDetailSearch search);
+
 }
