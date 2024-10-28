@@ -130,30 +130,6 @@
         }
     })
 
-    function search() {
-        let search = {
-            searchValue: $('#searchValue').val(),
-            sortColumn: $('#sortColumn').val() * 1,
-            filterTypeList: Array.from(filterTypeSet),   // 다중 검색을 위한 list 전달
-            desc: $('#desc').val(),
-            repositorySid: getStorage('repositorySid')
-        };
-
-        $.ajax({
-            type: "post",
-            url: '${contextPath}/ghRepository/ajax/${path}',
-            data: search,
-            success: function (result) {
-                $('#ajax-container').html(result);
-                // type, sort 검색 후 modal 을 닫기위함
-                $('.close').click();
-            },
-            error: function (e) {
-                console.log(e);
-            }
-        })
-    }
-
     // UI 화면이 변경되었을 경우에도 modal 을 제위치에 출력하기 위해...
     setInterval(() => {
         setModalPosition('filterType');
