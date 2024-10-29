@@ -36,6 +36,7 @@
         </div>
     </c:forEach>
 </c:if>
+<jsp:include page="../common/pagination.jsp"/>
 
 <script>
     // commit title 클릭 시 body 를 show/hide 처리

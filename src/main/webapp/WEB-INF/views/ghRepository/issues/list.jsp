@@ -55,6 +55,7 @@
         </div>
     </c:forEach>
 </c:if>
+<jsp:include page="../common/pagination.jsp"/>
 <script>
     $('span[name="label"]').each(function () {
         let item = $(this);

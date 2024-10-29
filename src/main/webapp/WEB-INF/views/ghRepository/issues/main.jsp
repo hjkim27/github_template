@@ -31,7 +31,6 @@
                 <div id="ajax-container">
                     <jsp:include page="./list.jsp"/>
                 </div>
-                <jsp:include page="../common/pagination.jsp"/>
             </div>
         </div>
         <!-- container End -->

@@ -36,7 +36,7 @@
         </div>
     </c:forEach>
 </c:if>
-
+<jsp:include page="../common/pagination.jsp"/>
 <script>
     // [2024-09-16] repository 에 해당하는 issue 만 보여지도록 하는 함수
     function openRepo(sid){

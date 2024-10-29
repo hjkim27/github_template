@@ -53,7 +53,7 @@
 
     // 검색 함수 분리
     // 단일/다중 타입 검색에 대해 공통으로 사용할 수 있게 함
-    function search() {
+    function search(pageNum) {
         let search = {
             searchValue: $('#searchValue').val(),
             filterType: $('#filterType').val(),
@@ -63,8 +63,13 @@
         }
 
         // 다중 검색을 위한 list 전달
-        if (${multiType}) {
+        if (${multiType != null and multiType}) {
             search['filterTypeList'] = Array.from(filterTypeSet);
+        }
+
+        // 검색 페이지 추가
+        if (pageNum !== undefined && pageNum != null && Number.isInteger(pageNum)) {
+            search['pageNum'] = pageNum;
         }
 
         $.ajax({

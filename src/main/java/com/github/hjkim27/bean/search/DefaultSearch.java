@@ -24,6 +24,9 @@ public class DefaultSearch {
     private Integer pageSize = 10;
     private int totalSize = 0;
 
+    // 페이징 버튼 최대 출력 길이 제한
+    private Integer pageInterval = 5;
+
     private String startDate;
     private String endDate;
 
@@ -47,7 +50,7 @@ public class DefaultSearch {
     }
 
     public int getMinPage() {
-        return ((pageNum - 1) / pageSize) * pageSize + 1;
+        return ((pageNum - 1) / pageInterval) * pageInterval + 1;
     }
 
     public int getLastPage() {
