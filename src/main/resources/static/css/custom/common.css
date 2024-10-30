@@ -35,6 +35,13 @@ html, body {
     font-size: 15px;
 }
 
+.full-div {
+    height: 100%;
+    width: 100%;
+    display: grid;
+    grid-template-rows: 60px auto;
+}
+
 input, button {
     width: 100%;
     padding: 0 10px;
