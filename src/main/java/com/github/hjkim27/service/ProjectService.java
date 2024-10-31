@@ -6,6 +6,7 @@ import com.github.hjkim27.bean.dto.project.GhLabelDTO;
 import com.github.hjkim27.bean.dto.project.GhRepositoryDTO;
 import com.github.hjkim27.bean.search.GhDetailSearch;
 import com.github.hjkim27.bean.search.GhSearch;
+import com.github.hjkim27.config.GeneralConfig;
 import com.github.hjkim27.mapper.first.GhCommitMapper;
 import com.github.hjkim27.mapper.first.GhIssueMapper;
 import com.github.hjkim27.mapper.first.GhLabelMapper;
@@ -14,10 +15,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -82,6 +80,27 @@ public class ProjectService {
     public List<GhCommitDTO> getCommits(GhSearch search) {
         List<GhCommitDTO> list = commitMapper.getList(search);
         return (list.size() == 0) ? Collections.emptyList() : list;
+    }
+
+    /**
+     * <pre>
+     *     commit 목록 형식 변경
+     * </pre>
+     *
+     * @param search
+     * @return
+     */
+    public LinkedHashMap<String, List<GhCommitDTO>> getCommitsGroupDate(GhSearch search) {
+        List<GhCommitDTO> list = getCommits(search);
+        LinkedHashMap<String, List<GhCommitDTO>> map = new LinkedHashMap<>();
+        List<GhCommitDTO> dtos = new ArrayList<>();
+        for (GhCommitDTO dto : list) {
+            String key = GeneralConfig.monthDay_yearFormat.format(dto.getCommitDate());
+            dtos = (map.containsKey(key)) ? map.get(key) : new ArrayList<>();
+            dtos.add(dto);
+            map.put(key, dtos);
+        }
+        return map;
     }
 
     public int getCommitTotalCount(GhSearch search) {

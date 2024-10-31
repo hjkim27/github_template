@@ -200,7 +200,7 @@ public class GhController {
     /**
      * <pre>
      *     commit 목록 조회
-     *     FIXME 정렬기능 제거(정렬은 시간순으로 고정, 검색 유지)
+     *     [2024-11-01] 같은날 commit 한 내용끼리 묶기 위해 list 형식 수정
      * </pre>
      *
      * @param search
@@ -210,7 +210,7 @@ public class GhController {
         Map<String, Object> map = new HashMap<>();
         search.setTotalSize(projectService.getCommitTotalCount(search));
         map.put("search", search);
-        map.put("list", projectService.getCommits(search));
+        map.put("list", projectService.getCommitsGroupDate(search));
         return map;
     }
 

@@ -46,4 +46,11 @@ public class GeneralConfig {
      * </pre>
      */
     public static SimpleDateFormat yyyyMMddFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+    /**
+     * <pre>
+     *     month day, year
+     * </pre>
+     */
+    public static SimpleDateFormat monthDay_yearFormat = new SimpleDateFormat("M dd,yyyy");
 }
