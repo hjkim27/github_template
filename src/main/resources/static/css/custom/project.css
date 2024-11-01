@@ -45,3 +45,38 @@ input, select {
     font-size: 12px;
     text-align: right;
 }
+
+/* 페이징 관련 css START */
+.page {
+    border: 1px solid var(--gray-scale-4);
+    width: 30px;
+    text-align: center;
+    padding: 5px;
+    border-radius: 2px;
+}
+
+.page-area {
+    display: flex;
+    justify-content: center;
+}
+
+.current-page {
+    background-color: var(--blue-scale-7);
+}
+
+/* 페이징 관련 css END */
+
+/* commit페이지 목록 css START */
+.commit-block {
+    border-radius: 5px;
+    border: 1px solid var(--gray-scale-6);
+    margin: 10px 0;
+}
+
+.vertical-line {
+    background-color: var(--blue-scale-5);
+    margin-left: 5px;
+    width: 3px;
+}
+
+/* commit페이지 목록 css END */

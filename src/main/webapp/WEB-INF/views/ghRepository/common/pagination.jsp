@@ -43,21 +43,3 @@
 <div>
     - ${search.pageNum} -
 </div>
-<style>
-    .page {
-        border: 1px solid var(--gray-scale-4);
-        width: 30px;
-        text-align: center;
-        padding: 5px;
-        border-radius: 2px;
-    }
-
-    .page-area {
-        display: flex;
-        justify-content: center;
-    }
-
-    .current-page {
-        background-color: var(--blue-scale-7);
-    }
-</style>
