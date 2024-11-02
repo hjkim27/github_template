@@ -77,14 +77,11 @@ public class GhController {
                 mav.addAllObjects(home());
                 break;
             case "repositories":
-                search.setSortColumn(1);
                 mav.addAllObjects(repositories(search));
                 break;
             case "issues":
             case "pulls":
                 mav = new ModelAndView("ghRepository/issues/list");
-                search.setDesc(true);
-                search.setSortColumn(2);
                 mav.addAllObjects(issues(search));
                 break;
             case "labels":
