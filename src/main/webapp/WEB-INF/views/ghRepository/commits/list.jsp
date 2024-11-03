@@ -48,7 +48,9 @@
         </div>
     </c:forEach>
 </c:if>
-<jsp:include page="../common/pagination.jsp"/>
+<div style="grid-column: 1/3">
+    <jsp:include page="../common/pagination.jsp"/>
+</div>
 
 <script>
     // commit title 클릭 시 body 를 show/hide 처리

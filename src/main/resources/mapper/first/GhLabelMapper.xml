@@ -63,6 +63,8 @@
             </choose>
             <if test="desc">desc</if>
         </if>
+         <if test="limit != null">limit #{limit}</if>
+        <if test="offset != null">offset #{offset}</if>
     </select>
 
     <!-- 조건에 맞는 total count 조회 -->
