@@ -6,6 +6,7 @@ import com.github.hjkim27.bean.dto.project.GhLabelDTO;
 import com.github.hjkim27.bean.dto.project.GhRepositoryDTO;
 import com.github.hjkim27.bean.search.GhDetailSearch;
 import com.github.hjkim27.bean.search.GhSearch;
+import com.github.hjkim27.config.GeneralConfig;
 import com.github.hjkim27.mapper.first.GhCommitMapper;
 import com.github.hjkim27.mapper.first.GhIssueMapper;
 import com.github.hjkim27.mapper.first.GhLabelMapper;
@@ -14,10 +15,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -34,14 +32,26 @@ public class ProjectService {
         return (list.size() == 0) ? null : list;
     }
 
+    public int getRepoTotalCount(GhSearch search) {
+        return repositoryMapper.getTotalCount(search);
+    }
+
     public List<GhIssueDTO> getIssueList(GhSearch search) {
         List<GhIssueDTO> list = issueMapper.getList(search);
         return (list.size() == 0) ? null : list;
     }
 
+    public int getIssueTotalCount(GhSearch search) {
+        return issueMapper.getTotalCount(search);
+    }
+
     public List<GhLabelDTO> getLabelList(GhSearch search) {
         List<GhLabelDTO> list = labelMapper.getList(search);
         return (list.size() == 0) ? Collections.emptyList() : list;
+    }
+
+    public int getLabelTotalCount(GhSearch search) {
+        return labelMapper.getTotalCount(search);
     }
 
     public Map<Long, GhLabelDTO> getLabelMap(GhSearch search) {
@@ -72,8 +82,29 @@ public class ProjectService {
         return (list.size() == 0) ? Collections.emptyList() : list;
     }
 
-    public GhCommitDTO getCommit(GhDetailSearch search) {
-        return commitMapper.getItem(search);
+    /**
+     * <pre>
+     *     commit 목록 형식 변경
+     * </pre>
+     *
+     * @param search
+     * @return
+     */
+    public LinkedHashMap<String, List<GhCommitDTO>> getCommitsGroupDate(GhSearch search) {
+        List<GhCommitDTO> list = getCommits(search);
+        LinkedHashMap<String, List<GhCommitDTO>> map = new LinkedHashMap<>();
+        List<GhCommitDTO> dtos = new ArrayList<>();
+        for (GhCommitDTO dto : list) {
+            String key = GeneralConfig.monthDay_yearFormat.format(dto.getCommitDate());
+            dtos = (map.containsKey(key)) ? map.get(key) : new ArrayList<>();
+            dtos.add(dto);
+            map.put(key, dtos);
+        }
+        return map;
+    }
+
+    public int getCommitTotalCount(GhSearch search) {
+        return commitMapper.getTotalCount(search);
     }
 
     public GhIssueDTO getIssue(GhDetailSearch search) {

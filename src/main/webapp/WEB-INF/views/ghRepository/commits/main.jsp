@@ -11,9 +11,11 @@
 <html>
 <head>
     <title>hjkim27.github</title>
+    <%-- search 페이지를 사용하지 않아 별도 import 추가 --%>
+    <link rel="stylesheet" type="text/css" href="${contextPath}/static/css/custom/project.css">
 </head>
 <body>
-<div class="">
+<div class="full-div">
     <!-- header Start -->
     <jsp:include page="../../common/header.jsp"/>
     <!-- header End -->
@@ -26,7 +28,7 @@
         <!-- container Start -->
         <div id="container-body" class="wrapper">
             <div id="menuArea" class="list-area">
-                <jsp:include page="../common/searchArea.jsp"/>
+                <%-- commit 목록의 경우 별도 검색을 사용하지 않음.>> 제거 --%>
                 <%-- ajax 검색 결과 --%>
                 <div id="ajax-container">
                     <jsp:include page="./list.jsp"/>
@@ -42,3 +44,11 @@
 </script>
 </body>
 </html>
+
+<%-- commit 목록에서만 사용하는 css 로 별도 css 파일로 분리하지 않았음 --%>
+<style>
+    #ajax-container {
+        display: grid;
+        grid-template-columns: 30px auto;
+    }
+</style>

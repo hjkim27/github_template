@@ -13,7 +13,7 @@
     <title>hjkim27.github</title>
 </head>
 <body>
-<div class="">
+<div class="full-div">
     <!-- header Start -->
     <jsp:include page="../../common/header.jsp"/>
     <!-- header End -->
@@ -39,6 +39,9 @@
 <script>
     /* header 선택에 따른 css 추가 */
     $('#menu-' + '${path}').css('border-bottom', '3px solid var(--point-color-light)');
+
+    // init order 설정 - 최근수정순 정렬
+    $('[data-value="3"]').trigger('click');
 </script>
 </body>
 </html>

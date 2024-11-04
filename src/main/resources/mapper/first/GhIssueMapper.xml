@@ -55,6 +55,31 @@
         select i.sid, i.issue_number, i.title, i.body, i.state, i.pull_request, i.locked , i.created_at, i.updated_at, i.label_ids
              , r.full_name as repositry_full_name
         from gh_issue i left join ( select sid, full_name from gh_repository ) r on i.repository_sid = r.sid
+        <!-- where 별도 sql 분리 : count/list 중복 사용 -->
+        <include refid="where"/>
+
+        <if test="sortColumn != null and sortColumn != -1">
+            order by
+            <choose>
+                <when test="sortColumn == 1">repository_full_name</when>
+                <when test="sortColumn == 2">created_at</when>
+                <when test="sortColumn == 3">updated_at</when>
+            </choose>
+            <if test="desc">desc</if>
+        </if>
+        <if test="limit != null">limit #{limit}</if>
+        <if test="offset != null">offset #{offset}</if>
+    </select>
+
+    <!-- 조건에 맞는 total count 조회 -->
+    <select id="getTotalCount" parameterType="com.github.hjkim27.bean.search.GhSearch" resultType="int">
+        select count(*)
+        from gh_issue i left join ( select sid, full_name from gh_repository ) r on i.repository_sid = r.sid
+        <include refid="where"/>
+    </select>
+
+    <!-- 검색 조건 분리 -->
+    <sql id="where">
         <trim prefix="where" prefixOverrides="and|or">
             r.sid = #{repositorySid}
             <if test="searchValue != null and searchValue != ''">
@@ -82,16 +107,7 @@
                 </foreach>
             </if>
         </trim>
-        <if test="sortColumn != null and sortColumn != -1">
-            order by
-            <choose>
-                <when test="sortColumn == 1">repository_full_name</when>
-                <when test="sortColumn == 2">created_at</when>
-                <when test="sortColumn == 3">updated_at</when>
-            </choose>
-            <if test="desc">desc</if>
-        </if>
-    </select>
+    </sql>
 
     <!-- issue count -->
     <select id="issueStateCount" parameterType="Integer" resultType="map">

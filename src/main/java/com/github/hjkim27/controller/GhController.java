@@ -77,14 +77,11 @@ public class GhController {
                 mav.addAllObjects(home());
                 break;
             case "repositories":
-                search.setSortColumn(1);
                 mav.addAllObjects(repositories(search));
                 break;
             case "issues":
             case "pulls":
                 mav = new ModelAndView("ghRepository/issues/list");
-                search.setDesc(true);
-                search.setSortColumn(2);
                 mav.addAllObjects(issues(search));
                 break;
             case "labels":
@@ -102,7 +99,6 @@ public class GhController {
         }
 
         mav.addObject("path", path);
-        mav.addObject("search", search);
         return mav;
     }
 
@@ -121,6 +117,8 @@ public class GhController {
      */
     public Map<String, Object> repositories(GhSearch search) {
         Map<String, Object> map = new HashMap<>();
+        search.setTotalSize(projectService.getRepoTotalCount(search));
+        map.put("search", search);
         map.put("list", projectService.getRepoList(search));
         map.put("filterType", true);    // [2024-09-19] filterType 검색 사용여부 추가
         return map;
@@ -161,6 +159,7 @@ public class GhController {
         }
 
         Map<String, Object> map = new HashMap<>();
+        search.setTotalSize(projectService.getIssueTotalCount(search));
         map.put("list", projectService.getIssueList(search));
 
         // sortColumn 값을 issue, label 조회 시 동일하게 사용하면서 에러 발생.
@@ -189,6 +188,8 @@ public class GhController {
      */
     public Map<String, Object> labels(GhSearch search) {
         Map<String, Object> map = new HashMap<>();
+        search.setTotalSize(projectService.getLabelTotalCount(search));
+        map.put("search", search);
         map.put("list", projectService.getLabelList(search));
         return map;
     }
@@ -196,7 +197,7 @@ public class GhController {
     /**
      * <pre>
      *     commit 목록 조회
-     *     FIXME 정렬기능 제거(정렬은 시간순으로 고정, 검색 유지)
+     *     [2024-11-01] 같은날 commit 한 내용끼리 묶기 위해 list 형식 수정
      * </pre>
      *
      * @param search
@@ -204,7 +205,9 @@ public class GhController {
      */
     public Map<String, Object> commits(GhSearch search) {
         Map<String, Object> map = new HashMap<>();
-        map.put("list", projectService.getCommits(search));
+        search.setTotalSize(projectService.getCommitTotalCount(search));
+        map.put("search", search);
+        map.put("list", projectService.getCommitsGroupDate(search));
         return map;
     }
 

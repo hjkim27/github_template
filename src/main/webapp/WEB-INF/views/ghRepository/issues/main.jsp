@@ -13,7 +13,7 @@
     <title>hjkim27.github</title>
 </head>
 <body>
-<div class="">
+<div class="full-div">
     <!-- header Start -->
     <jsp:include page="../../common/header.jsp"/>
     <!-- header End -->
@@ -41,8 +41,8 @@
     $('#menu-' + '${path}').css('border-bottom', '3px solid var(--point-color-light)');
 
     /* [2024-10-12] issue 검색 시 기본적으로 open 된 issue 만 조회하도록 추가 */
-    $(document).ready(function(){
-        $('div').find('[data-value="is:open"]').click();
+    $(document).ready(function () {
+        stateClick('is:open', $('div').find('[data-value="is:open"]'))
     })
 </script>
 </body>

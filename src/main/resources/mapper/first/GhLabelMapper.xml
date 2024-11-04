@@ -53,13 +53,8 @@
     <select id="getList" parameterType="com.github.hjkim27.bean.search.GhSearch" resultType="com.github.hjkim27.bean.dto.project.GhLabelDTO">
         select label.*, (select count(*) from gh_issue where label_ids like '%'||label.gh_id||'%') as total_count
         from gh_label label
-        <trim prefix="where" prefixOverrides="and|or">
-            repository_sid = #{repositorySid}
-            <!-- [2024-09-19] label 검색 추가 : 대소문자 구분 X -->
-            <if test="searchValue != null and searchValue != ''">
-                and (name ilike '%'||#{searchValue}||'%' or description ilike '%'||#{searchValue}||'%')
-            </if>
-        </trim>
+        <!-- where 별도 sql 분리 : count/list 중복 사용 -->
+        <include refid="where"/>
         <if test="sortColumn != null and sortColumn != -1">
             order by
             <choose>
@@ -68,5 +63,24 @@
             </choose>
             <if test="desc">desc</if>
         </if>
+         <if test="limit != null">limit #{limit}</if>
+        <if test="offset != null">offset #{offset}</if>
     </select>
+
+    <!-- 조건에 맞는 total count 조회 -->
+    <select id="getTotalCount" parameterType="com.github.hjkim27.bean.search.GhSearch" resultType="int">
+        select count(*) from gh_label
+        <include refid="where"/>
+    </select>
+
+    <!-- 검색 조건 분리 -->
+    <sql id="where">
+        <trim prefix="where" prefixOverrides="and|or">
+            repository_sid = #{repositorySid}
+            <!-- [2024-09-19] label 검색 추가 : 대소문자 구분 X -->
+            <if test="searchValue != null and searchValue != ''">
+                and (name ilike '%'||#{searchValue}||'%' or description ilike '%'||#{searchValue}||'%')
+            </if>
+        </trim>
+    </sql>
 </mapper>

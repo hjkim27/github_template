@@ -24,13 +24,14 @@ public class DefaultSearch {
     private Integer pageSize = 10;
     private int totalSize = 0;
 
+    // 페이징 버튼 최대 출력 길이 제한
+    private Integer pageInterval = 5;
+
     private String startDate;
     private String endDate;
 
     private int sortColumn = -1;
     private boolean desc = false;
-
-    private Integer pageInterval = 10;
 
     public void setPageNum(Integer pageNum) {
         if (pageNum != null && pageNum > 1)

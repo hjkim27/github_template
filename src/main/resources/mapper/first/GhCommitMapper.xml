@@ -47,12 +47,23 @@
     <!-- commit list: 정렬 고정 -->
     <select id="getList" parameterType="com.github.hjkim27.bean.search.GhSearch" resultType="com.github.hjkim27.bean.dto.project.GhCommitDTO">
         select * from gh_commit
+        <!-- where 별도 sql 분리 : count/list 중복 사용 -->
+        <include refid="where"/>
         order by commit_date desc
         <if test="limit != null">limit #{limit}</if>
         <if test="offset != null">offset #{offset}</if>
     </select>
 
-    <select id="getItem" parameterType="com.github.hjkim27.bean.search.GhDetailSearch" resultType="com.github.hjkim27.bean.dto.project.GhCommitDTO">
-        select * from gh_commit where sid = #{sid}
+    <!-- 조건에 맞는 total count 조회 -->
+    <select id="getTotalCount" parameterType="com.github.hjkim27.bean.search.GhSearch" resultType="int">
+        select count(*) from gh_commit
+        <include refid="where"/>
     </select>
+
+    <!-- 검색 조건 분리 -->
+    <sql id="where">
+        <trim prefix="where" prefixOverrides="and">
+            repository_sid = #{repositorySid}
+        </trim>
+    </sql>
 </mapper>

@@ -52,10 +52,12 @@ public interface GhCommitMapper {
 
     /**
      * <pre>
-     *     commit 조회
+     *     검색 조건에 맞는 totalCount 조회
      * </pre>
      *
+     * @param search
      * @return
      */
-    GhCommitDTO getItem(GhDetailSearch search);
+    int getTotalCount(GhSearch search);
+
 }

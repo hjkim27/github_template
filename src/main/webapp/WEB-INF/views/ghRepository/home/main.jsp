@@ -13,7 +13,7 @@
     <title>hjkim27.github</title>
 </head>
 <body>
-<div class="">
+<div class="full-div">
     <!-- header Start -->
     <jsp:include page="../../common/header.jsp"/>
     <!-- header End -->

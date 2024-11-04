@@ -56,17 +56,9 @@
 
     <select id="getList" parameterType="com.github.hjkim27.bean.search.GhSearch"
             resultType="com.github.hjkim27.bean.dto.project.GhRepositoryDTO">
-        select *
-        from gh_repository
-        <trim prefix="where" prefixOverrides="and">
-            <if test="searchValue != null and searchValue != ''">
-                and (name like '%'||#{searchValue}||'%' or description like '%'||#{searchValue}||'%')
-            </if>
-            <if test="filterType != null and filterType != ''">
-                <if test="filterType == 'private'">and gh_private = true</if>
-                <if test="filterType == 'public'">and gh_private = false</if>
-            </if>
-        </trim>
+        select * from gh_repository
+        <!-- where 별도 sql 분리 : count/list 중복 사용 -->
+        <include refid="where"/>
         <if test="sortColumn != null and sortColumn != -1">
             order by
             <choose>
@@ -80,4 +72,23 @@
         <if test="offset != null">offset #{offset}</if>
         ;
     </select>
+
+    <!-- 조건에 맞는 total count 조회 -->
+    <select id="getTotalCount" parameterType="com.github.hjkim27.bean.search.GhSearch" resultType="int">
+        select count(*) from gh_repository
+        <include refid="where"/>
+    </select>
+
+    <!-- 검색 조건 분리 -->
+    <sql id="where">
+        <trim prefix="where" prefixOverrides="and">
+            <if test="searchValue != null and searchValue != ''">
+                and (name like '%'||#{searchValue}||'%' or description like '%'||#{searchValue}||'%')
+            </if>
+            <if test="filterType != null and filterType != ''">
+                <if test="filterType == 'private'">and gh_private = true</if>
+                <if test="filterType == 'public'">and gh_private = false</if>
+            </if>
+        </trim>
+    </sql>
 </mapper>

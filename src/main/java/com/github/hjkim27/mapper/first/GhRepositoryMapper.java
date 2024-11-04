@@ -63,4 +63,14 @@ public interface GhRepositoryMapper {
      * @return repository 정보 목록
      */
     List<GhRepositoryDTO> getList(GhSearch search);
+
+    /**
+     * <pre>
+     *     검색 조건에 맞는 totalCount 조회
+     * </pre>
+     *
+     * @param search
+     * @return
+     */
+    int getTotalCount(GhSearch search);
 }
