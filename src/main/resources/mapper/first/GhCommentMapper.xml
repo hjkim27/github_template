@@ -8,10 +8,12 @@
             keyProperty="sid" keyColumn="sid" useGeneratedKeys="true">
         insert into gh_comment ( gh_id, body, parent_id, created_at, updated_at, html_url, url
                                , owner_sid
-                               , issue_sid)
+                               , issue_sid
+                               , repository_sid)
         values ( #{ghId}, #{body}, #{parentId}, #{createdAt}, #{updatedAt}, #{htmlUrl}, #{url}
                , (select sid from gh_owner_info where gh_id = #{ghOwnerId})
-               , (select sid from gh_issue where gh_id = #{ghIssueId}));
+               , (select sid from gh_issue where gh_id = #{ghIssueId})
+               , (select sid from gh_repository where gh_id = #{ghRepositoryId}));
     </insert>
 
     <!-- comment 정보 수정 -->

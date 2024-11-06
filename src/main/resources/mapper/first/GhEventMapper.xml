@@ -8,10 +8,12 @@
             keyProperty="sid" keyColumn="sid" useGeneratedKeys="true">
         insert into gh_event ( gh_id, gh_actor_login, event, commit_id, commit_url
                              , url, created_at
-                             , issue_sid)
+                             , issue_sid
+                             , repository_sid)
         values ( #{ghId}, #{ghActorLogin}, #{event}, #{commitId}, #{commitUrl}
                , #{url}, #{createdAt}
-               , (select sid from gh_issue where gh_id = #{ghIssueId}));
+               , (select sid from gh_issue where gh_id = #{ghIssueId})
+               , (select sid from gh_repository where gh_id = #{ghRepositoryId}));
     </insert>
 
     <!-- event 정보 수정 -->
