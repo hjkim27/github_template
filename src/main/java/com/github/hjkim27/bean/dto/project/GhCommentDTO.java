@@ -33,5 +33,6 @@ public class GhCommentDTO {
 
     private Integer ownerSid;
     private Integer issueSid;
+    private Long ghRepositoryId;
 
 }

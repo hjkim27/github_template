@@ -22,4 +22,5 @@ public class GhEventDTO {
 
     private Long ghIssueId;
     private Integer issueSid;
+    private Long ghRepositoryId;
 }

@@ -100,7 +100,8 @@ create table gh_event
     commit_url     character varying,        -- > commitUrl
     url            character varying,        -- > url
     created_at     timestamp with time zone, -- > createdAt
-    issue_sid      bigint                    -- > issue.id
+    issue_sid      bigint,                   -- > issue.id
+    repository_sid bigint                    -- > repository.id
 );
 
 
@@ -108,17 +109,18 @@ create table gh_event
 -- commit.owner.issues > comments
 create table gh_comment
 (
-    sid        serial,
-    gh_id      bigint unique not null,             -- > comments > id
-    body       text,                               -- > body
-    parent_id  bigint,                             -- > parent.id
-    created_at timestamp with time zone,           -- > createdAt
-    updated_at timestamp with time zone,           -- > updatedAt
-    html_url   character varying,                  -- > htmlUrl
-    url        character varying,                  -- > url
-    owner_sid  integer,                            -- > user.id
-    issue_sid  integer,                            -- commit.owner.issues > id
-    active     boolean       not null default true -- comment 삭제여부
+    sid            serial,
+    gh_id          bigint unique not null,             -- > comments > id
+    body           text,                               -- > body
+    parent_id      bigint,                             -- > parent.id
+    created_at     timestamp with time zone,           -- > createdAt
+    updated_at     timestamp with time zone,           -- > updatedAt
+    html_url       character varying,                  -- > htmlUrl
+    url            character varying,                  -- > url
+    owner_sid      integer,                            -- > user.id
+    issue_sid      integer,                            -- commit.owner.issues > id
+    repository_sid bigint,                             -- > repository.id
+    active         boolean       not null default true -- comment 삭제여부
 );
 
 

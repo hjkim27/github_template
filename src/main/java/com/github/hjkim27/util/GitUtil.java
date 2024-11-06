@@ -192,6 +192,7 @@ public class GitUtil {
                     commentDTO.setUrl(comment.getUrl().toString());
                     commentDTO.setGhOwnerId(comment.getUser().getId());
                     commentDTO.setGhIssueId(issue.getId());
+                    commentDTO.setGhRepositoryId(issue.getRepository().getId());
 
                     issueDTO.addComment(commentDTO);
                 }
@@ -207,6 +208,7 @@ public class GitUtil {
                     eventDTO.setUrl(event.getUrl());
                     eventDTO.setCreatedAt(event.getCreatedAt());
                     eventDTO.setGhIssueId(event.getIssue().getId());
+                    eventDTO.setGhRepositoryId(issue.getRepository().getId());
 
                     issueDTO.addEvent(eventDTO);
                 }
