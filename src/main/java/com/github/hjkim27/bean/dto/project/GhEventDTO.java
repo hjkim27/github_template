@@ -23,4 +23,7 @@ public class GhEventDTO {
     private Long ghIssueId;
     private Integer issueSid;
     private Long ghRepositoryId;
+
+    // event, comment 를 구분하기 위한 값.
+    private final boolean eventType = true;
 }

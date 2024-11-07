@@ -44,4 +44,8 @@
         where gh_id = #{ghId}
     </select>
 
+    <!-- 특정 issue 에 속한 목록 조회 -->
+    <select id="getList" parameterType="com.github.hjkim27.bean.search.GhDetailSearch" resultType="com.github.hjkim27.bean.dto.project.GhCommentDTO">
+        select * from gh_comment where repository_sid = #{repositorySid} and issue_sid = #{sid}
+    </select>
 </mapper>

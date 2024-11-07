@@ -1,7 +1,10 @@
 package com.github.hjkim27.mapper.first;
 
 import com.github.hjkim27.bean.dto.project.GhEventDTO;
+import com.github.hjkim27.bean.search.GhDetailSearch;
 import org.apache.ibatis.annotations.Mapper;
+
+import java.util.List;
 
 /**
  * gh_event mapper class
@@ -42,4 +45,13 @@ public interface GhEventMapper {
      * @return check Exist
      */
     Boolean isExistRow(GhEventDTO ghEventDTO);
+
+    /**
+     * <pre>
+     *     event list 조회
+     * </pre>
+     *
+     * @return ghEvent 목록
+     */
+    List<GhEventDTO> getList(GhDetailSearch search);
 }
