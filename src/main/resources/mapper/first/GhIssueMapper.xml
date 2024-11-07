@@ -61,7 +61,6 @@
         <if test="sortColumn != null and sortColumn != -1">
             order by
             <choose>
-                <when test="sortColumn == 1">repository_full_name</when>
                 <when test="sortColumn == 2">created_at</when>
                 <when test="sortColumn == 3">updated_at</when>
             </choose>
