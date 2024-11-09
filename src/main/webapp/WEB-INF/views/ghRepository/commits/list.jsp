@@ -8,6 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%-- 검색 결과가 없을 경우 --%>
 <c:if test="${list eq null}">
     <div id="clear-filter" class="repo item" style="text-align: right; padding: 15px 0;"
@@ -31,11 +32,14 @@
             <c:forEach var="item" items="${itemGroup.value}" varStatus="status">
                 <div class="repo item grid-gap-10"
                      style="margin-bottom: 10px; margin: 0; grid-column: 2">
-                    <div name="commit-title" data-id="${item.sid}" class="repo">
+                    <div name="commit-title" data-id="${item.sid}" class="repo" style="display: flex; justify-content: space-between">
+                        <div>
                             ${item.title}
-                        <c:if test="${item.body ne ''}">
-                            <i class="far fa-comment-dots"></i>
-                        </c:if>
+                            <c:if test="${item.body ne ''}">
+                                <i class="far fa-comment-dots"></i>
+                            </c:if>
+                        </div>
+                        <div>${fn:substring(item.sha, 0, 6)}</div>
                     </div>
 
                     <c:if test="${item.body ne ''}">
