@@ -8,19 +8,39 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%-- 검색 결과가 없을 경우 --%>
 <c:if test="${item eq null}">
     !
 </c:if>
 <c:if test="${item ne null}">
-        <div class="repo item grid-gap-10" style="margin-bottom: 10px; margin: 0" >
-            <div class="repo ">${item.title} #${item.issueNumber}</div>
+    <div class="repo item grid-gap-10" style="margin-bottom: 10px; margin: 0">
+        <div class="repo ">${item.title} #${item.issueNumber}</div>
             ${item.type}
-            <c:if test="${item.createdAt ne null}">
-                CreatedAt : <fmt:formatDate value="${item.createdAt}" pattern="yyyy-MM-dd hh:mm"/>
-            </c:if>
-            <div class="repo ">${item.body}</div>
-        </div>
+        <c:if test="${item.createdAt ne null}">
+            CreatedAt : <fmt:formatDate value="${item.createdAt}" pattern="yyyy-MM-dd hh:mm"/>
+        </c:if>
+        <div class="repo ">${item.body}</div>
+        <c:if test="${list ne null}">
+            <c:forEach var="mapItem" items="${list}">
+                <c:set var="obj" value="${mapItem.value}"/>
+                <c:if test="${obj.eventType}">
+                    ${obj.commitMessage}
+                    <div>
+                        <div>${obj.ghActorLogin} ${obj.createdAt}</div>
+                        <div>
+                                ${fn:substring(obj.commitId,0 ,6 )}
+                        </div>
+
+                    </div>
+
+                </c:if>
+                <c:if test="${!obj.eventType}">
+                    ${obj}
+                </c:if>
+            </c:forEach>
+        </c:if>
+    </div>
 </c:if>
 
 <button type="button" class="btn bg-white-hover-blue br-dark-blue min-size" onclick="search()">toList</button>
