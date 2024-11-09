@@ -290,7 +290,7 @@ public class GitUtil {
 
             // == commit ==
             GhCommitDTO dto = new GhCommitDTO();
-            dto.setSha(commit.getTree().getSha());
+            dto.setSha(commit.getSHA1());
             List<String> parent = commit.getParentSHA1s();
             if (parent != null && !parent.isEmpty()) {
                 dto.setParentSha(parent.get(0));
