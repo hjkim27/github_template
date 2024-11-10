@@ -30,7 +30,7 @@
             <div id="menuArea" class="list-area">
                 <%-- commit 목록의 경우 별도 검색을 사용하지 않음.>> 제거 --%>
                 <%-- ajax 검색 결과 --%>
-                <div id="ajax-container">
+                <div id="ajax-container" class="item-group">
                     <jsp:include page="./list.jsp"/>
                 </div>
             </div>
@@ -44,11 +44,3 @@
 </script>
 </body>
 </html>
-
-<%-- commit 목록에서만 사용하는 css 로 별도 css 파일로 분리하지 않았음 --%>
-<style>
-    #ajax-container {
-        display: grid;
-        grid-template-columns: 30px auto;
-    }
-</style>
