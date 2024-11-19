@@ -20,25 +20,29 @@
         <c:if test="${item.createdAt ne null}">
             CreatedAt : <fmt:formatDate value="${item.createdAt}" pattern="yyyy-MM-dd hh:mm"/>
         </c:if>
-        <div class="repo ">${item.body}</div>
+        <div class="repo">${item.body}</div>
         <c:if test="${list ne null}">
-            <c:forEach var="mapItem" items="${list}">
-                <c:set var="obj" value="${mapItem.value}"/>
-                <c:if test="${obj.eventType}">
-                    ${obj.commitMessage}
-                    <div>
-                        <div>${obj.ghActorLogin} ${obj.createdAt}</div>
-                        <div>
-                                ${fn:substring(obj.commitId,0 ,6 )}
+            <div class=" item-group">
+                <c:forEach var="mapItem" items="${list}">
+                    <c:set var="obj" value="${mapItem.value}"/>
+                    <c:if test="${obj.eventType}">
+                        <div style="height: 30px; margin-top: 10px; color: var(--point-color-light)">
+                            <i class="fas fa-seedling"></i>
                         </div>
-
-                    </div>
-
-                </c:if>
-                <c:if test="${!obj.eventType}">
-                    ${obj}
-                </c:if>
-            </c:forEach>
+                        <div>
+                            <b>${obj.ghActorLogin}</b> ${obj.createdAt}
+                        </div>
+                        <div class="vertical-line"></div>
+                        <div style="min-height: 30px">
+                            <div>${obj.commitMessage}</div>
+                            <div>${fn:substring(obj.commitId,0 ,6 )}</div>
+                        </div>
+                    </c:if>
+                    <c:if test="${!obj.eventType}">
+                        ${obj}
+                    </c:if>
+                </c:forEach>
+            </div>
         </c:if>
     </div>
 </c:if>
