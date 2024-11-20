@@ -34,7 +34,8 @@
                         </div>
                         <div class="vertical-line"></div>
                         <div style="min-height: 30px">
-                            <div>${obj.commitMessage}</div>
+                            <div>${obj.title}</div>
+                            <div style="padding-left: 10px">${obj.body}</div>
                             <div>${fn:substring(obj.commitId,0 ,6 )}</div>
                         </div>
                     </c:if>

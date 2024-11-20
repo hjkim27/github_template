@@ -29,4 +29,23 @@ public class GhEventDTO {
 
     // event로 등록된 commit 의 message
     private String commitMessage;
+
+    public String getTitle() {
+        if (this.commitMessage != null) {
+            return this.commitMessage.split("\\n\\n")[0];
+        } else {
+            return "";
+        }
+    }
+
+    public String getBody() {
+        if (this.commitMessage != null) {
+            String[] arr = this.commitMessage.split("\\n\\n");
+            if (arr.length > 1) {
+                return arr[1].replaceAll("\\n", "<br>");
+            }
+        }
+        return "";
+    }
+
 }
