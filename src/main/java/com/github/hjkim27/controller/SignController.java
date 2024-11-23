@@ -7,7 +7,7 @@ import com.github.hjkim27.config.GeneralConfig;
 import com.github.hjkim27.service.AdminInfoService;
 import com.github.hjkim27.util.login.LoginUtil;
 import com.hjkim27.exception.EncodingException;
-import com.hjkim27.util.enc.SHAUtils;
+import com.hjkim27.util.enc.SHAUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -83,7 +83,7 @@ public class SignController {
                 // 비밀번호 암호화
                 String passwd = dto.getLoginPw();
 
-                String encPasswd = SHAUtils.get256EncryptWithSalt(passwd, GeneralConfig.ENC_SALT);
+                String encPasswd = SHAUtil.get256EncryptWithSalt(passwd, GeneralConfig.ENC_SALT);
                 dto.setLoginPw(encPasswd);
 
                 adminSid = adminInfoService.getAdminSid(dto);
@@ -160,7 +160,7 @@ public class SignController {
                     // 비밀번호 암호화
                     String passwd = dto.getLoginPw();
 
-                    String encPasswd = SHAUtils.get256EncryptWithSalt(passwd, GeneralConfig.ENC_SALT);
+                    String encPasswd = SHAUtil.get256EncryptWithSalt(passwd, GeneralConfig.ENC_SALT);
                     dto.setLoginPw(encPasswd);
 
                     int insertLoginId = adminInfoService.insertAdmin(dto);
