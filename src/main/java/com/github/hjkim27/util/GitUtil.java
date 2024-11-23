@@ -210,6 +210,10 @@ public class GitUtil {
                     eventDTO.setGhIssueId(event.getIssue().getId());
                     eventDTO.setGhRepositoryId(issue.getRepository().getId());
 
+                    if (event.getEvent().equals("labeled")) {
+                        eventDTO.getLabel().setGhId(event.getLabel().getId());
+                    }
+
                     issueDTO.addEvent(eventDTO);
                 }
                 list.add(issueDTO);

@@ -9,11 +9,13 @@
         insert into gh_event ( gh_id, gh_actor_login, event, commit_id, commit_url
                              , url, created_at
                              , issue_sid
-                             , repository_sid)
+                             , repository_sid
+                             , label_sid)
         values ( #{ghId}, #{ghActorLogin}, #{event}, #{commitId}, #{commitUrl}
                , #{url}, #{createdAt}
                , (select sid from gh_issue where gh_id = #{ghIssueId})
-               , (select sid from gh_repository where gh_id = #{ghRepositoryId}));
+               , (select sid from gh_repository where gh_id = #{ghRepositoryId})
+               , (select sid from gh_label where gh_id = #{label.ghId}));
     </insert>
 
     <!-- event 정보 수정 -->

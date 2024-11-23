@@ -30,6 +30,9 @@ public class GhEventDTO {
     // event로 등록된 commit 의 message
     private String commitMessage;
 
+    // event가 labeled 일 경우
+    private GhLabelDTO label;
+
     public String getTitle() {
         if (this.commitMessage != null) {
             return this.commitMessage.split("\\n\\n")[0];

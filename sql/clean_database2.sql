@@ -103,6 +103,8 @@ create table gh_event
     issue_sid      bigint,                   -- > issue.id
     repository_sid bigint                    -- > repository.id
 );
+-- [2024.11.24] event 가 labeled 일 경우 label정보 필요
+alter table gh_event add column label_sid bigint;
 
 
 -- comment
