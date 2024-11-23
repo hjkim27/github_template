@@ -8,10 +8,12 @@
             keyProperty="sid" keyColumn="sid" useGeneratedKeys="true">
         insert into gh_comment ( gh_id, body, parent_id, created_at, updated_at, html_url, url
                                , owner_sid
-                               , issue_sid)
+                               , issue_sid
+                               , repository_sid)
         values ( #{ghId}, #{body}, #{parentId}, #{createdAt}, #{updatedAt}, #{htmlUrl}, #{url}
                , (select sid from gh_owner_info where gh_id = #{ghOwnerId})
-               , (select sid from gh_issue where gh_id = #{ghIssueId}));
+               , (select sid from gh_issue where gh_id = #{ghIssueId})
+               , (select sid from gh_repository where gh_id = #{ghRepositoryId}));
     </insert>
 
     <!-- comment 정보 수정 -->
@@ -42,4 +44,8 @@
         where gh_id = #{ghId}
     </select>
 
+    <!-- 특정 issue 에 속한 목록 조회 -->
+    <select id="getList" parameterType="com.github.hjkim27.bean.search.GhDetailSearch" resultType="com.github.hjkim27.bean.dto.project.GhCommentDTO">
+        select * from gh_comment where repository_sid = #{repositorySid} and issue_sid = #{sid}
+    </select>
 </mapper>

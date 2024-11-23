@@ -33,5 +33,8 @@ public class GhCommentDTO {
 
     private Integer ownerSid;
     private Integer issueSid;
+    private Long ghRepositoryId;
 
+    // event, comment 를 구분하기 위한 값.
+    private final boolean eventType = false;
 }

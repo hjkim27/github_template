@@ -8,10 +8,14 @@
             keyProperty="sid" keyColumn="sid" useGeneratedKeys="true">
         insert into gh_event ( gh_id, gh_actor_login, event, commit_id, commit_url
                              , url, created_at
-                             , issue_sid)
+                             , issue_sid
+                             , repository_sid
+                             , label_sid)
         values ( #{ghId}, #{ghActorLogin}, #{event}, #{commitId}, #{commitUrl}
                , #{url}, #{createdAt}
-               , (select sid from gh_issue where gh_id = #{ghIssueId}));
+               , (select sid from gh_issue where gh_id = #{ghIssueId})
+               , (select sid from gh_repository where gh_id = #{ghRepositoryId})
+               , (select sid from gh_label where gh_id = #{label.ghId}));
     </insert>
 
     <!-- event 정보 수정 -->
@@ -34,6 +38,13 @@
         select count(gh_id) > 0
         from gh_event
         where gh_id = #{ghId}
+    </select>
+
+    <!-- 특정 issue 에 속한 목록 조회 -->
+    <select id="getList" parameterType="com.github.hjkim27.bean.search.GhDetailSearch" resultType="com.github.hjkim27.bean.dto.project.GhEventDTO">
+        select e.*, c.message as commit_message
+        from gh_event e left join gh_commit c on e.commit_id = c.sha
+        where e.repository_sid = #{repositorySid} and issue_sid = #{sid}
     </select>
 
 </mapper>

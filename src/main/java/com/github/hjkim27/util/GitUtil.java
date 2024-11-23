@@ -192,6 +192,7 @@ public class GitUtil {
                     commentDTO.setUrl(comment.getUrl().toString());
                     commentDTO.setGhOwnerId(comment.getUser().getId());
                     commentDTO.setGhIssueId(issue.getId());
+                    commentDTO.setGhRepositoryId(issue.getRepository().getId());
 
                     issueDTO.addComment(commentDTO);
                 }
@@ -207,6 +208,11 @@ public class GitUtil {
                     eventDTO.setUrl(event.getUrl());
                     eventDTO.setCreatedAt(event.getCreatedAt());
                     eventDTO.setGhIssueId(event.getIssue().getId());
+                    eventDTO.setGhRepositoryId(issue.getRepository().getId());
+
+                    if (event.getEvent().equals("labeled")) {
+                        eventDTO.getLabel().setGhId(event.getLabel().getId());
+                    }
 
                     issueDTO.addEvent(eventDTO);
                 }
@@ -288,7 +294,7 @@ public class GitUtil {
 
             // == commit ==
             GhCommitDTO dto = new GhCommitDTO();
-            dto.setSha(commit.getTree().getSha());
+            dto.setSha(commit.getSHA1());
             List<String> parent = commit.getParentSHA1s();
             if (parent != null && !parent.isEmpty()) {
                 dto.setParentSha(parent.get(0));

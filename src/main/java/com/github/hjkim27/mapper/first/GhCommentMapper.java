@@ -1,7 +1,10 @@
 package com.github.hjkim27.mapper.first;
 
 import com.github.hjkim27.bean.dto.project.GhCommentDTO;
+import com.github.hjkim27.bean.search.GhDetailSearch;
 import org.apache.ibatis.annotations.Mapper;
+
+import java.util.List;
 
 /**
  * gh_comment mapper class
@@ -10,7 +13,7 @@ import org.apache.ibatis.annotations.Mapper;
  * @since 24.08.02
  */
 @Mapper
- public interface GhCommentMapper {
+public interface GhCommentMapper {
 
     /**
      * <pre>
@@ -52,4 +55,14 @@ import org.apache.ibatis.annotations.Mapper;
      * @return check Exist
      */
     Boolean isExistRow(GhCommentDTO ghCommentDTO);
+
+    /**
+     * <pre>
+     *     comment list 조회
+     * </pre>
+     *
+     * @return ghComment 목록
+     */
+    List<GhCommentDTO> getList(GhDetailSearch search);
+
 }

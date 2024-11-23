@@ -1,21 +1,16 @@
 package com.github.hjkim27.service;
 
-import com.github.hjkim27.bean.dto.project.GhCommitDTO;
-import com.github.hjkim27.bean.dto.project.GhIssueDTO;
-import com.github.hjkim27.bean.dto.project.GhLabelDTO;
-import com.github.hjkim27.bean.dto.project.GhRepositoryDTO;
+import com.github.hjkim27.bean.dto.project.*;
 import com.github.hjkim27.bean.search.GhDetailSearch;
 import com.github.hjkim27.bean.search.GhSearch;
 import com.github.hjkim27.config.GeneralConfig;
-import com.github.hjkim27.mapper.first.GhCommitMapper;
-import com.github.hjkim27.mapper.first.GhIssueMapper;
-import com.github.hjkim27.mapper.first.GhLabelMapper;
-import com.github.hjkim27.mapper.first.GhRepositoryMapper;
+import com.github.hjkim27.mapper.first.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -26,6 +21,8 @@ public class ProjectService {
     private final GhIssueMapper issueMapper;
     private final GhLabelMapper labelMapper;
     private final GhCommitMapper commitMapper;
+    private final GhCommentMapper commentMapper;
+    private final GhEventMapper eventMapper;
 
     public List<GhRepositoryDTO> getRepoList(GhSearch search) {
         List<GhRepositoryDTO> list = repositoryMapper.getList(search);
@@ -111,4 +108,36 @@ public class ProjectService {
         return issueMapper.getItem(search);
     }
 
+    // issue 에 속한 comment 목록
+    public Map<Date, GhCommentDTO> getCommentsByIssueId(GhDetailSearch search) {
+        List<GhCommentDTO> list = commentMapper.getList(search);
+        Map<Date, GhCommentDTO> map = new HashMap<>();
+        for (GhCommentDTO dto : list) {
+            map.put(dto.getCreatedAt(), dto);
+        }
+        return map;
+    }
+
+    // issue에 속한 event 목록
+    public Map<Date, GhEventDTO> getEventsByIssueId(GhDetailSearch search) {
+        List<GhEventDTO> list = eventMapper.getList(search);
+        Map<Date, GhEventDTO> map = new HashMap<>();
+        for (GhEventDTO dto : list) {
+            map.put(dto.getCreatedAt(), dto);
+        }
+        return map;
+    }
+
+    // issue 에 속한 comment, event 를 생성시간기준으로 정렬한 list
+    public List<Object> getCommented(GhDetailSearch search) {
+        Map<Date, Object> map = new HashMap<>();
+        map.putAll(getEventsByIssueId(search));
+        map.putAll(getCommentsByIssueId(search));
+
+        List<Object> list = map.entrySet().stream()
+                .sorted(Map.Entry.comparingByKey())
+                .collect(Collectors.toList());
+
+        return list;
+    }
 }

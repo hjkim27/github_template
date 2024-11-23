@@ -85,7 +85,6 @@ public class GhController {
                 mav.addAllObjects(issues(search));
                 break;
             case "labels":
-                search.setSortColumn(1);
                 mav.addAllObjects(labels(search));
                 break;
             case "commits":
@@ -116,6 +115,13 @@ public class GhController {
      * @return
      */
     public Map<String, Object> repositories(GhSearch search) {
+
+        // 정렬 기본값 추가
+        if (search.getSortColumn() == -1) {
+            search.setSortColumn(3);
+            search.setDesc(true);
+        }
+
         Map<String, Object> map = new HashMap<>();
         search.setTotalSize(projectService.getRepoTotalCount(search));
         map.put("search", search);
@@ -133,6 +139,12 @@ public class GhController {
      * @return
      */
     public Map<String, Object> issues(GhSearch search) {
+
+        // 정렬 기본값 추가
+        if (search.getSortColumn() == -1) {
+            search.setSortColumn(2);
+            search.setDesc(true);
+        }
 
         // [2024-10-11] state 검색관련 추가
         // issue state, pull_request 여부를 추가 확인하기 위해 searchValue 가공
@@ -187,6 +199,12 @@ public class GhController {
      * @return
      */
     public Map<String, Object> labels(GhSearch search) {
+
+        // 정렬 기본값 추가
+        if (search.getSortColumn() == -1) {
+            search.setSortColumn(1);
+        }
+
         Map<String, Object> map = new HashMap<>();
         search.setTotalSize(projectService.getLabelTotalCount(search));
         map.put("search", search);
