@@ -210,8 +210,10 @@ public class GitUtil {
                     eventDTO.setGhIssueId(event.getIssue().getId());
                     eventDTO.setGhRepositoryId(issue.getRepository().getId());
 
+                    // event 가 labeled 일 경우 label ID 를 조회해야함
+                    // event.getLabel().getId() 가 항상 0 으로 나와 service 단에서 repositorySid 와 label.name 으로 조회하도록 함.
                     if (event.getEvent().equals("labeled")) {
-                        eventDTO.getLabel().setGhId(event.getLabel().getId());
+                        eventDTO.getLabel().setName(event.getLabel().getName());
                     }
 
                     issueDTO.addEvent(eventDTO);

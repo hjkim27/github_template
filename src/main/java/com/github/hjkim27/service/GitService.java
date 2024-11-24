@@ -173,6 +173,11 @@ public class GitService {
             if (isExistEvent) {
                 eventMapper.updateRow(dto);
             } else {
+                // repositorySid 조회 후 event 에 설정
+                GhRepositoryDTO repositoryDTO = new GhRepositoryDTO();
+                repositoryDTO.setGhId(dto.getGhRepositoryId());
+                Integer repositorySid = repositoryMapper.isExistRow(repositoryDTO);
+                dto.getLabel().setRepositorySid(repositorySid);
                 eventMapper.insertRow(dto);
             }
         }
