@@ -172,7 +172,7 @@ public class GitUtil {
                 issueDTO.setCreatedAt(issue.getCreatedAt());
                 issueDTO.setUpdatedAt(issue.getUpdatedAt());
                 issueDTO.setClosedAt(issue.getClosedAt());
-                issueDTO.setGhRepositoryId(issue.getRepository().getId());
+                issueDTO.getRepository().setGhId(issue.getRepository().getId());
 
                 List<Long> labelIds = issue.getLabels().stream()
                         .map(GHLabel::getId)

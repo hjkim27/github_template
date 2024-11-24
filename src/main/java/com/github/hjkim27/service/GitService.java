@@ -129,11 +129,11 @@ public class GitService {
             }
 
             // event 연동
-            List<GhEventDTO> events = dto.getEventList();
+            List<GhEventDTO> events = dto.getEvents();
             insertEvent(events);
 
             // comment 연동
-            List<GhCommentDTO> comments = dto.getCommentList();
+            List<GhCommentDTO> comments = dto.getComments();
             insertComment(comments);
         }
     }
