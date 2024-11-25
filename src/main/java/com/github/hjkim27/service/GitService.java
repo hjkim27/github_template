@@ -75,7 +75,7 @@ public class GitService {
 
             // ghOwnerInfo
             int ownerSid = insertOwner(dto.getGhOwner());
-            dto.setOwnerSid(ownerSid);
+            dto.getGhOwner().setSid(ownerSid);
 
             // [2024-09-17] isExistRow 반환타입 수정
             Integer repoSid = repositoryMapper.isExistRow(dto);

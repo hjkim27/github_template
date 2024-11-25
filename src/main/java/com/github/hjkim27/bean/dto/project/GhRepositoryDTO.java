@@ -33,9 +33,6 @@ public class GhRepositoryDTO {
     private Date createdAt;
     private Date updatedAt;
 
-    private Long ghOwnerId;
-    private Integer ownerSid;
-
     private Boolean active;
     
     // repository 소유자 정보 추가
