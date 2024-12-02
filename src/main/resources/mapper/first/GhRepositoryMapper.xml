@@ -15,7 +15,7 @@
                , #{name}, #{fullName}, #{description}, #{ghPrivate}
                , #{language}, #{htmlUrl}, #{sshUrl}, #{url}
                , #{createdAt}, #{updatedAt}
-               , (select sid from gh_owner_info where gh_id = #{ghOwnerId}));
+               , #{ghOwner.sid});
     </insert>
 
     <!-- repository 정보 수정 -->
@@ -35,7 +35,7 @@
             <if test="sshUrl != null and sshUrl != ''">, ssh_url = #{sshUrl}</if>
             <if test="createdAt != null">, created_at = #{createdAt}</if>
             <if test="updatedAt != null">, updated_at = #{updatedAt}</if>
-            <if test="ghOwnerId != null and ghOwnerId != ''">, owner_sid = (select sid from gh_owner_info where gh_id = #{ghOwnerId})</if>
+            <if test="ghOwnerId != null and ghOwnerId != ''">, owner_sid = #{ghOwner.sid}</if>
         </trim>
         where gh_id = #{ghId};
     </update>

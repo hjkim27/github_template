@@ -35,26 +35,21 @@ public class GhIssueDTO {
     private Date updatedAt;
     private Date closedAt;
 
-    private Long ghRepositoryId;
-    private Integer repositorySid;
+    private GhRepositoryDTO repository = new GhRepositoryDTO();
+
+    private List<GhLabelDTO> labels = new ArrayList<>();
+    private List<GhCommentDTO> comments = new ArrayList<>();
+    private List<GhEventDTO> events = new ArrayList<>();
 
     private String labelIds;
 
-
-    private String repositoryFullName;
-
-    // 특정 issue 의 comment 목록
-    private List<GhCommentDTO> commentList = new ArrayList<>();
-
     public void addComment(GhCommentDTO comment) {
-        if (commentList == null) {
-            commentList = new ArrayList<>();
+        if (comments == null) {
+            comments = new ArrayList<>();
         }
-        commentList.add(comment);
+        comments.add(comment);
     }
 
-    // issue 목록 조회수정
-    // null 체크 추가
     public List<Long> getLabelIdList() {
         List<Long> list = new ArrayList<>();
         if (labelIds != null && !labelIds.isEmpty()) {
@@ -66,14 +61,11 @@ public class GhIssueDTO {
         return list;
     }
 
-    // 특정 issue 의 event 목록
-    private List<GhEventDTO> eventList = new ArrayList<>();
-
     public void addEvent(GhEventDTO event) {
-        if (eventList == null) {
-            eventList = new ArrayList<>();
+        if (events == null) {
+            events = new ArrayList<>();
         }
-        eventList.add(event);
+        events.add(event);
     }
 
     // issue body 개행 확인로직 추가

@@ -30,8 +30,8 @@ public class GhEventDTO {
     // event로 등록된 commit 의 message
     private String commitMessage;
 
-    // event가 labeled 일 경우
-    private GhLabelDTO label;
+    // event가 labeled 일 경우 (초기값 설정 필요)
+    private GhLabelDTO label = new GhLabelDTO();
 
     public String getTitle() {
         if (this.commitMessage != null) {

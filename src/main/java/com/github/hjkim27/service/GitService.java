@@ -75,7 +75,7 @@ public class GitService {
 
             // ghOwnerInfo
             int ownerSid = insertOwner(dto.getGhOwner());
-            dto.setOwnerSid(ownerSid);
+            dto.getGhOwner().setSid(ownerSid);
 
             // [2024-09-17] isExistRow 반환타입 수정
             Integer repoSid = repositoryMapper.isExistRow(dto);
@@ -129,11 +129,11 @@ public class GitService {
             }
 
             // event 연동
-            List<GhEventDTO> events = dto.getEventList();
+            List<GhEventDTO> events = dto.getEvents();
             insertEvent(events);
 
             // comment 연동
-            List<GhCommentDTO> comments = dto.getCommentList();
+            List<GhCommentDTO> comments = dto.getComments();
             insertComment(comments);
         }
     }
@@ -173,6 +173,11 @@ public class GitService {
             if (isExistEvent) {
                 eventMapper.updateRow(dto);
             } else {
+                // repositorySid 조회 후 event 에 설정
+                GhRepositoryDTO repositoryDTO = new GhRepositoryDTO();
+                repositoryDTO.setGhId(dto.getGhRepositoryId());
+                Integer repositorySid = repositoryMapper.isExistRow(repositoryDTO);
+                dto.getLabel().setRepositorySid(repositorySid);
                 eventMapper.insertRow(dto);
             }
         }

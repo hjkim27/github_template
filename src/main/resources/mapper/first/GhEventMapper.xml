@@ -14,8 +14,9 @@
         values ( #{ghId}, #{ghActorLogin}, #{event}, #{commitId}, #{commitUrl}
                , #{url}, #{createdAt}
                , (select sid from gh_issue where gh_id = #{ghIssueId})
-               , (select sid from gh_repository where gh_id = #{ghRepositoryId})
-               , (select sid from gh_label where gh_id = #{label.ghId}));
+               , #{label.repositorySid}
+               , (select sid from gh_label where name = #{label.name} and repository_sid = #{label.repositorySid}))
+        ;
     </insert>
 
     <!-- event 정보 수정 -->
